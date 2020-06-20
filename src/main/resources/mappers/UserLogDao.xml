@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="work.eanson.dao.UserLogDao">
+    <resultMap id="BaseResultMap" type="work.eanson.pojo.UserLog">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="message" jdbcType="VARCHAR" property="message"/>
+        <result column="execute_time" jdbcType="TIMESTAMP" property="executeTime"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+    </resultMap>
+    <resultMap id="ExtendMap" type="work.eanson.pojo.extend.UserLogExtend" extends="BaseResultMap">
+        <result property="createTime" column="create_time" jdbcType="VARCHAR"/>
+        <result property="realName" column="real_name" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, ip, message, execute_time, user_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_log
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectIntervalTimeCountByForeignKey" resultType="java.lang.Integer">
+        select count(1)
+        from user_log
+        where user_id = #{userId,jdbcType=VARCHAR}
+          and HOUR(execute_time)
+            between #{prefix,jdbcType=INTEGER} and #{suffix,jdbcType=INTEGER}
+    </select>
+    <select id="selectOneDayTime" resultType="date">
+        SELECT ul.execute_time
+        FROM user_log ul
+        where ul.user_id = #{telephone,jdbcType=VARCHAR}
+          AND DATE(ul.execute_time) = DATE_SUB(CURDATE(), INTERVAL #{day,jdbcType=INTEGER} DAY)
+        ORDER BY ul.execute_time
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from user_log
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="work.eanson.pojo.UserLog"
+            useGeneratedKeys="true">
+        insert into user_log (ip, message, execute_time,
+                              user_id)
+        values (#{ip,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR}, #{executeTime,jdbcType=TIMESTAMP},
+                #{userId,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="work.eanson.pojo.UserLog"
+            useGeneratedKeys="true">
+        insert into user_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="message != null">
+                message,
+            </if>
+            <if test="executeTime != null">
+                execute_time,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="message != null">
+                #{message,jdbcType=VARCHAR},
+            </if>
+            <if test="executeTime != null">
+                #{executeTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="work.eanson.pojo.UserLog">
+        update user_log
+        <set>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="message != null">
+                message = #{message,jdbcType=VARCHAR},
+            </if>
+            <if test="executeTime != null">
+                execute_time = #{executeTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="work.eanson.pojo.UserLog">
+        update user_log
+        set ip           = #{ip,jdbcType=VARCHAR},
+            message      = #{message,jdbcType=VARCHAR},
+            execute_time = #{executeTime,jdbcType=TIMESTAMP},
+            user_id      = #{userId,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectUseCountInOneMonthByTelephone" resultType="int" parameterType="string">
+        SELECT count(DISTINCT DATE(execute_time)) interval_day
+        FROM user_log
+        where user_id = #{userId,jdbcType=VARCHAR}
+          AND execute_time > DATE_SUB(NOW(), INTERVAL 1 MONTH)
+    </select>
+    <select id="selectAll" resultMap="ExtendMap" parameterType="work.eanson.pojo.back.page.dao.Find">
+        SELECT ui.real_name,
+        ul.user_id,
+        ul.message,
+        ul.ip,
+        DATE_FORMAT(
+        ul.execute_time,
+        '%Y-%m-%d %H:%i:%s'
+        ) 'create_time'
+        FROM user_log ul
+        JOIN user_info ui ON ul.user_id = ui.telephone
+        <if test="search!=null">
+            AND (
+            <foreach collection="search.columnNames" item="item" separator="OR">
+                ${item} LIKE CONCAT('%',#{search.value},'%')
+            </foreach>
+            )
+        </if>
+        <if test="orders!=null">
+            <foreach collection="orders" item="item" separator="," open="ORDER BY">
+                ${item.columnName} ${item.orderBy}
+            </foreach>
+        </if>
+    </select>
+</mapper>

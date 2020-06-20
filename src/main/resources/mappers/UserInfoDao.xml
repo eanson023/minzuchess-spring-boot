@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="work.eanson.dao.UserInfoDao">
+    <resultMap id="BaseResultMap" type="work.eanson.pojo.UserInfo">
+        <id column="telephone" jdbcType="VARCHAR" property="telephone"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+        <result column="stat" jdbcType="TINYINT" property="stat"/>
+        <result column="join_time" jdbcType="TIMESTAMP" property="joinTime"/>
+        <result column="is_add" jdbcType="BOOLEAN" property="isAdd"/>
+        <result column="is_admin" jdbcType="BOOLEAN" property="isAdmin"/>
+        <result column="UUID" jdbcType="VARCHAR" property="uuid"/>
+    </resultMap>
+    <resultMap id="ExtendMap" type="work.eanson.pojo.extend.UserInfoExtend" extends="BaseResultMap">
+        <result property="joinDay" jdbcType="VARCHAR" column="join_day"/>
+        <result property="avatar" jdbcType="VARCHAR" column="avatar"/>
+        <result property="isAdminAdd" jdbcType="VARCHAR" column="is_admin_add"/>
+        <result property="isFinishReg" jdbcType="VARCHAR" column="is_finish_reg"/>
+        <result property="username" jdbcType="VARCHAR" column="username"/>
+        <association property="userLogin" resultMap="work.eanson.dao.UserLoginDao.BaseResultMap"/>
+        <collection property="chessInfoExtend2s" resultMap="work.eanson.dao.ChessInfoDao.ExtendMap"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        telephone, real_name, stat, join_time, is_add, is_admin, UUID
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_info
+        where telephone = #{telephone,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from user_info
+        where telephone = #{telephone,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" keyColumn="telephone" keyProperty="telephone" parameterType="work.eanson.pojo.UserInfo"
+            useGeneratedKeys="true">
+        insert into user_info (telephone, real_name, stat, join_time,
+                               is_add, is_admin, UUID)
+        values (#{telephone,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{stat,jdbcType=TINYINT},
+                #{joinTime,jdbcType=TIMESTAMP},
+                #{isAdd,jdbcType=BOOLEAN}, #{isAdmin,jdbcType=BOOLEAN}, #{uuid,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="telephone" keyProperty="telephone" parameterType="work.eanson.pojo.UserInfo"
+            useGeneratedKeys="true">
+        insert into user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="telephone!=null">
+                telephone,
+            </if>
+            <if test="realName != null">
+                real_name,
+            </if>
+            <if test="stat != null">
+                stat,
+            </if>
+            <if test="joinTime != null">
+                join_time,
+            </if>
+            <if test="isAdd != null">
+                is_add,
+            </if>
+            <if test="isAdmin != null">
+                is_admin,
+            </if>
+            <if test="uuid != null">
+                UUID,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="telephone!=null">
+                #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null">
+                #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="stat != null">
+                #{stat,jdbcType=TINYINT},
+            </if>
+            <if test="joinTime != null">
+                #{joinTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isAdd != null">
+                #{isAdd,jdbcType=BOOLEAN},
+            </if>
+            <if test="isAdmin != null">
+                #{isAdmin,jdbcType=BOOLEAN},
+            </if>
+            <if test="uuid != null">
+                #{uuid,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="work.eanson.pojo.UserInfo">
+        update user_info
+        <set>
+            <if test="realName != null">
+                real_name = #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="stat != null">
+                stat = #{stat,jdbcType=TINYINT},
+            </if>
+            <if test="joinTime != null">
+                join_time = #{joinTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isAdd != null">
+                is_add = #{isAdd,jdbcType=BOOLEAN},
+            </if>
+            <if test="isAdmin != null">
+                is_admin = #{isAdmin,jdbcType=BOOLEAN},
+            </if>
+            <if test="uuid != null">
+                UUID = #{uuid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where telephone = #{telephone,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="work.eanson.pojo.UserInfo">
+        update user_info
+        set real_name = #{realName,jdbcType=VARCHAR},
+            stat      = #{stat,jdbcType=TINYINT},
+            join_time = #{joinTime,jdbcType=TIMESTAMP},
+            is_add    = #{isAdd,jdbcType=BOOLEAN},
+            is_admin  = #{isAdmin,jdbcType=BOOLEAN},
+            UUID      = #{uuid,jdbcType=VARCHAR}
+        where telephone = #{telephone,jdbcType=VARCHAR}
+    </update>
+    <select id="selectDateDiffToNow" parameterType="string" resultType="int">
+        SELECT DATEDIFF(NOW(), join_time)
+        FROM user_info
+        where telephone = #{telephone,jdbcType=VARCHAR}
+    </select>
+    <select id="selectAllJoinTimeDiffNow" resultType="work.eanson.pojo.extend.UserInfoExtend">
+        select telephone, DATEDIFF(NOW(), join_time) dateDiff
+        from user_info;
+    </select>
+    <select id="selectPrimaryKeyByUUID" resultType="java.lang.String">
+        select telephone
+        from user_info
+        where UUID = #{UUID,jdbcType=VARCHAR}
+    </select>
+    <select id="selectUserInfo" resultMap="ExtendMap" parameterType="string">
+        SELECT ui.telephone,
+               ui.real_name,
+               DATE_FORMAT(ui.join_time, '%Y-%m-%d') 'join_day',
+               ul.username,
+               a.file_name                           'avatar',
+               ci.`code`,
+               ci.alias,
+               ci.is_public,
+               c.icon,
+               c.`value`
+        FROM user_info ui
+                 JOIN user_login ul ON ui.telephone = ul.telephone
+            AND ui.telephone = #{telephone,jdbcType=VARCHAR}
+                 LEFT JOIN chess_info ci ON ci.user_id = ui.telephone
+                 LEFT JOIN category c ON c.`key` = ci.category
+                 LEFT JOIN avatar a ON a.telephone = ui.telephone
+    </select>
+    <select id="selectUserInfoAnno" resultMap="ExtendMap" parameterType="string">
+        SELECT INSERT(ui.telephone, 4, 4, '****')    'telephone',
+               INSERT(ui.real_name, 1, 1, '*')       'real_name',
+               DATE_FORMAT(ui.join_time, '%Y-%m-%d') 'join_day',
+               ul.username,
+               a.file_name                           'avatar',
+               ci.`code`,
+               ci.alias,
+               ci.is_public,
+               c.icon,
+               c.`value`
+        FROM user_info ui
+                 JOIN user_login ul ON ui.telephone = ul.telephone
+            AND ui.telephone = #{telephone,jdbcType=VARCHAR}
+                 LEFT JOIN chess_info ci ON ci.user_id = ui.telephone
+                 LEFT JOIN category c ON c.`key` = ci.category
+                 LEFT JOIN avatar a ON a.telephone = ui.telephone
+    </select>
+    <select id="selectAll" resultMap="ExtendMap">
+        SELECT ui.telephone,
+        ui.real_name,
+        DATE_FORMAT(ui.join_time, '%Y-%m-%d %H:%i:%s') 'join_day',
+        ul.username,
+        a.file_name 'avatar',
+        CASE ui.is_add
+        WHEN 1 THEN
+        '是'
+        ELSE
+        '否'
+        END 'is_admin_add',
+        CASE ul.is_reg_half
+        WHEN 0 THEN
+        '已完成'
+        ELSE
+        '未完成'
+        END 'is_finish_reg'
+        FROM user_info ui
+        JOIN user_login ul ON ui.telephone = ul.telephone
+        <if test="search!=null">
+            AND (
+            <foreach collection="search.columnNames" item="item" separator="OR">
+                ${item} LIKE CONCAT('%',#{search.value},'%')
+            </foreach>
+            )
+        </if>
+        LEFT JOIN avatar a ON a.telephone = ui.telephone
+        <if test="orders!=null">
+            <foreach collection="orders" item="item" separator="," open="ORDER BY">
+                ${item.columnName} ${item.orderBy}
+            </foreach>
+        </if>
+    </select>
+</mapper>

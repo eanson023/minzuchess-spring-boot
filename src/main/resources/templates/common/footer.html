@@ -1,0 +1,15 @@
+<footer  th:fragment="footer" id="footer" class="footer" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="container">
+        <p class="float-lg-right"><a href="#top">回到顶部</a></p>
+        <div class="row mb-4">
+            <a class="col-md-auto" href="https://www.github.com/eanson1999/minzuchess-spring-boot">GitHub</a>
+            <a class="col-md-auto" href="/pages/api.html" target="_blank" >使用手册</a>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <p>网站作者: <a href="https://github.com/eanson1999">Eanson</a>.</p>
+                <p th:text="'特别鸣谢 &copy;' + ${#dates.format(new java.util.Date().getTime(),'yyyy')} + '&mdash; 小袁智育科技北京有限公司.'"></p>
+            </div>
+        </div>
+    </div>
+</footer>

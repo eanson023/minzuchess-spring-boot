@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="work.eanson.dao.TrickDao">
+    <resultMap id="BaseResultMap" type="work.eanson.pojo.Trick">
+        <id column="log_id" jdbcType="VARCHAR" property="logId"/>
+        <result column="trick" jdbcType="VARCHAR" property="trick"/>
+        <result column="color" jdbcType="CHAR" property="color"/>
+        <result column="exute_time" jdbcType="TIMESTAMP" property="exuteTime"/>
+        <result column="is_false" jdbcType="BOOLEAN" property="isFalse"/>
+        <result column="type" jdbcType="TINYINT" property="type"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="message" jdbcType="VARCHAR" property="message"/>
+        <result column="before" jdbcType="VARCHAR" property="before"/>
+        <result column="cb_code" jdbcType="VARCHAR" property="cbCode"/>
+    </resultMap>
+    <resultMap id="BaseResultMapExtend" type="work.eanson.pojo.extend.TrickExtend" extends="BaseResultMap">
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+        <result column="value" property="value" jdbcType="VARCHAR"/>
+        <result column="real_name" property="realName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        log_id, trick, color, exute_time, is_false, `type`, `status`, message, `before`,
+    cb_code
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from trick
+        where log_id = #{logId,jdbcType=VARCHAR}
+    </select>
+    <select id="selectInfoLimit" resultMap="BaseResultMapExtend">
+        select log_id,
+               trick,
+               color,
+               DATE_FORMAT(exute_time, '%m-%d %H:%i:%S') 'create_time',
+               is_false,
+               IFNULL(message, '无')                      'message'
+        from trick
+        where cb_code = #{code,jdbcType=VARCHAR}
+        order by exute_time
+        limit
+            #{prefix,jdbcType=INTEGER},#{num,jdbcType=INTEGER}
+    </select>
+    <select id="selectCountByForeignKey" resultType="int">
+        select count(1)
+        from trick
+        where cb_code = #{code,jdbcType=VARCHAR}
+    </select>
+    <select id="selectBeforeOderByTimeDesc" resultType="java.lang.String" parameterType="string">
+        select t.before
+        from trick t
+        where t.cb_code = #{code,jdbcType=VARCHAR}
+        order by t.exute_time desc
+        limit 1
+    </select>
+    <select id="selectByPrimaryKey2One" resultMap="BaseResultMapExtend">
+        select log_id,
+               trick,
+               color,
+               DATE_FORMAT(exute_time, '%m-%d %H:%i:%S') 'create_time',
+               is_false,
+               IFNULL(message, '无')                      'message'
+        from trick
+        where log_id = #{logId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from trick
+        where log_id = #{logId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" keyColumn="log_id" keyProperty="logId" parameterType="work.eanson.pojo.Trick"
+            useGeneratedKeys="true">
+        insert into trick (log_id, trick, color, exute_time,
+                           is_false, `type`, `status`,
+                           message, `before`, cb_code)
+        values (#{logId,jdbcType=VARCHAR}, #{trick,jdbcType=VARCHAR}, #{color,jdbcType=CHAR},
+                #{exuteTime,jdbcType=TIMESTAMP},
+                #{isFalse,jdbcType=BOOLEAN}, #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT},
+                #{message,jdbcType=VARCHAR}, #{before,jdbcType=VARCHAR}, #{cbCode,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="log_id" keyProperty="logId" parameterType="work.eanson.pojo.Trick"
+            useGeneratedKeys="true">
+        insert into trick
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="logId != null">
+                log_id,
+            </if>
+            <if test="trick != null">
+                trick,
+            </if>
+            <if test="color != null">
+                color,
+            </if>
+            <if test="exuteTime != null">
+                exute_time,
+            </if>
+            <if test="isFalse != null">
+                is_false,
+            </if>
+            <if test="type != null">
+                `type`,
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+            <if test="message != null">
+                message,
+            </if>
+            <if test="before != null">
+                `before`,
+            </if>
+            <if test="cbCode != null">
+                cb_code,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="logId != null">
+                #{logId,jdbcType=VARCHAR},
+            </if>
+            <if test="trick != null">
+                #{trick,jdbcType=VARCHAR},
+            </if>
+            <if test="color != null">
+                #{color,jdbcType=CHAR},
+            </if>
+            <if test="exuteTime != null">
+                #{exuteTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isFalse != null">
+                #{isFalse,jdbcType=BOOLEAN},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=TINYINT},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="message != null">
+                #{message,jdbcType=VARCHAR},
+            </if>
+            <if test="before != null">
+                #{before,jdbcType=VARCHAR},
+            </if>
+            <if test="cbCode != null">
+                #{cbCode,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="work.eanson.pojo.Trick">
+        update trick
+        <set>
+            <if test="trick != null">
+                trick = #{trick,jdbcType=VARCHAR},
+            </if>
+            <if test="color != null">
+                color = #{color,jdbcType=CHAR},
+            </if>
+            <if test="exuteTime != null">
+                exute_time = #{exuteTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isFalse != null">
+                is_false = #{isFalse,jdbcType=BOOLEAN},
+            </if>
+            <if test="type != null">
+                `type` = #{type,jdbcType=TINYINT},
+            </if>
+            <if test="status != null">
+                `status` = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="message != null">
+                message = #{message,jdbcType=VARCHAR},
+            </if>
+            <if test="before != null">
+                `before` = #{before,jdbcType=VARCHAR},
+            </if>
+            <if test="cbCode != null">
+                cb_code = #{cbCode,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where log_id = #{logId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="work.eanson.pojo.Trick">
+        update trick
+        set trick      = #{trick,jdbcType=VARCHAR},
+            color      = #{color,jdbcType=CHAR},
+            exute_time = #{exuteTime,jdbcType=TIMESTAMP},
+            is_false   = #{isFalse,jdbcType=BOOLEAN},
+            `type`     = #{type,jdbcType=TINYINT},
+            `status`   = #{status,jdbcType=TINYINT},
+            message    = #{message,jdbcType=VARCHAR},
+            `before`   = #{before,jdbcType=VARCHAR},
+            cb_code    = #{cbCode,jdbcType=VARCHAR}
+        where log_id = #{logId,jdbcType=VARCHAR}
+    </update>
+    <select id="selectOneDayTime" resultType="date">
+        SELECT t.exute_time
+        FROM trick t
+                 JOIN chess_info ci ON t.cb_code = ci.`code`
+            AND ci.user_id = #{telephone,jdbcType=VARCHAR}
+            AND DATE(t.exute_time) = DATE_SUB(CURDATE(), INTERVAL #{day,jdbcType=INTEGER} DAY)
+        ORDER BY exute_time
+    </select>
+    <select id="selectCountByHour" resultType="int">
+        SELECT count(1)
+        FROM trick t
+                 JOIN chess_info ci ON t.cb_code = ci.`code`
+            AND ci.user_id = #{telephone,jdbcType=VARCHAR}
+            AND HOUR(t.exute_time) BETWEEN #{prefix,jdbcType=INTEGER} AND #{suffix,jdbcType=INTEGER}
+            AND t.exute_time > DATE_SUB(NOW(), INTERVAL 1 MONTH)
+    </select>
+    <select id="selectUseCountInOneMonthByTelephone" resultType="int" parameterType="string">
+        SELECT count(DISTINCT DATE(exute_time)) interval_day
+        FROM trick t
+                 JOIN chess_info ci ON t.cb_code = ci.`code`
+            AND ci.user_id = #{telephone,jdbcType=VARCHAR}
+            AND exute_time > DATE_SUB(NOW(), INTERVAL 1 MONTH)
+    </select>
+    <select id="selectTrickInfoOrderTime" resultMap="BaseResultMapExtend">
+        select trick,
+               color,
+               DATE_FORMAT(exute_time, '%m-%d %H:%i:%S') 'create_time',
+               is_false,
+               IFNULL(message, '无')                      'message',
+               type
+        from trick
+        where cb_code = #{code}
+        order by exute_time
+    </select>
+    <select id="selectTrickInfoOrderTimeLimitTime" resultMap="BaseResultMapExtend">
+        select trick,
+               color,
+               DATE_FORMAT(exute_time, '%m-%d %H:%i:%S') 'create_time',
+               CASE type
+                   WHEN 1 THEN
+                       'AI'
+                   ELSE
+                       '人类'
+                   END                                   'type_str',
+               CASE `status`
+                   WHEN 0 THEN
+                       '错误'
+                   WHEN 1 THEN
+                       '布子'
+                   WHEN 2 THEN
+                       '行棋'
+                   WHEN 3 THEN
+                       '飞子'
+                   WHEN 4 THEN
+                       '提掉中间两颗子'
+                   ELSE
+                       '系统操作'
+                   END                                   'status_str',
+               IFNULL(message, '无')                      'message',
+               type,
+               status,
+               is_false
+        from trick
+        where cb_code = #{code}
+          and exute_time between #{from} and #{to}
+        order by exute_time
+    </select>
+    <select id="selectCountLimitTime" resultType="java.lang.Integer">
+        select count(0)
+        from trick
+        where cb_code = #{code}
+          and exute_time between #{from} and #{to}
+    </select>
+    <select id="selectPosesOrderTimeLimitTime" resultType="work.eanson.pojo.Trick">
+        select trick,
+               color,
+               is_false,
+               IFNULL(message, '无') 'message',
+               type,
+               `before`
+        from trick
+        where cb_code = #{code}
+          and exute_time between #{from} and #{to}
+        order by exute_time
+    </select>
+    <select id="selectAllOrOne" resultMap="BaseResultMapExtend">
+        SELECT
+        t.trick,
+        t.color,
+        DATE_FORMAT(t.exute_time, '%m-%d %H:%i:%S') 'create_time',
+        CASE t.type
+        WHEN 1 THEN
+        'AI'
+        ELSE
+        '人类'
+        END 'type_str',
+        CASE t.`status`
+        WHEN 0 THEN
+        '错误'
+        WHEN 1 THEN
+        '布子'
+        WHEN 2 THEN
+        '行棋'
+        WHEN 3 THEN
+        '飞子'
+        WHEN 4 THEN
+        '提掉中间两颗子'
+        ELSE
+        '系统操作'
+        END 'status_str',
+        message,
+        t.cb_code,
+        c.`value`,
+        ui.real_name
+        FROM
+        trick t
+        JOIN chess_info ci ON t.cb_code = ci.`code`
+        <if test="cbCode!=null">
+            and t.cb_code=#{cbCode}
+        </if>
+        JOIN category c ON c.`key` = ci.category
+        JOIN user_info ui ON ui.telephone = ci.user_id
+        <if test="search!=null">
+            AND (
+            <foreach collection="search.columnNames" item="item" separator="OR">
+                ${item} LIKE CONCAT('%',#{search.value},'%')
+            </foreach>
+            )
+        </if>
+        <if test="orders!=null">
+            <foreach collection="orders" item="item" separator="," open="ORDER BY">
+                ${item.columnName} ${item.orderBy}
+            </foreach>
+        </if>
+    </select>
+</mapper>

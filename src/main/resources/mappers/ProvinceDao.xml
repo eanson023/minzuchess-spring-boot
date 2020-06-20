@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="work.eanson.dao.ProvinceDao">
+    <resultMap id="BaseResultMap" type="work.eanson.pojo.Province">
+        <id column="pro_id" jdbcType="INTEGER" property="proId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+    </resultMap>
+    <resultMap id="AliasResultMap" type="work.eanson.pojo.Province">
+        <id column="pro_id" jdbcType="INTEGER" property="proId"/>
+        <result column="pro_name" jdbcType="VARCHAR" property="name"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    pro_id, `name`
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from province
+        where pro_id = #{proId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from province
+    where pro_id = #{proId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" keyColumn="pro_id" keyProperty="proId" parameterType="work.eanson.pojo.Province"
+            useGeneratedKeys="true">
+    insert into province (`name`)
+    values (#{name,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" keyColumn="pro_id" keyProperty="proId" parameterType="work.eanson.pojo.Province"
+            useGeneratedKeys="true">
+        insert into province
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                `name`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="work.eanson.pojo.Province">
+        update province
+        <set>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where pro_id = #{proId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="work.eanson.pojo.Province">
+    update province
+    set `name` = #{name,jdbcType=VARCHAR}
+    where pro_id = #{proId,jdbcType=INTEGER}
+  </update>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from province
+  </select>
+</mapper>

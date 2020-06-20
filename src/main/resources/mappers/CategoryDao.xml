@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="work.eanson.dao.CategoryDao">
+    <resultMap id="BaseResultMap" type="work.eanson.pojo.Category">
+        <id column="key" jdbcType="TINYINT" property="key"/>
+        <result column="value" jdbcType="VARCHAR" property="value"/>
+        <result column="html" jdbcType="VARCHAR" property="html"/>
+        <result column="init_pos" jdbcType="VARCHAR" property="initPos"/>
+        <result column="icon" jdbcType="VARCHAR" property="icon"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        `key`, `value`, html, init_pos, icon
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Byte" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from category
+        where `key` = #{key,jdbcType=TINYINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Byte">
+        delete
+        from category
+        where `key` = #{key,jdbcType=TINYINT}
+    </delete>
+    <insert id="insert" keyColumn="key" keyProperty="key" parameterType="work.eanson.pojo.Category"
+            useGeneratedKeys="true">
+        insert into category (`value`, html, init_pos,
+                              icon)
+        values (#{value,jdbcType=VARCHAR}, #{html,jdbcType=VARCHAR}, #{initPos,jdbcType=VARCHAR},
+                #{icon,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="key" keyProperty="key" parameterType="work.eanson.pojo.Category"
+            useGeneratedKeys="true">
+        insert into category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="value != null">
+                `value`,
+            </if>
+            <if test="html != null">
+                html,
+            </if>
+            <if test="initPos != null">
+                init_pos,
+            </if>
+            <if test="icon != null">
+                icon,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="value != null">
+                #{value,jdbcType=VARCHAR},
+            </if>
+            <if test="html != null">
+                #{html,jdbcType=VARCHAR},
+            </if>
+            <if test="initPos != null">
+                #{initPos,jdbcType=VARCHAR},
+            </if>
+            <if test="icon != null">
+                #{icon,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="work.eanson.pojo.Category">
+        update category
+        <set>
+            <if test="value != null">
+                `value` = #{value,jdbcType=VARCHAR},
+            </if>
+            <if test="html != null">
+                html = #{html,jdbcType=VARCHAR},
+            </if>
+            <if test="initPos != null">
+                init_pos = #{initPos,jdbcType=VARCHAR},
+            </if>
+            <if test="icon != null">
+                icon = #{icon,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where `key` = #{key,jdbcType=TINYINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="work.eanson.pojo.Category">
+        update category
+        set `value`  = #{value,jdbcType=VARCHAR},
+            html     = #{html,jdbcType=VARCHAR},
+            init_pos = #{initPos,jdbcType=VARCHAR},
+            icon     = #{icon,jdbcType=VARCHAR}
+        where `key` = #{key,jdbcType=TINYINT}
+    </update>
+    <select id="selectCount" resultType="int">
+        SELECT count(1) ct
+        FROM category
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select *
+        from category;
+    </select>
+    <select id="selectHtmlIsExist" parameterType="string" resultType="int">
+        select count(1)
+        from category
+        where html = #{html,jdbcType=VARCHAR}
+    </select>
+    <select id="selectInitPosByHtml" resultType="string" parameterType="string">
+        select init_pos
+        from category
+        where html = #{html,jdbcType=VARCHAR}
+    </select>
+    <select id="selectHtmlByCode" resultType="string">
+        select html
+        from category c
+                 join chess_info ci on c.key = ci.category and ci.code = #{code}
+    </select>
+    <select id="selectValueByCode" resultType="string">
+        select value
+        from category c
+                 join chess_info ci on c.key = ci.category and ci.code = #{code}
+    </select>
+    <select id="selectLetter" resultType="work.eanson.pojo.Category">
+        select `key`, `value`
+        from category
+    </select>
+    <select id="selectInitPosByKey" resultType="string">
+        select init_pos
+        from category
+        where `key` = #{key}
+    </select>
+</mapper>

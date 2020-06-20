@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="work.eanson.dao.TeamUserDao">
+    <resultMap id="BaseResultMap" type="work.eanson.pojo.TeamUser">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="team_id" jdbcType="VARCHAR" property="teamId"/>
+        <result column="is_leader" jdbcType="BOOLEAN" property="isLeader"/>
+        <result column="is_join" jdbcType="BOOLEAN" property="isJoin"/>
+        <result column="join_time" jdbcType="DATE" property="joinTime"/>
+        <result column="is_refuse" jdbcType="BOOLEAN" property="isRefuse"/>
+        <result column="date_diff" jdbcType="INTEGER" property="dateDiff"/>
+    </resultMap>
+    <resultMap id="AllInfoMap" type="work.eanson.pojo.TeamUser">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="team_id" jdbcType="VARCHAR" property="teamId"/>
+        <result column="is_join" jdbcType="BOOLEAN" property="isJoin"/>
+        <collection property="teams" ofType="work.eanson.pojo.Team">
+            <id column="team_id" jdbcType="VARCHAR" property="teamId"/>
+            <result column="team_name" jdbcType="VARCHAR" property="teamName"/>
+            <result column="numbers" jdbcType="INTEGER" property="numbers"/>
+            <result column="introduction" jdbcType="VARCHAR" property="introduction"/>
+            <result column="create_time" jdbcType="DATE" property="createTime"/>
+            <result column="province_id" jdbcType="INTEGER" property="provinceId"/>
+            <result column="school_id" jdbcType="INTEGER" property="schoolId"/>
+        </collection>
+        <collection property="userInfos" ofType="work.eanson.pojo.UserInfo">
+            <id column="telephone" jdbcType="VARCHAR" property="telephone"/>
+            <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+            <result column="stat" jdbcType="TINYINT" property="stat"/>
+            <result column="join_time" jdbcType="TIMESTAMP" property="joinTime"/>
+            <result column="is_add" jdbcType="BIT" property="isAdd"/>
+            <result column="is_admin" jdbcType="BIT" property="isAdmin"/>
+        </collection>
+    </resultMap>
+    <resultMap id="AliasResultMap" type="work.eanson.pojo.TeamUser" extends="BaseResultMap">
+        <collection property="teams" resultMap="work.eanson.dao.TeamDao.AliasResultMap" ofType="work.eanson.pojo.Team"/>
+        <collection property="userInfos" resultMap="work.eanson.dao.UserInfoDao.BaseResultMap"
+                    ofType="work.eanson.pojo.UserInfo"/>
+    </resultMap>
+    <resultMap id="AliasResultMap2" type="work.eanson.pojo.TeamUser" extends="BaseResultMap">
+        <result column="count" jdbcType="INTEGER" property="count"/>
+        <association property="team" resultMap="work.eanson.dao.TeamDao.AliasResultMap"
+                     javaType="work.eanson.pojo.Team"/>
+        <association property="userInfo" resultMap="work.eanson.dao.UserInfoDao.BaseResultMap"
+                     javaType="work.eanson.pojo.UserInfo"/>
+    </resultMap>
+
+    <resultMap id="TeamUserExtendMap" type="work.eanson.pojo.extend.TeamUserExtend" extends="BaseResultMap">
+        <association property="userInfo" resultMap="work.eanson.dao.UserInfoDao.ExtendMap"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, user_id, team_id, is_leader, is_join, join_time, is_refuse
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from team_user
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from team_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="work.eanson.pojo.TeamUser"
+            useGeneratedKeys="true">
+    insert into team_user (user_id, team_id, is_leader, 
+      is_join, join_time, is_refuse
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{teamId,jdbcType=VARCHAR}, #{isLeader,jdbcType=BOOLEAN}, 
+      #{isJoin,jdbcType=BOOLEAN}, #{joinTime,jdbcType=DATE}, #{isRefuse,jdbcType=BOOLEAN}
+      )
+  </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="work.eanson.pojo.TeamUser"
+            useGeneratedKeys="true">
+        insert into team_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="teamId != null">
+                team_id,
+            </if>
+            <if test="isLeader != null">
+                is_leader,
+            </if>
+            <if test="isJoin != null">
+                is_join,
+            </if>
+            <if test="joinTime != null">
+                join_time,
+            </if>
+            <if test="isRefuse != null">
+                is_refuse,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="teamId != null">
+                #{teamId,jdbcType=VARCHAR},
+            </if>
+            <if test="isLeader != null">
+                #{isLeader,jdbcType=BOOLEAN},
+            </if>
+            <if test="isJoin != null">
+                #{isJoin,jdbcType=BOOLEAN},
+            </if>
+            <if test="joinTime != null">
+                #{joinTime,jdbcType=DATE},
+            </if>
+            <if test="isRefuse != null">
+                #{isRefuse,jdbcType=BOOLEAN},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="work.eanson.pojo.TeamUser">
+        update team_user
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="teamId != null">
+                team_id = #{teamId,jdbcType=VARCHAR},
+            </if>
+            <if test="isLeader != null">
+                is_leader = #{isLeader,jdbcType=BOOLEAN},
+            </if>
+            <if test="isJoin != null">
+                is_join = #{isJoin,jdbcType=BOOLEAN},
+            </if>
+            <if test="joinTime != null">
+                join_time = #{joinTime,jdbcType=DATE},
+            </if>
+            <if test="isRefuse != null">
+                is_refuse = #{isRefuse,jdbcType=BOOLEAN},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="work.eanson.pojo.TeamUser">
+    update team_user
+    set user_id = #{userId,jdbcType=VARCHAR},
+      team_id = #{teamId,jdbcType=VARCHAR},
+      is_leader = #{isLeader,jdbcType=BOOLEAN},
+      is_join = #{isJoin,jdbcType=BOOLEAN},
+      join_time = #{joinTime,jdbcType=DATE},
+      is_refuse = #{isRefuse,jdbcType=BOOLEAN}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+    <update id="updateUserIdAndTeamIdSelective" parameterType="work.eanson.pojo.TeamUser">
+        update team_user
+        <set>
+            <if test="isJoin!=null">
+                is_join=#{isJoin,jdbcType=BOOLEAN},
+            </if>
+            <if test="isRefuse!=null">
+                is_refuse = #{isRefuse,jdbcType=BOOLEAN},
+            </if>
+        </set>
+        where user_id=#{userId} and team_id=#{teamId}
+    </update>
+    <select id="selectAllTeamInfo" resultMap="AliasResultMap2">
+    SELECT
+        tu.team_id,
+        t.team_name,
+        t.introduction,
+        ui.real_name,
+        ui.stat,
+        p.`name` pro_name,
+        s.`name` sch_name
+    FROM
+        team_user tu
+    JOIN team t ON t.team_id = tu.team_id
+    AND tu.is_join = 1
+    JOIN user_info ui ON ui.telephone = tu.user_id
+    AND tu.is_leader = 1
+    LEFT JOIN province p ON p.pro_id = t.province_id
+    LEFT JOIN school s ON s.sch_id = t.school_id
+    ORDER BY
+        tu.team_id DESC
+  </select>
+    <select id="selectJoinedCountByTeamId" resultType="int" parameterType="string">
+        SELECT
+            count(1)
+        FROM
+            team_user
+        WHERE
+            is_join = 1
+        AND team_id = #{team_id,jdbcType=VARCHAR}
+    </select>
+    <select id="selectInfoByUserIdIsLeader" resultMap="AliasResultMap2">
+        SELECT
+            tu.team_id,
+            tu.is_leader,
+            tu.is_join,
+            tu.is_refuse,
+            t.team_name,
+            DATE_FORMAT(t.create_time,'%Y-%m-%d') 'join_date',
+            t.province_id,
+            t.school_id
+        FROM
+            team_user tu
+        JOIN team t ON t.team_id = tu.team_id
+        AND tu.is_refuse=0
+        AND tu.is_leader =#{isLeader,jdbcType=BOOLEAN}
+        AND tu.user_id =  #{userId,jdbcType=VARCHAR}
+    </select>
+    <select id="selectWantJoinTeam" resultType="work.eanson.pojo.back.Message">
+        SELECT
+            tu.team_id 'teamId',
+            t.team_name 'teamName',
+            ui.real_name 'who',
+            ui.UUID 'uuid',
+            DATE_FORMAT(tu.join_time,'%Y-%m-%d') 'createTime'
+        FROM
+            team_user tu
+        JOIN team t ON tu.team_id IN (
+            SELECT
+                team_id
+            FROM
+                team_user
+            WHERE
+                user_id = #{userId}
+            AND is_leader = 1
+        )
+        AND tu.team_id = t.team_id
+        AND tu.is_join = 0
+        AND tu.is_refuse = 0
+        AND tu.is_leader = 0
+        JOIN user_info ui ON ui.telephone = tu.user_id
+    </select>
+    <select id="checkIsLeader" resultType="java.lang.Boolean">
+        select is_leader from team_user where user_id=#{telephone} and team_id=#{teamId}
+    </select>
+    <select id="selectWantJoinMegCount" resultType="java.lang.Integer">
+        SELECT
+            count(1)
+        FROM
+            team_user tu1
+        WHERE
+            tu1.team_id IN (
+                SELECT
+                    team_id
+                FROM
+                    team_user tu2
+                WHERE
+                    tu2.user_id = #{user_id}
+                AND tu2.is_leader = 1
+            )
+        AND tu1.is_join = 0
+    </select>
+    <select id="selectLeaderByTeamId" resultType="java.lang.String">
+        select user_id from team_user where team_id=#{teamId} and is_leader=1;
+    </select>
+    <select id="selectOneTeamUserInfoByTeamId" resultMap="BaseResultMap">
+        SELECT
+            tu.user_id,
+            DATEDIFF(CURDATE(),tu.join_time) 'date_diff'
+        FROM
+            team_user tu
+        WHERE
+            tu.team_id = #{teamId}
+        AND tu.is_join = 1
+    </select>
+    <delete id="deleteTeamUserByTeamId">
+        delete from team_user where team_id=#{teamId}
+    </delete>
+    <delete id="deleteByTeamIdAndUserId">
+        delete from team_user where team_id=#{teamId} and user_id=#{userId}
+    </delete>
+    <select id="selectOneTeamUserInfo2ByTeamId" resultMap="TeamUserExtendMap" parameterType="string">
+        SELECT
+            INSERT (ui.real_name, 1, 1, '*') 'real_name',
+            ul.username,
+            DATE_FORMAT(tu.join_time, '%Y-%m-%d') 'join_day',
+            tu.is_leader,
+            a.file_name 'avatar'
+        FROM
+            team_user tu
+        JOIN user_login ul ON tu.user_id = ul.telephone
+        AND tu.team_id=#{teamId}
+        AND tu.is_join = 1
+        JOIN user_info ui ON ui.telephone = tu.user_id
+        LEFT JOIN avatar a ON a.telephone = tu.user_id
+        ORDER BY
+	        tu.is_leader DESC
+    </select>
+</mapper>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="work.eanson.dao.CheepDao">
+    <resultMap id="BaseResultMap" type="work.eanson.pojo.Cheep">
+        <id column="cheep_id" jdbcType="VARCHAR" property="cheepId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="from" jdbcType="TIMESTAMP" property="from"/>
+        <result column="to" jdbcType="TIMESTAMP" property="to"/>
+        <result column="path" jdbcType="VARCHAR" property="path"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+        <result column="create_date" jdbcType="DATE" property="createDate"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+    </resultMap>
+    <resultMap id="ExtendMap" type="work.eanson.pojo.extend.CheepExtend" extends="BaseResultMap">
+        <result property="createTime" jdbcType="VARCHAR" column="create_time"/>
+        <association property="category" resultMap="work.eanson.dao.CategoryDao.BaseResultMap"/>
+        <association property="userInfo" resultMap="work.eanson.dao.UserInfoDao.ExtendMap"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        cheep_id, `name`, `from`, `to`, `path`, real_name, create_date, code
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cheep
+        where cheep_id = #{cheepId,jdbcType=VARCHAR}
+    </select>
+    <select id="selectAllAboutInfo" resultMap="ExtendMap">
+        SELECT c1.cheep_id,
+               c1.NAME,
+               DATE_FORMAT(c1.create_date, '%Y-%m-%d') 'create_time',
+               c2.`value`,
+               ui.real_name
+        FROM cheep c1
+                 JOIN chess_info ci ON c1.`code` = ci.`code`
+                 JOIN category c2 ON c2.`key` = ci.category
+                 JOIN user_info ui ON ui.telephone = ci.user_id
+    </select>
+    <select id="selectHtmlByPrimaryKey" resultType="java.lang.String">
+        select c2.html
+        from cheep c1
+                 join chess_info ci on ci.`code` = c1.`code` and c1.cheep_id = #{cheepId}
+                 join category c2 on c2.`key` = ci.category
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from cheep
+        where cheep_id = #{cheepId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" keyColumn="cheep_id" keyProperty="cheepId" parameterType="work.eanson.pojo.Cheep"
+            useGeneratedKeys="true">
+        insert into cheep (cheep_id, `name`, `from`, `to`,
+                           `path`, real_name, create_date,
+                           code)
+        values (#{cheepId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{from,jdbcType=TIMESTAMP},
+                #{to,jdbcType=TIMESTAMP},
+                #{path,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE},
+                #{code,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="cheep_id" keyProperty="cheepId" parameterType="work.eanson.pojo.Cheep"
+            useGeneratedKeys="true">
+        insert into cheep
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="from != null">
+                `from`,
+            </if>
+            <if test="to != null">
+                `to`,
+            </if>
+            <if test="path != null">
+                `path`,
+            </if>
+            <if test="realName != null">
+                real_name,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="from != null">
+                #{from,jdbcType=TIMESTAMP},
+            </if>
+            <if test="to != null">
+                #{to,jdbcType=TIMESTAMP},
+            </if>
+            <if test="path != null">
+                #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null">
+                #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=DATE},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="work.eanson.pojo.Cheep">
+        update cheep
+        <set>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="from != null">
+                `from` = #{from,jdbcType=TIMESTAMP},
+            </if>
+            <if test="to != null">
+                `to` = #{to,jdbcType=TIMESTAMP},
+            </if>
+            <if test="path != null">
+                `path` = #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null">
+                real_name = #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=DATE},
+            </if>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where cheep_id = #{cheepId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="work.eanson.pojo.Cheep">
+        update cheep
+        set `name`      = #{name,jdbcType=VARCHAR},
+            `from`      = #{from,jdbcType=TIMESTAMP},
+            `to`        = #{to,jdbcType=TIMESTAMP},
+            `path`      = #{path,jdbcType=VARCHAR},
+            real_name   = #{realName,jdbcType=VARCHAR},
+            create_date = #{createDate,jdbcType=DATE},
+            code        = #{code,jdbcType=VARCHAR}
+        where cheep_id = #{cheepId,jdbcType=VARCHAR}
+    </update>
+</mapper>

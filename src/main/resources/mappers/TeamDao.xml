@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="work.eanson.dao.TeamDao">
+    <resultMap id="BaseResultMap" type="work.eanson.pojo.Team">
+        <id column="team_id" jdbcType="VARCHAR" property="teamId"/>
+        <result column="team_name" jdbcType="VARCHAR" property="teamName"/>
+        <result column="numbers" jdbcType="INTEGER" property="numbers"/>
+        <result column="introduction" jdbcType="VARCHAR" property="introduction"/>
+        <result column="create_time" jdbcType="DATE" property="createTime"/>
+        <result column="province_id" jdbcType="INTEGER" property="provinceId"/>
+        <result column="school_id" jdbcType="INTEGER" property="schoolId"/>
+    </resultMap>
+    <resultMap id="AliasResultMap" type="work.eanson.pojo.Team" extends="BaseResultMap">
+        <result column="join_date" property="joinDate" jdbcType="VARCHAR"/>
+        <association property="province" resultMap="work.eanson.dao.ProvinceDao.AliasResultMap"/>
+        <association property="school" resultMap="work.eanson.dao.SchoolDao.AliasResultMap"/>
+        <association property="teamAvatar" resultMap="work.eanson.dao.TeamAvatarDao.BaseResultMap"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    team_id, team_name, numbers, introduction, create_time, province_id, school_id
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from team
+        where team_id = #{teamId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from team
+    where team_id = #{teamId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" keyColumn="team_id" keyProperty="teamId" parameterType="work.eanson.pojo.Team"
+            useGeneratedKeys="true">
+    insert into team (team_id,team_name, numbers, introduction,
+      create_time, province_id, school_id
+      )
+    values (#{teamId,jdbcType=VARCHAR},#{teamName,jdbcType=VARCHAR}, #{numbers,jdbcType=INTEGER}, #{introduction,jdbcType=VARCHAR},
+      #{createTime,jdbcType=DATE}, #{provinceId,jdbcType=INTEGER}, #{schoolId,jdbcType=INTEGER}
+      )
+  </insert>
+    <insert id="insertSelective" keyColumn="team_id" keyProperty="teamId" parameterType="work.eanson.pojo.Team"
+            useGeneratedKeys="true">
+        insert into team
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="teamName != null">
+                team_id,
+            </if>
+            <if test="teamName != null">
+                team_name,
+            </if>
+            <if test="numbers != null">
+                numbers,
+            </if>
+            <if test="introduction != null">
+                introduction,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="provinceId != null">
+                province_id,
+            </if>
+            <if test="schoolId != null">
+                school_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="teamName != null">
+                #{teamId,jdbcType=VARCHAR},
+            </if>
+            <if test="teamName != null">
+                #{teamName,jdbcType=VARCHAR},
+            </if>
+            <if test="numbers != null">
+                #{numbers,jdbcType=INTEGER},
+            </if>
+            <if test="introduction != null">
+                #{introduction,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=DATE},
+            </if>
+            <if test="provinceId != null">
+                #{provinceId,jdbcType=INTEGER},
+            </if>
+            <if test="schoolId != null">
+                #{schoolId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="work.eanson.pojo.Team">
+        update team
+        <set>
+            <if test="teamName != null">
+                team_name = #{teamName,jdbcType=VARCHAR},
+            </if>
+            <if test="numbers != null">
+                numbers = #{numbers,jdbcType=INTEGER},
+            </if>
+            <if test="introduction != null">
+                introduction = #{introduction,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=DATE},
+            </if>
+            <if test="provinceId != null">
+                province_id = #{provinceId,jdbcType=INTEGER},
+            </if>
+            <if test="schoolId != null">
+                school_id = #{schoolId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where team_id = #{teamId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="work.eanson.pojo.Team">
+    update team
+    set team_name = #{teamName,jdbcType=VARCHAR},
+      numbers = #{numbers,jdbcType=INTEGER},
+      introduction = #{introduction,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=DATE},
+      province_id = #{provinceId,jdbcType=INTEGER},
+      school_id = #{schoolId,jdbcType=INTEGER}
+    where team_id = #{teamId,jdbcType=VARCHAR}
+  </update>
+    <select id="checkIsLeaderJoinTeamUserByPrimaryKey" parameterType="string" resultType="int">
+        select  count(1)
+        from team t
+        join team_user tu on t.team_id = tu.team_id
+        and t.team_id=#{teamId,jdbcType=VARCHAR}
+        and tu.is_leader=1
+        and tu.user_id=#{telephone,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByPrimaryKeyOrTeamName" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        team
+        WHERE
+        team_id = #{param,jdbcType=VARCHAR}
+        OR
+        team_name = #{param,jdbcType=VARCHAR}
+    </select>
+    <select id="selectTeamIsExistsByTeamName" resultType="java.lang.Integer">
+        select count(1) from team where team_name=#{teamName,jdbcType=VARCHAR}
+    </select>
+    <select id="selectTeamLike" resultMap="AliasResultMap">
+        select
+        team_id,team_name,introduction,DATE_FORMAT(create_time,'%Y-%m-%d') 'join_date'
+        from team
+        <where>
+            team_name like concat('%',#{teamIdOrTeamName,jdbcType=VARCHAR},'%')
+            or team_id like concat('%',#{teamIdOrTeamName,jdbcType=VARCHAR},'%')
+        </where>
+    </select>
+    <select id="selectUserIsOneTeam" resultType="java.lang.Integer">
+        SELECT
+            count(1)
+        FROM
+            team t
+        JOIN team_user tu ON t.team_id = tu.team_id
+        AND t.team_id = #{teamId,jdbcType=VARCHAR}
+        AND tu.user_id = #{userId,jdbcType=VARCHAR}
+        AND tu.is_refuse=0
+    </select>
+    <select id="selectTeamIdCreateTimeAll" resultMap="BaseResultMap">
+        select
+        team_id,
+        create_time
+        from team
+    </select>
+    <select id="selectCreateTimeDiffByPrimaryKey" resultType="java.lang.Integer">
+        select
+        DATEDIFF(CURDATE(),create_time) 'day'
+        from team where team_id=#{teamId}
+    </select>
+    <select id="selectTeamInfoLeftJoinTeamAvatarLeftJoinSchoolLeftJoinProvince" resultMap="AliasResultMap">
+        SELECT
+            t.team_id,
+            t.team_name,
+            t.introduction,
+            DATE_FORMAT(t.create_time,'%Y-%m-%d') 'join_date',
+            ta.file_name,
+            p.`name` 'pro_name',
+            s.`name` 'sch_name'
+        FROM
+            team t
+        LEFT JOIN team_avatar ta ON ta.team_id = t.team_id
+        LEFT JOIN province p ON t.province_id = p.pro_id
+        LEFT JOIN school s ON s.sch_id = t.school_id
+        HAVING
+	        t.team_id = #{teamId}
+    </select>
+    <select id="selectTeamIsExistsByTeamId" resultType="java.lang.Integer">
+        select count(1) from team where team_id=#{teamId}
+    </select>
+</mapper>

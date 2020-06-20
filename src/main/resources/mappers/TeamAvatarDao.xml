@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="work.eanson.dao.TeamAvatarDao">
+    <resultMap id="BaseResultMap" type="work.eanson.pojo.TeamAvatar">
+        <id column="avatar_id" jdbcType="INTEGER" property="avatarId"/>
+        <result column="team_id" jdbcType="VARCHAR" property="teamId"/>
+        <result column="file_name" jdbcType="VARCHAR" property="fileName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    avatar_id, team_id, file_name
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from team_avatar
+        where avatar_id = #{avatarId,jdbcType=INTEGER}
+    </select>
+    <select id="selectByForeignKey" resultMap="BaseResultMap">
+      select avatar_id,file_name from team_avatar where team_id=#{teamId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from team_avatar
+    where avatar_id = #{avatarId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" keyColumn="avatar_id" keyProperty="avatarId" parameterType="work.eanson.pojo.TeamAvatar"
+            useGeneratedKeys="true">
+    insert into team_avatar (team_id, file_name)
+    values (#{teamId,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" keyColumn="avatar_id" keyProperty="avatarId"
+            parameterType="work.eanson.pojo.TeamAvatar" useGeneratedKeys="true">
+        insert into team_avatar
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="teamId != null">
+                team_id,
+            </if>
+            <if test="fileName != null">
+                file_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="teamId != null">
+                #{teamId,jdbcType=VARCHAR},
+            </if>
+            <if test="fileName != null">
+                #{fileName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="work.eanson.pojo.TeamAvatar">
+        update team_avatar
+        <set>
+            <if test="teamId != null">
+                team_id = #{teamId,jdbcType=VARCHAR},
+            </if>
+            <if test="fileName != null">
+                file_name = #{fileName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where avatar_id = #{avatarId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="work.eanson.pojo.TeamAvatar">
+    update team_avatar
+    set team_id = #{teamId,jdbcType=VARCHAR},
+      file_name = #{fileName,jdbcType=VARCHAR}
+    where avatar_id = #{avatarId,jdbcType=INTEGER}
+  </update>
+</mapper>

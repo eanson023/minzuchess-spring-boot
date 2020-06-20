@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="work.eanson.dao.AvatarDao">
+    <resultMap id="BaseResultMap" type="work.eanson.pojo.Avatar">
+        <id column="avatar_id" jdbcType="INTEGER" property="avatarId"/>
+        <result column="file_name" jdbcType="VARCHAR" property="fileName"/>
+        <result column="telephone" jdbcType="VARCHAR" property="telephone"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    avatar_id, file_name, telephone
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from avatar
+        where avatar_id = #{avatarId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from avatar
+    where avatar_id = #{avatarId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" keyColumn="avatar_id" keyProperty="avatarId" parameterType="work.eanson.pojo.Avatar"
+            useGeneratedKeys="true">
+    insert into avatar (file_name, telephone)
+    values (#{fileName,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" keyColumn="avatar_id" keyProperty="avatarId" parameterType="work.eanson.pojo.Avatar"
+            useGeneratedKeys="true">
+        insert into avatar
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fileName != null">
+                file_name,
+            </if>
+            <if test="telephone != null">
+                telephone,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fileName != null">
+                #{fileName,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                #{telephone,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="work.eanson.pojo.Avatar">
+        update avatar
+        <set>
+            <if test="fileName != null">
+                file_name = #{fileName,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                telephone = #{telephone,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where avatar_id = #{avatarId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="work.eanson.pojo.Avatar">
+    update avatar
+    set file_name = #{fileName,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR}
+    where avatar_id = #{avatarId,jdbcType=INTEGER}
+  </update>
+    <select id="selectByForeignKey" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from avatar where telephone=#{telephone,jdbcType=VARCHAR}
+    </select>
+</mapper>

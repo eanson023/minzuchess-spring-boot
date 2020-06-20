@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="work.eanson.dao.ChessInfoDao">
+    <resultMap id="BaseResultMap" type="work.eanson.pojo.ChessInfo">
+        <id column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="clock" jdbcType="VARCHAR" property="clock"/>
+        <result column="alias" jdbcType="INTEGER" property="alias"/>
+        <result column="is_public" jdbcType="BIT" property="isPublic"/>
+        <result column="category" jdbcType="TINYINT" property="category"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="work.eanson.pojo.ChessInfo">
+        <result column="pos" jdbcType="LONGVARCHAR" property="pos"/>
+    </resultMap>
+
+    <resultMap id="ExtendMap" type="work.eanson.pojo.extend.ChessInfoExtend2" extends="ResultMapWithBLOBs">
+        <association property="categoryObj" resultMap="work.eanson.dao.CategoryDao.BaseResultMap"/>
+    </resultMap>
+    <resultMap id="ExtendMap3" type="work.eanson.pojo.extend.ChessInfoExtend3" extends="BaseResultMap">
+        <result property="isPublicStr" column="is_public_str"/>
+        <result property="value" column="value"/>
+        <result property="realName" column="real_name"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        code, clock, `alias`, is_public, category, user_id
+    </sql>
+    <sql id="Blob_Column_List">
+        pos
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from chess_info
+        where code = #{code,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from chess_info
+        where code = #{code,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="work.eanson.pojo.ChessInfo">
+        insert into chess_info (code, clock, `alias`, is_public,
+                                category, user_id, pos)
+        values (#{code,jdbcType=VARCHAR}, #{clock,jdbcType=VARCHAR}, #{alias,jdbcType=INTEGER},
+                #{isPublic,jdbcType=BIT},
+                #{category,jdbcType=TINYINT}, #{userId,jdbcType=VARCHAR}, #{pos,jdbcType=LONGVARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="code" keyProperty="code" parameterType="work.eanson.pojo.ChessInfo"
+            useGeneratedKeys="true">
+        insert into chess_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code!=null">
+                code,
+            </if>
+            <if test="clock != null">
+                clock,
+            </if>
+            <if test="alias != null">
+                `alias`,
+            </if>
+            <if test="isPublic != null">
+                is_public,
+            </if>
+            <if test="category != null">
+                category,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="pos != null">
+                pos,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code!=null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="clock != null">
+                #{clock,jdbcType=VARCHAR},
+            </if>
+            <if test="alias != null">
+                #{alias,jdbcType=INTEGER},
+            </if>
+            <if test="isPublic != null">
+                #{isPublic,jdbcType=BIT},
+            </if>
+            <if test="category != null">
+                #{category,jdbcType=TINYINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="pos != null">
+                #{pos,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="work.eanson.pojo.ChessInfo">
+        update chess_info
+        <set>
+            <if test="alias != null">
+                `alias` = #{alias,jdbcType=INTEGER},
+            </if>
+            <if test="clock != null">
+                clock = #{clock,jdbcType=VARCHAR},
+            </if>
+            <if test="isPublic != null">
+                is_public = #{isPublic,jdbcType=BIT},
+            </if>
+            <if test="category != null">
+                category = #{category,jdbcType=TINYINT},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="pos != null">
+                pos = #{pos,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where code = #{code,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="work.eanson.pojo.ChessInfo">
+        update chess_info
+        set clock     = #{clock,jdbcType=VARCHAR},
+            `alias`   = #{alias,jdbcType=INTEGER},
+            is_public = #{isPublic,jdbcType=BIT},
+            category  = #{category,jdbcType=TINYINT},
+            user_id   = #{userId,jdbcType=VARCHAR},
+            pos       = #{pos,jdbcType=LONGVARCHAR}
+        where code = #{code,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="work.eanson.pojo.ChessInfo">
+        update chess_info
+        set clock     = #{clock,jdbcType=VARCHAR},
+            `alias`   = #{alias,jdbcType=INTEGER},
+            is_public = #{isPublic,jdbcType=BIT},
+            category  = #{category,jdbcType=TINYINT},
+            user_id   = #{userId,jdbcType=VARCHAR}
+        where code = #{code,jdbcType=VARCHAR}
+    </update>
+    <update id="updateIsPublicByPrimaryKeyAndForeignKey">
+        UPDATE chess_info c1
+            JOIN chess_info c2 ON c1.`code` = c2.`code`
+        SET c1.is_public = 1 - c2.is_public
+        WHERE c1.code = #{code,jdbcType=VARCHAR}
+          AND c1.user_id = #{telephone,jdbcType=VARCHAR}
+    </update>
+    <select id="selectIsExistByPrimaryKey" resultType="int" parameterType="string">
+        select count(1)
+        from chess_info
+        where code = #{code,jdbcType=VARCHAR}
+    </select>
+    <select id="selectUserLoginByPrimaryKey" resultType="work.eanson.pojo.extend.ChessInfoExtend"
+            parameterType="string">
+        SELECT ul.`password` 'userLogin.password',
+               ul.username   'userLogin.username',
+               ci.pos
+        FROM chess_info ci
+                 JOIN user_login ul ON ci.user_id = ul.telephone
+            AND ci.`code` = #{code,jdbcType=VARCHAR}
+    </select>
+    <select id="selectPosByPrimaryKey" resultType="java.lang.String">
+        select pos
+        from chess_info
+        where code = #{code,jdbcType=VARCHAR}
+    </select>
+    <select id="selectClockByPrimaryKey" resultType="java.lang.String">
+        select clock
+        from chess_info
+        where code = #{code,jdbcType=VARCHAR}
+    </select>
+    <select id="selectInitPosByPrimaryKeyJoinCategory" resultType="java.lang.String">
+        SELECT c.init_pos
+        FROM chess_info ci
+                 JOIN category c ON ci.category = c.`key`
+            AND code = #{code,jdbcType=VARCHAR}
+    </select>
+    <select id="selectChessInfoIsExistByPrimaryKey" resultType="java.lang.Integer">
+        select count(1)
+        from chess_info
+        where code = #{code,jdbcType=VARCHAR}
+    </select>
+    <select id="selectIsPublicByPrimaryKey" resultType="java.lang.Boolean">
+        select is_public
+        from chess_info
+        where code = #{code,jdbcType=VARCHAR}
+    </select>
+    <select id="selectCbCodeIsBeLongToOneUser" resultType="java.lang.Integer">
+        select count(1)
+        from chess_info
+        where code = #{code}
+          and user_id = #{telephone}
+    </select>
+    <select id="selectCodeByAlias" resultType="java.lang.String">
+        select code
+        from chess_info
+        where alias = #{alias}
+    </select>
+    <select id="selectOneCbCode" resultType="java.lang.String">
+        select code
+        from chess_info
+        where user_id = #{telephone}
+          and category = 1
+    </select>
+    <select id="selectCodeByUserId" resultType="java.lang.String">
+        select code
+        from chess_info
+        where user_id = #{telephone};
+    </select>
+    <select id="selectCodeAndNameByUserId" resultMap="ExtendMap">
+        select ci.code, c.value
+        from chess_info ci,
+             category c
+        where ci.category = c.`key`
+          and ci.user_id = #{telephone}
+    </select>
+    <select id="selectAll" resultType="work.eanson.pojo.extend.ChessInfoExtend3">
+        SELECT ci.`code`,
+        ci.clock,
+        ci.alias,
+        CASE ci.is_public
+        WHEN 1 THEN
+        '已公开'
+        ELSE
+        '未公开'
+        END 'is_public_str',
+        ci.user_id,
+        ui.real_name,
+        c.`value`
+        FROM chess_info ci
+        LEFT JOIN user_info ui ON ui.telephone = ci.user_id
+        JOIN category c ON c.`key` = ci.category
+        <if test="search!=null">
+            AND (
+            <foreach collection="search.columnNames" item="item" separator="OR">
+                ${item} LIKE CONCAT('%',#{search.value},'%')
+            </foreach>
+            )
+        </if>
+        <if test="orders!=null">
+            <foreach collection="orders" item="item" separator="," open="ORDER BY">
+                ${item.columnName} ${item.orderBy}
+            </foreach>
+        </if>
+    </select>
+    <select id="selectMaxAlias" resultType="java.lang.Integer">
+        select max(alias)
+        from chess_info
+    </select>
+    <select id="selectPosBePrimaryKey" resultType="java.lang.String">
+        select pos
+        from chess_info
+        where code = #{code}
+    </select>
+</mapper>

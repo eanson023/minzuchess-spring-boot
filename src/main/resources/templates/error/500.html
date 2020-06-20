@@ -1,0 +1,17 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>服务器内部错误</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="/css/custom.min.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+<center><h1 style="color:#9d9d9d;">服务器内部错误，请联系管理员 <a href="mailto:longchess@aliyun.com">longchess@aliyun.com</a></h1>
+    <!--<span th:utext="'请求路径:<br>' + ${url}"></span><br>-->
+    <!--<span th:utext="'错误信息:<br>' + ${errorMessage}"></span>-->
+</center>
+<div th:replace="/common/footer :: footer"></div>
+</body>
+</html>

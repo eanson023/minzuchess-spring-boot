@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="work.eanson.dao.UserLoginDao">
+    <resultMap id="BaseResultMap" type="work.eanson.pojo.UserLogin">
+        <id column="telephone" jdbcType="VARCHAR" property="telephone"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="is_reg_half" jdbcType="BOOLEAN" property="isRegHalf"/>
+        <result column="is_delete" jdbcType="BOOLEAN" property="isDelete"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        telephone, username, `password`, is_reg_half, is_delete
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_login
+        where telephone = #{telephone,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from user_login
+        where telephone = #{telephone,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" keyColumn="telephone" keyProperty="telephone" parameterType="work.eanson.pojo.UserLogin"
+            useGeneratedKeys="true">
+        insert into user_login (telephone, username, `password`, is_reg_half,
+                                is_delete)
+        values (#{telephone,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+                #{isRegHalf,jdbcType=BOOLEAN},
+                #{isDelete,jdbcType=BOOLEAN})
+    </insert>
+    <insert id="insertSelective" keyColumn="telephone" keyProperty="telephone"
+            parameterType="work.eanson.pojo.UserLogin" useGeneratedKeys="true">
+        insert into user_login
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="telephone!=null">
+                telephone,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                `password`,
+            </if>
+            <if test="isRegHalf != null">
+                is_reg_half,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="telephone!=null">
+                #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="isRegHalf != null">
+                #{isRegHalf,jdbcType=BOOLEAN},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=BOOLEAN},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="work.eanson.pojo.UserLogin">
+        update user_login
+        <set>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                `password` = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="isRegHalf != null">
+                is_reg_half = #{isRegHalf,jdbcType=BOOLEAN},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=BOOLEAN},
+            </if>
+        </set>
+        where telephone = #{telephone,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="work.eanson.pojo.UserLogin">
+        update user_login
+        set username    = #{username,jdbcType=VARCHAR},
+            `password`  = #{password,jdbcType=VARCHAR},
+            is_reg_half = #{isRegHalf,jdbcType=BOOLEAN},
+            is_delete   = #{isDelete,jdbcType=BOOLEAN}
+        where telephone = #{telephone,jdbcType=VARCHAR}
+    </update>
+    <select id="selectByUserName" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        user_login
+        where
+        username=#{username,jdbcType=VARCHAR}
+    </select>
+    <select id="selectMaxUserName" resultType="int">
+        SELECT max(CONVERT(username, UNSIGNED)) maxx
+        FROM user_login
+    </select>
+    <select id="selectTelephoneByUserName" resultType="java.lang.String">
+        select telephone
+        from user_login
+        where username = #{username,jdbcType=VARCHAR}
+    </select>
+    <select id="selectIsFinishRegUser" resultType="java.lang.Integer">
+        select count(0)
+        from user_login
+        where username = #{telephone}
+          and is_reg_half = 0;
+    </select>
+</mapper>
