@@ -10,29 +10,17 @@ spring:
 # mail:
   mail:
     host: smtp.aliyun.com
-    username: xxx@qq.com
-    password: password
+    username: xxx@aliyun.com
+    password: xx
     default-encoding: UTF-8
 #    热部署使用
   devtools:
     restart:
       additional-paths: /shiro-[\\w-\\.]+jar
 
+# 用于检测文件上传下载位置用
+dev-environment: dev
 
-my:
-  # 公开棋盘码 演示用
-  public-code: Demo
-  # 临时棋谱路径  每天定时会删除
-#  此处有bug如果是做负载均衡的话 应该统一指定一个位置 然后利用nginx转发资源  为了节约时间 所以我就省略了
-  tmp-cheep-path: /static/cheep_/tmp
-  # 公共棋谱相对于系统的相对路径
-  public-cheep-path: /static/cheep_
-
-   #  是否忽略验证码注册
-  isIgnoreCheckCodeRegister: true
-
-  # 头像上传相对于系统的相对路径
-  avatarReactiveUploadPath: /static/img/avatar/
 
 
 
@@ -47,8 +35,16 @@ shiro:
 # mybatis config
 
 mybatis:
-  mapper-locations: classpath:mappers/**.xml
+  # 数组配置
+  mapper-locations:
+    - classpath:mappers/**.xml
+    - classpath:mappers/extend/**.xml
   type-aliases-package: work.eanson.dao
+  configuration:
+#  驼峰
+    map-underscore-to-camel-case: true
+#    日志
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
 
 # redis
 redis:
@@ -92,7 +88,7 @@ spring:
   profiles: dev
   datasource:
     druid:
-      url: jdbc:mysql://127.0.0.1:3306/minzuchess?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&serverTimezone=Asia/Shanghai
+      url: jdbc:mysql:///minzuchess?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&serverTimezone=Asia/Shanghai
       username: root
       password: 
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -102,13 +98,30 @@ spring:
 
 server:
   port: 8080
+logging:
+  level:
+   root: info
+# 开发环境上传位置 IDEA就上传到target目录下
+my:
+  # 公开棋盘码 演示用
+  public-code: Demo
+  # 临时棋谱路径  每天定时会删除
+  tmp-cheep-path: /static/cheep_/tmp
+  # 公共棋谱相对于系统的相对路径
+  public-cheep-path: /static/cheep_
+
+   #  是否忽略登录注册验证码
+  isIgnoreCheckCodeRegister: true
+
+  # 头像上传相对于系统的绝对路径
+  avatarUploadPath: /static/img/avatar
 
 
 #################################### production config : ################################
 
 ---
 spring:
-  profiles: pro
+  profiles: prod
   datasource:
       druid:
         url: jdbc:mysql:///minzuchess?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&serverTimezone=Asia/Shanghai
@@ -118,7 +131,28 @@ spring:
         initial-size: 10
         max-active: 20
         max-wait: 3000
+  devtools:
+    livereload:
+      enabled: false
 
 
 server:
   port: 8081
+logging:
+  level:
+    root: info
+
+# 项目上线具体文件位置 需要nginx联动
+my:
+  # 公开棋盘码 演示用
+  public-code: Demo
+  # 临时棋谱路径  每天定时会删除
+  tmp-cheep-path: /var/www/www.eanson.work/static/cheep_/tmp
+  # 公共棋谱相对于系统的相对路径
+  public-cheep-path: /var/www/www.eanson.work/static/cheep_/tmp
+
+   #  是否忽略登录注册验证码
+  isIgnoreCheckCodeRegister: true
+
+  # 头像上传相对于系统的绝对路径
+  avatar-upload-path: /var/www/www.eanson.work/static/img/avatar
