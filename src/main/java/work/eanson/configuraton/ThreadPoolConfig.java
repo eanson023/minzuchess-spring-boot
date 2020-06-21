@@ -19,15 +19,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ThreadPoolConfig {
 
     /**
-     * new cachedThreadPool
+     *
+     *
+     * 5个线程  最大10个
      *
      * @return
      */
     @Bean
-    ExecutorService cachedThreadPool() {
-        return new ThreadPoolExecutor(0, Integer.MAX_VALUE,
+    ExecutorService min5Max10ThreadPool() {
+        return new ThreadPoolExecutor(5, 10,
                 60L, TimeUnit.SECONDS,
-                new SynchronousQueue<>(), new MessageThreadFactory());
+                new LinkedBlockingQueue<>(), new MessageThreadFactory());
     }
 
     private class MessageThreadFactory implements ThreadFactory {

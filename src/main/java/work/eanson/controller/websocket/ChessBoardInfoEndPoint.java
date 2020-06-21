@@ -50,7 +50,7 @@ public class ChessBoardInfoEndPoint extends TextWebSocketHandler {
      * 线程池
      */
     @Autowired
-    ExecutorService cachedThreadPool;
+    ExecutorService min5Max10ThreadPool;
 
     /**
      * 使用的用户

@@ -4,9 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.WebSession;
 import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import work.eanson.controller.websocket.WebSocketInterceptor;
 import work.eanson.util.ThreadLocalHolder;
@@ -31,7 +29,7 @@ public class SendChessMessageHandler {
     private ThreadLocalHolder<String> codeHolder;
 
     @Autowired
-    private ExecutorService cachedThreadPool;
+    private ExecutorService min5Max10ThreadPool;
 
     private static final Logger logger = LoggerFactory.getLogger(WebSocketInterceptor.class);
 
@@ -47,7 +45,7 @@ public class SendChessMessageHandler {
         webSocketSessions.forEach(ws -> {
             //            获取CODE属性的值 如果与当前棋盘码相等 则推送消息
             if (ws.getAttributes().get(WebSocketInterceptor.ATTRIBUTE_NAME).equals(code)) {
-                cachedThreadPool.execute(() -> {
+                min5Max10ThreadPool.execute(() -> {
                     try {
                         logger.info("向ip:" + ws.getRemoteAddress() + "发送消息:" + message);
                         ws.sendMessage(message);

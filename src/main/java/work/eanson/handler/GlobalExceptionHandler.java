@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
     private SendErrorMessageMailHandler sendErrorMessageMailHandler;
 
     @Autowired
-    private ExecutorService cachedThreadPool;
+    private ExecutorService min5Max10ThreadPool;
 
     /**
      * 全局异常
@@ -58,7 +58,7 @@ public class GlobalExceptionHandler {
         mav.addObject("url", req.getRequestURL());
 
 //        发送邮件
-        cachedThreadPool.execute(() -> sendErrorMessageMailHandler.sendMailToAdmin(exceptionName, e.getMessage()));
+        min5Max10ThreadPool.execute(() -> sendErrorMessageMailHandler.sendMailToAdmin(exceptionName, e.getMessage()));
         mav.setViewName("forward:/error/500");
         return mav;
     }
