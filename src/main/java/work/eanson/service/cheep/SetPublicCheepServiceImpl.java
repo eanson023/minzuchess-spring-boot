@@ -42,6 +42,12 @@ public class SetPublicCheepServiceImpl extends BaseService implements GlobalServ
     @Value("${my.public-cheep-path}")
     private String publicCheepPath;
 
+    @Value("${spring.profiles.active}")
+    private String profiles;
+
+    @Value("${dev-environment}")
+    private String devEnvironment;
+
     @Input(required = {"from", "to", "cheep"})
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -68,10 +74,14 @@ public class SetPublicCheepServiceImpl extends BaseService implements GlobalServ
             context.setResult(Result.fail(MsgCenter.ERROR_CODE_404));
             return;
         }
-        int i = chessInfoDao.selectCbCodeIsBeLongToOneUser(code, telephone);
-        if (i == 0) {
-            context.setResult(Result.fail(MsgCenter.ERROR_CODE_NOT_BELONG));
-            return;
+//        如果不是管理员
+        if (!SecurityUtils.getSubject().hasRole("admin")) {
+            //        查询该棋盘码是否是该用户
+            int i = chessInfoDao.selectCbCodeIsBeLongToOneUser(code, telephone);
+            if (i == 0) {
+                context.setResult(Result.fail(MsgCenter.ERROR_CODE_NOT_BELONG));
+                return;
+            }
         }
         //如果比到大 交换
         if (from.getTime() > to.getTime()) {
@@ -90,8 +100,8 @@ public class SetPublicCheepServiceImpl extends BaseService implements GlobalServ
         DateFormat sf = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
         String format1 = sf.format(from);
         String format2 = sf.format(to);
-        //拿到绝对路径
-        String directoryPath = SetPublicCheepServiceImpl.class.getResource(publicCheepPath).getPath();
+        //根据拿到绝对路径
+        String directoryPath = profiles.equals(devEnvironment) ? SetPublicCheepServiceImpl.class.getResource(publicCheepPath).getPath() : publicCheepPath;
         String fileName = getUUID();
         cheep.setCheepId(fileName);
         try (FileWriter fw = new FileWriter(new File(directoryPath, fileName));

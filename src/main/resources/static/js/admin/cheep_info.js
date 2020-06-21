@@ -41,10 +41,10 @@ $(document).ready(function () {
                     return content;
                 }
             },
-            {"data": "createTime"},
+            {"data": "createTime", "searchable": false},
             {"data": "typeStr", "searchable": false},
             {"data": "statusStr", "searchable": false},
-            {"data": "message", "searchable": false, "orderable": false},
+            {"data": "message", "searchab   le": false, "orderable": false},
             {"data": "cbCode", "orderable": false},
             {"data": "value", "orderable": false},
             {"data": "realName"}

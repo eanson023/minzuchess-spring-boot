@@ -48,6 +48,8 @@ layer.ready(function () {
             inddex.val($.cookie("index"));
             var max = layer.getChildFrame('#bridge-max', index);
             max.val($.cookie('max'));
+            //调用iframe里的函数
+            parent.window.frames[0].frameElement.contentWindow.firstLoad();
         }
     });
 });
@@ -379,7 +381,7 @@ function getChessPos(x, y) {
                 c = Math.floor(tx / g_rsize)
         */
         x -= (/* 2*(11-g_col+1+1)*/1 - 1 / 2) * g_rsize;
-        y -= ( /*(g_col-g_row)/2 - */1 / 2) * g_rsize;
+        y -= (/*(g_col-g_row)/2 - */1 / 2) * g_rsize;
 
         var tx = Math.abs(x - g_rsize / 2)
         var c = Math.floor(tx / g_rsize)
@@ -401,8 +403,8 @@ function moveBox(box, pos) {
     if (gIsRectBoard) {
         x = pos.c * g_rsize - 1;// + 30 - g_row*15 - ((50-20)/2);
         y = pos.r * (g_rsize) - 1;
-        x += ( /* 2*(11-g_col + 1+ 1) */1) * g_rsize;
-        y += ( /*(g_col-g_row)/2 - */1 / 2) * g_rsize;
+        x += (/* 2*(11-g_col + 1+ 1) */1) * g_rsize;
+        y += (/*(g_col-g_row)/2 - */1 / 2) * g_rsize;
     } else {
 
         x = pos.c * 60 + pos.r * 30 - 1;// + 30 - g_row*15 - ((50-20)/2);

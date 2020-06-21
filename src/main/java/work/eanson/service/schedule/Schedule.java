@@ -50,6 +50,14 @@ public class Schedule implements InitializingBean {
 
     public static final Logger logger = LoggerFactory.getLogger(Schedule.class);
 
+    @Value("${spring.profiles.active}")
+    private String profiles;
+
+
+    @Value("${dev-environment}")
+    private String devEnvironment;
+
+
     @Autowired
     private TeamDao teamDao;
     @Autowired
@@ -187,11 +195,12 @@ public class Schedule implements InitializingBean {
     }
 
     /**
-     * 每天凌晨四点清除/data/minzuchess/static/cheep/tmp里的文件
+     * 每天凌晨四点清除tempCheepPath里的文件
      */
     @Scheduled(cron = "0 0 4 * * ?")
     public void clearFile() {
-        File file = new File(Schedule.class.getResource(tempCheepPath).getPath());
+// 判断是开发环境 还是生产环境 不同环境 路径不同
+        File file = profiles.equals(devEnvironment) ? new File(Schedule.class.getResource(tempCheepPath).getPath()) : new File(tempCheepPath);
         //递归删除所有文件
         delete(file);
         //重建该目录

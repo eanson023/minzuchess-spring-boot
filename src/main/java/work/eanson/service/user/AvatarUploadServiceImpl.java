@@ -29,24 +29,32 @@ public class AvatarUploadServiceImpl extends BaseService implements GlobalServic
     @Autowired
     private AvatarDao avatarDao;
 
+    @Value("${spring.profiles.active}")
+    private String profiles;
+
+
+    @Value("${dev-environment}")
+    private String devEnvironment;
+
     /**
-     * //    头像上传相对路径
+     * //    头像上传路径 相对或绝对
      */
-    @Value("${my.avatarReactiveUploadPath}")
-    private String reactivePath;
+    @Value("${my.avatar-upload-path}")
+    private String uploadPath;
 
     @Input(required = {"avatar"})
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void service(Context context) throws Exception {
         MultipartFile multipartFile = (MultipartFile) context.get("avatar");
+//        2mb
         if (multipartFile.getSize() > 2 * 1024 * 1024) {
             throw new IllegalArgumentException("文件过大");
         }
         /*
-         * 获取运行时绝对路径
+         * 获取运行时绝对路径 不同环境 不同路径
          */
-        String absolutePath = AvatarUploadServiceImpl.class.getResource(reactivePath).getPath();
+        String absolutePath = profiles.equals(devEnvironment) ? AvatarUploadServiceImpl.class.getResource(uploadPath).getPath() : uploadPath;
         //原始名称
         String originalFilename = multipartFile.getOriginalFilename();
         //后缀名

@@ -38,7 +38,13 @@ public class OutputCheepServiceImpl extends BaseService implements GlobalService
     private CategoryDao categoryDao;
 
     @Value("${my.tmp-cheep-path}")
-    private String reactivePath;
+    private String tmpCheepPath;
+
+    @Value("${spring.profiles.active}")
+    private String profiles;
+
+    @Value("${dev-environment}")
+    private String devEnvironment;
 
     @Input(required = {"from", "to", "code"})
     @Override
@@ -53,10 +59,15 @@ public class OutputCheepServiceImpl extends BaseService implements GlobalService
             context.setResult(Result.fail(MsgCenter.ERROR_CODE_404));
             return;
         }
-        int i = chessInfoDao.selectCbCodeIsBeLongToOneUser(code, telephone);
-        if (i == 0) {
-            context.setResult(Result.fail(MsgCenter.ERROR_CODE_NOT_BELONG));
-            return;
+        /**
+         * 如果不是管理员 判断该棋盘码是否属于他
+         */
+        if (!SecurityUtils.getSubject().hasRole("admin")) {
+            int i = chessInfoDao.selectCbCodeIsBeLongToOneUser(code, telephone);
+            if (i == 0) {
+                context.setResult(Result.fail(MsgCenter.ERROR_CODE_NOT_BELONG));
+                return;
+            }
         }
         //如果比到大 交换  防止用户胡乱输入
         if (from.getTime() > to.getTime()) {
@@ -70,7 +81,7 @@ public class OutputCheepServiceImpl extends BaseService implements GlobalService
         String format1 = sf.format(from);
         String format2 = sf.format(to);
         //获取到绝对路径 绝对路径
-        String absolutePath = OutputCheepServiceImpl.class.getResource(reactivePath).getPath();
+        String absolutePath = profiles.equals(devEnvironment) ? OutputCheepServiceImpl.class.getResource(tmpCheepPath).getPath() : tmpCheepPath;
         String fileName = getUUID();
         String realName = name + "_" + format1 + "__" + format2 + ".txt";
         File file = new File(absolutePath, fileName);

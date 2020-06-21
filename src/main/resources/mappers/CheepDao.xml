@@ -34,7 +34,7 @@
         FROM cheep c1
                  JOIN chess_info ci ON c1.`code` = ci.`code`
                  JOIN category c2 ON c2.`key` = ci.category
-                 JOIN user_info ui ON ui.telephone = ci.user_id
+                 LEFT JOIN user_info ui ON ui.telephone = ci.user_id
     </select>
     <select id="selectHtmlByPrimaryKey" resultType="java.lang.String">
         select c2.html

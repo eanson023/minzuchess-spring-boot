@@ -312,8 +312,8 @@
         <if test="cbCode!=null">
             and t.cb_code=#{cbCode}
         </if>
+        LEFT JOIN user_info ui ON ui.telephone = ci.user_id
         JOIN category c ON c.`key` = ci.category
-        JOIN user_info ui ON ui.telephone = ci.user_id
         <if test="search!=null">
             AND (
             <foreach collection="search.columnNames" item="item" separator="OR">

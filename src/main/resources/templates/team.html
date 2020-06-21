@@ -31,12 +31,13 @@
                         <a th:href="'/team_main/' + ${teamPage.teamUser.teamId}" class="text-decoration-none">
                             <h4 class="card-title" th:text="${teamPage.teamUser.team.teamName}"></h4>
                             <div class="text-dark">
-                                <p class="text"><span><img width="17" height="17" src="/icons/star-fill.svg"></span>&nbsp;
-                                <div th:switch="${teamPage.teamUser.userInfo.stat}">
+                                <p class="text"><span><img width="17" height="17" src="/icons/star-fill.svg">&nbsp;
+                                <none th:switch="${teamPage.teamUser.userInfo.stat}">
                                     <span th:case="1">个人</span>
                                     <span th:case="2" th:text="'民间&nbsp;' + ${teamPage.teamUser.team.province.name}"></span>
                                     <span th:case="3" th:text="'高校&nbsp;' + ${teamPage.teamUser.team.school.name}"></span>
-                                </div>
+                                </none>
+                                </span>
                                 <span class="float-right text-black-50"><img src="/icons/egg-fried.svg"
                                                                              width="17"
                                                                              height="17">

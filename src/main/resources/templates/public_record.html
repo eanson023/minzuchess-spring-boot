@@ -29,16 +29,19 @@
                     <h4 class="card-title" th:text="${cheep.name}"></h4>
                     <p class="text"><span><img width="17" height="17"
                                                src="/icons/star-fill.svg" th:text="${cheep.category.value}"></span>&nbsp;
-                        <span class="float-right text-black-50"><img src="/icons/egg-fried.svg" width="17"
-                                                                     height="17" th:text=" &nbsp;来自:&nbsp;${cheep.userInfo.realName}"></span>
+                        <span class="float-right text-black-50"><img th:if="${cheep.userInfo.realName}" src="/icons/egg-fried.svg" width="17"
+                                                                     height="17" th:text="' &nbsp;来自:&nbsp;' + ${cheep.userInfo.realName}">
+                        <img th:if="!${cheep.userInfo.realName}" src="/icons/egg-fried.svg" width="17"
+                             height="17" th:text="'&nbsp;来自:&nbsp;公共棋盘'">
+                        </span>
                     </p>
                     <p>
                     <div class="float-right">
-                        <a class="btn btn-success" th:href="'/cheep/download/' + ${cheep.cheepId}}" target="_blank">下载</a>
-                        <a class="btn btn-success" th:href="'/cheep/replay/' + ${cheep.cheepId}}">回看</a>
+                        <a class="btn btn-success" th:href="'/cheep/download/' + ${cheep.cheepId}" target="_blank">下载</a>
+                        <a class="btn btn-success" th:href="'/cheep/replay/' + ${cheep.cheepId}">回看</a>
                     </div>
                     <span class="text-black-50"><img src="/icons/alarm.svg" width="17"
-                                                     height="17" th:text="&nbsp;${cheep.createTime}"></span>
+                                                     height="17" th:text="'&nbsp;' + ${cheep.createTime}"></span>
                     </p>
                 </div>
             </div>
