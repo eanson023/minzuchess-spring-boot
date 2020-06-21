@@ -40,7 +40,8 @@ public class ChessController extends AbstractController {
         context.put("code", code);
         csgo.service(context);
         if (!context.getResult().isSuccess()) {
-            return "/index";
+//            没有该棋盘码则重定向到主页
+            return "redirect:/index";
         } else {
             //转发
             return String.valueOf(context.getResult().getData());
