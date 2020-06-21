@@ -73,8 +73,12 @@ public class GetUserMainServiceImpl extends BaseService implements GlobalService
         Object usernameObj = context.get("username");
         boolean isMe = (boolean) context.get("is_me");
         context.clear();
+//        获取用户session 但是游客可能未登录 所以在下面需要进行判断
         UserSession principal = (UserSession) SecurityUtils.getSubject().getPrincipal();
-        String telephone = principal.getTelephone();
+        String telephone = null;
+        if (principal != null) {
+            telephone = principal.getTelephone();
+        }
         if (uuidObj != null) {
             String uuid = String.valueOf(uuidObj);
             telephone = userInfoDao.selectPrimaryKeyByUUID(uuid);
@@ -155,11 +159,11 @@ public class GetUserMainServiceImpl extends BaseService implements GlobalService
         int[] interval = {0, 6, 9, 18, 22, 24};
         int[] num = new int[5];
         //查两张表 找出数据
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < num.length; i++) {
             num[i] = trickDao.selectCountByHour(telephone, interval[i], interval[i + 1]);
             num[i] += userLogDao.selectIntervalTimeCountByForeignKey(telephone, interval[i], interval[i + 1]);
         }
-        Map<String, Integer> map = new HashMap<>();
+        Map<String, Integer> map = new HashMap<>(8);
         map.put("深夜", num[0] + num[4]);
         map.put("清晨", num[1]);
         map.put("白天", num[2]);
