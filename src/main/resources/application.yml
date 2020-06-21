@@ -1,0 +1,124 @@
+#################################### common config : ####################################
+spring:
+  profiles:
+    active: dev
+  application:
+    name: minzuchess-spring-boot
+#    静态资源
+  resources:
+    static-locations: classpath:/static/
+# mail:
+  mail:
+    host: smtp.aliyun.com
+    username: xxx@qq.com
+    password: password
+    default-encoding: UTF-8
+#    热部署使用
+  devtools:
+    restart:
+      additional-paths: /shiro-[\\w-\\.]+jar
+
+
+my:
+  # 公开棋盘码 演示用
+  public-code: Demo
+  # 临时棋谱路径  每天定时会删除
+#  此处有bug如果是做负载均衡的话 应该统一指定一个位置 然后利用nginx转发资源  为了节约时间 所以我就省略了
+  tmp-cheep-path: /static/cheep_/tmp
+  # 公共棋谱相对于系统的相对路径
+  public-cheep-path: /static/cheep_
+
+   #  是否忽略验证码注册
+  isIgnoreCheckCodeRegister: true
+
+  # 头像上传相对于系统的相对路径
+  avatarReactiveUploadPath: /static/img/avatar/
+
+
+
+#  shiro-redis
+
+shiro:
+  loginUrl: /login
+  successUrl: /index
+  unauthorizedUrl: /index
+
+
+# mybatis config
+
+mybatis:
+  mapper-locations: classpath:mappers/**.xml
+  type-aliases-package: work.eanson.dao
+
+# redis
+redis:
+  host: 127.0.0.1
+  port: 6379
+#客户端超时时间单位是毫秒 默认是2000
+  timeout: 3000
+  maxTotal: 150
+#最大空闲数
+  maxIdle: 20
+#最小空闲数
+  minIdle: 10
+#最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。
+  maxWaitMillis: 3000
+
+  workerId: 1
+  datacenterId: 1
+
+# log
+logging:
+  file:
+  # 输出到项目目录下
+    name: logback.log
+#  level:
+#  request mapping
+#    org.springframework.web: trace
+
+# aliyun
+
+aliyun:
+  accessKeyId: L
+  secret: c
+  SignName: a
+  TemplateCode: a
+
+
+#################################### develop config : ###################################
+
+---
+spring:
+  profiles: dev
+  datasource:
+    druid:
+      url: jdbc:mysql://127.0.0.1:3306/minzuchess?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&serverTimezone=Asia/Shanghai
+      username: root
+      password: 
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      initial-size: 10
+      max-active: 20
+      max-wait: 3000
+
+server:
+  port: 8080
+
+
+#################################### production config : ################################
+
+---
+spring:
+  profiles: pro
+  datasource:
+      druid:
+        url: jdbc:mysql:///minzuchess?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&serverTimezone=Asia/Shanghai
+        username: root
+        password: 
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        initial-size: 10
+        max-active: 20
+        max-wait: 3000
+
+
+server:
+  port: 8081
