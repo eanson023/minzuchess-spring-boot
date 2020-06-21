@@ -3,7 +3,7 @@
 
 ---
 ### demo请见:[www.eanson.work](http://www.eanson.work "www.eanson.work")
-公共棋盘演示:[Demo](http://www.eanson.work/chess?n_t=1586511476075&ex=f96d4f00b2b34a2f86bca3f896ace743&ex2=f0d885aa015a46708898e61f6d632079&code=Test)
+公共棋盘演示:[Demo](http://www.eanson.work/chess?n_t=1586511476075&ex=f96d4f00b2b34a2f86bca3f896ace743&ex2=f0d885aa015a46708898e61f6d632079&code=Demo)
 
 具体游戏规则:见[首页](http://www.eanson.work)右侧超链接
 ## 项目描述
