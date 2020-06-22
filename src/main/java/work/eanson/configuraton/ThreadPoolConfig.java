@@ -19,9 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ThreadPoolConfig {
 
     /**
-     *
-     *
-     * 5个线程  最大10个
+     * 5个线程  最大10个  队列30个
      *
      * @return
      */
@@ -29,7 +27,7 @@ public class ThreadPoolConfig {
     ExecutorService min5Max10ThreadPool() {
         return new ThreadPoolExecutor(5, 10,
                 60L, TimeUnit.SECONDS,
-                new LinkedBlockingQueue<>(), new MessageThreadFactory());
+                new ArrayBlockingQueue<>(30), new MessageThreadFactory());
     }
 
     private class MessageThreadFactory implements ThreadFactory {
