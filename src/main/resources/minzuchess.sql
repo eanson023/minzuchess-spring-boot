@@ -1,26 +1,35 @@
-/*
- Navicat MySQL Data Transfer
+-- MySQL dump 10.13  Distrib 5.7.30, for linux-glibc2.12 (x86_64)
+--
+-- Host: localhost    Database: minzuchess
+-- ------------------------------------------------------
+-- Server version	5.7.30
 
- Source Server         : eanson
- Source Server Type    : MySQL
- Source Server Version : 80016
- Source Host           : 127.0.0.1:3306
- Source Schema         : minzuchess
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
- Target Server Type    : MySQL
- Target Server Version : 80016
- File Encoding         : 65001
+--
+-- Current Database: `minzuchess`
+--
 
- Date: 20/06/2020 11:51:33
-*/
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `minzuchess` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
 
-SET NAMES utf8;
-SET FOREIGN_KEY_CHECKS = 0;
+USE `minzuchess`;
 
--- ----------------------------
--- Table structure for avatar
--- ----------------------------
+--
+-- Table structure for table `avatar`
+--
+
 DROP TABLE IF EXISTS `avatar`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `avatar` (
   `avatar_id` int(11) NOT NULL AUTO_INCREMENT,
   `file_name` varchar(40) DEFAULT NULL,
@@ -28,12 +37,17 @@ CREATE TABLE `avatar` (
   PRIMARY KEY (`avatar_id`),
   KEY `telephone` (`telephone`),
   CONSTRAINT `avatar_ibfk_1` FOREIGN KEY (`telephone`) REFERENCES `user_login` (`telephone`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Table structure for category
--- ----------------------------
+
+--
+-- Table structure for table `category`
+--
+
 DROP TABLE IF EXISTS `category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `category` (
   `key` tinyint(4) NOT NULL AUTO_INCREMENT COMMENT '索引值',
   `value` varchar(10) DEFAULT NULL COMMENT '具体名称',
@@ -42,45 +56,56 @@ CREATE TABLE `category` (
   `init_pos` varchar(500) DEFAULT NULL COMMENT '棋盘初始化坐标',
   PRIMARY KEY (`key`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='棋盘分类 棋盘名 初始化坐标都在这 ';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of category
--- ----------------------------
-BEGIN;
-INSERT INTO `category` VALUES (1, '藏久棋', 'jq14', 'jq14.png', '0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000zzzzZZZZ000');
-INSERT INTO `category` VALUES (2, '蒙古久棋', 'jq9', 'jq9.png', '00000000000000000000000000000000000000000000000000000000000000000000000000000000000zz0ZZ00');
-COMMIT;
+--
+-- Dumping data for table `category`
+--
 
--- ----------------------------
--- Table structure for cheep
--- ----------------------------
+LOCK TABLES `category` WRITE;
+/*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` VALUES (1,'藏久棋','jq14','jq14.png','0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000zzzzZZZZ000'),(2,'蒙古久棋','jq9','jq9.png','00000000000000000000000000000000000000000000000000000000000000000000000000000000000zz0ZZ00');
+/*!40000 ALTER TABLE `category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cheep`
+--
+
 DROP TABLE IF EXISTS `cheep`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cheep` (
-  `cheep_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `name` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '棋谱名称',
+  `cheep_id` varchar(32) COLLATE utf8_bin NOT NULL,
+  `name` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '棋谱名称',
   `from` timestamp NULL DEFAULT NULL COMMENT '开始时间',
   `to` timestamp NULL DEFAULT NULL COMMENT '结束时间',
-  `path` varchar(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '路径名',
-  `real_name` varchar(80) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '文件名',
+  `path` varchar(200) COLLATE utf8_bin DEFAULT NULL COMMENT '路径名',
+  `real_name` varchar(80) COLLATE utf8_bin DEFAULT NULL COMMENT '文件名',
   `create_date` date DEFAULT NULL COMMENT '创建时间',
-  `code` varchar(10) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `code` varchar(10) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`cheep_id`),
   KEY `code` (`code`),
   CONSTRAINT `cheep_ibfk_1` FOREIGN KEY (`code`) REFERENCES `chess_info` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Table structure for chess_info
--- ----------------------------
+
+--
+-- Table structure for table `chess_info`
+--
+
 DROP TABLE IF EXISTS `chess_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `chess_info` (
-  `code` varchar(10) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '随机码 存储和查询都必须区分大小写',
-  `clock` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `pos` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `code` varchar(10) COLLATE utf8_bin NOT NULL COMMENT '随机码 存储和查询都必须区分大小写',
+  `clock` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
+  `pos` text CHARACTER SET utf8 NOT NULL,
   `alias` int(10) DEFAULT NULL COMMENT '别名',
   `is_public` tinyint(1) DEFAULT '0' COMMENT '棋盘是否开放为公共棋盘',
   `category` tinyint(4) DEFAULT NULL COMMENT '1:久棋 2:蒙古棋',
-  `user_id` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `user_id` varchar(11) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`code`),
   KEY `CODE` (`code`) USING BTREE,
   KEY `user_id` (`user_id`),
@@ -88,67 +113,49 @@ CREATE TABLE `chess_info` (
   CONSTRAINT `fk_chess_category` FOREIGN KEY (`category`) REFERENCES `category` (`key`),
   CONSTRAINT `fk_chess_user` FOREIGN KEY (`user_id`) REFERENCES `user_info` (`telephone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of chess_info
--- ----------------------------
-BEGIN;
-INSERT INTO `chess_info` VALUES ('Demo', '0z:1592625055933', '000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000z000000000000000000000000000zzzzZZZZ000', 20201102, 1, 1, NULL);
-INSERT INTO `chess_info` VALUES ('QyFP', '0Z:1592623638394', '0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000zzzzZZZZ000', 20201100, 0, 1, '13333333333');
-INSERT INTO `chess_info` VALUES ('dxOj', '0Z:1592623638394', '00000000000000000000000000000000000000000000000000000000000000000000000000000000000zz0ZZ00', 20201101, 0, 2, '13333333333');
-COMMIT;
+--
+-- Dumping data for table `chess_info`
+--
 
--- ----------------------------
--- Table structure for province
--- ----------------------------
+LOCK TABLES `chess_info` WRITE;
+/*!40000 ALTER TABLE `chess_info` DISABLE KEYS */;
+INSERT INTO `chess_info` VALUES ('Demo','0Z:1592746654606','0zz000000000000000000000000000000000000000Z0000z0000000Z00000000z000000z0Z0000000000000000Z000Z0000z0000000Z00000z0zzzZ00Z0Z0000z00Z0z0Z0Z0000Zzz00000Z0000000z0Z0ZZZ0z0000zzzzZ00Z00000Z00000000000000zzzzZZZZ000',20201102,1,1,NULL),('QyFP','0Z:1592663193453','00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z0000000000000000000000zzzzZZZZ000',20201100,1,1,'13333333333'),('dxOj','0Z:1592623638394','00000000000000000000000000000000000000000000000000000000000000000000000000000000000zz0ZZ00',20201101,0,2,'13333333333');
+/*!40000 ALTER TABLE `chess_info` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `province`
+--
+
 DROP TABLE IF EXISTS `province`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `province` (
   `pro_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) NOT NULL,
   PRIMARY KEY (`pro_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of province
--- ----------------------------
-BEGIN;
-INSERT INTO `province` VALUES (1, '北京市');
-INSERT INTO `province` VALUES (2, '天津市');
-INSERT INTO `province` VALUES (3, '河北省');
-INSERT INTO `province` VALUES (4, '山西省');
-INSERT INTO `province` VALUES (5, '内蒙古');
-INSERT INTO `province` VALUES (6, '辽宁省');
-INSERT INTO `province` VALUES (7, '吉林省');
-INSERT INTO `province` VALUES (8, '黑龙江');
-INSERT INTO `province` VALUES (9, '上海市');
-INSERT INTO `province` VALUES (10, '江苏省');
-INSERT INTO `province` VALUES (11, '浙江省');
-INSERT INTO `province` VALUES (12, '安徽省');
-INSERT INTO `province` VALUES (13, '福建省');
-INSERT INTO `province` VALUES (14, '江西省');
-INSERT INTO `province` VALUES (15, '山东省');
-INSERT INTO `province` VALUES (16, '河南省');
-INSERT INTO `province` VALUES (17, '湖北省');
-INSERT INTO `province` VALUES (18, '湖南省');
-INSERT INTO `province` VALUES (19, '广东省');
-INSERT INTO `province` VALUES (20, '广西壮族自治区');
-INSERT INTO `province` VALUES (21, '海南省');
-INSERT INTO `province` VALUES (22, '重庆市');
-INSERT INTO `province` VALUES (23, '四川省');
-INSERT INTO `province` VALUES (24, '贵州省');
-INSERT INTO `province` VALUES (25, '云南省');
-INSERT INTO `province` VALUES (26, '西藏自治区');
-INSERT INTO `province` VALUES (27, '陕西省');
-INSERT INTO `province` VALUES (28, '甘肃省');
-INSERT INTO `province` VALUES (29, '青海省');
-INSERT INTO `province` VALUES (30, '宁夏回族自治区');
-INSERT INTO `province` VALUES (31, '新疆维吾尔自治区');
-COMMIT;
+--
+-- Dumping data for table `province`
+--
 
--- ----------------------------
--- Table structure for school
--- ----------------------------
+LOCK TABLES `province` WRITE;
+/*!40000 ALTER TABLE `province` DISABLE KEYS */;
+INSERT INTO `province` VALUES (1,'北京市'),(2,'天津市'),(3,'河北省'),(4,'山西省'),(5,'内蒙古'),(6,'辽宁省'),(7,'吉林省'),(8,'黑龙江'),(9,'上海市'),(10,'江苏省'),(11,'浙江省'),(12,'安徽省'),(13,'福建省'),(14,'江西省'),(15,'山东省'),(16,'河南省'),(17,'湖北省'),(18,'湖南省'),(19,'广东省'),(20,'广西壮族自治区'),(21,'海南省'),(22,'重庆市'),(23,'四川省'),(24,'贵州省'),(25,'云南省'),(26,'西藏自治区'),(27,'陕西省'),(28,'甘肃省'),(29,'青海省'),(30,'宁夏回族自治区'),(31,'新疆维吾尔自治区');
+/*!40000 ALTER TABLE `province` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `school`
+--
+
 DROP TABLE IF EXISTS `school`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `school` (
   `sch_id` int(5) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) NOT NULL,
@@ -158,2648 +165,25 @@ CREATE TABLE `school` (
   KEY `fk_school_province` (`pro_id`) USING BTREE,
   CONSTRAINT `fk_school_province` FOREIGN KEY (`pro_id`) REFERENCES `province` (`pro_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2632 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of school
--- ----------------------------
-BEGIN;
-INSERT INTO `school` VALUES (1, '北京大学', '本科', 1);
-INSERT INTO `school` VALUES (2, '中国人民大学', '本科', 1);
-INSERT INTO `school` VALUES (3, '清华大学', '本科', 1);
-INSERT INTO `school` VALUES (4, '北京交通大学', '本科', 1);
-INSERT INTO `school` VALUES (5, '北京工业大学', '本科', 1);
-INSERT INTO `school` VALUES (6, '北京航空航天大学', '本科', 1);
-INSERT INTO `school` VALUES (7, '北京理工大学', '本科', 1);
-INSERT INTO `school` VALUES (8, '北京科技大学', '本科', 1);
-INSERT INTO `school` VALUES (9, '北方工业大学', '本科', 1);
-INSERT INTO `school` VALUES (10, '北京化工大学', '本科', 1);
-INSERT INTO `school` VALUES (11, '北京工商大学', '本科', 1);
-INSERT INTO `school` VALUES (12, '北京服装学院', '本科', 1);
-INSERT INTO `school` VALUES (13, '北京邮电大学', '本科', 1);
-INSERT INTO `school` VALUES (14, '北京印刷学院', '本科', 1);
-INSERT INTO `school` VALUES (15, '北京建筑大学', '本科', 1);
-INSERT INTO `school` VALUES (16, '北京石油化工学院', '本科', 1);
-INSERT INTO `school` VALUES (17, '北京电子科技学院', '本科', 1);
-INSERT INTO `school` VALUES (18, '中国农业大学', '本科', 1);
-INSERT INTO `school` VALUES (19, '北京农学院', '本科', 1);
-INSERT INTO `school` VALUES (20, '北京林业大学', '本科', 1);
-INSERT INTO `school` VALUES (21, '北京协和医学院', '本科', 1);
-INSERT INTO `school` VALUES (22, '首都医科大学', '本科', 1);
-INSERT INTO `school` VALUES (23, '北京中医药大学', '本科', 1);
-INSERT INTO `school` VALUES (24, '北京师范大学', '本科', 1);
-INSERT INTO `school` VALUES (25, '首都师范大学', '本科', 1);
-INSERT INTO `school` VALUES (26, '首都体育学院', '本科', 1);
-INSERT INTO `school` VALUES (27, '北京外国语大学', '本科', 1);
-INSERT INTO `school` VALUES (28, '北京第二外国语学院', '本科', 1);
-INSERT INTO `school` VALUES (29, '北京语言大学', '本科', 1);
-INSERT INTO `school` VALUES (30, '中国传媒大学', '本科', 1);
-INSERT INTO `school` VALUES (31, '中央财经大学', '本科', 1);
-INSERT INTO `school` VALUES (32, '对外经济贸易大学', '本科', 1);
-INSERT INTO `school` VALUES (33, '北京物资学院', '本科', 1);
-INSERT INTO `school` VALUES (34, '首都经济贸易大学', '本科', 1);
-INSERT INTO `school` VALUES (35, '外交学院', '本科', 1);
-INSERT INTO `school` VALUES (36, '中国人民公安大学', '本科', 1);
-INSERT INTO `school` VALUES (37, '国际关系学院', '本科', 1);
-INSERT INTO `school` VALUES (38, '北京体育大学', '本科', 1);
-INSERT INTO `school` VALUES (39, '中央音乐学院', '本科', 1);
-INSERT INTO `school` VALUES (40, '中国音乐学院', '本科', 1);
-INSERT INTO `school` VALUES (41, '中央美术学院', '本科', 1);
-INSERT INTO `school` VALUES (42, '中央戏剧学院', '本科', 1);
-INSERT INTO `school` VALUES (43, '中国戏曲学院', '本科', 1);
-INSERT INTO `school` VALUES (44, '北京电影学院', '本科', 1);
-INSERT INTO `school` VALUES (45, '北京舞蹈学院', '本科', 1);
-INSERT INTO `school` VALUES (46, '中央民族大学', '本科', 1);
-INSERT INTO `school` VALUES (47, '中国政法大学', '本科', 1);
-INSERT INTO `school` VALUES (48, '华北电力大学', '本科', 1);
-INSERT INTO `school` VALUES (49, '中华女子学院', '本科', 1);
-INSERT INTO `school` VALUES (50, '北京信息科技大学', '本科', 1);
-INSERT INTO `school` VALUES (51, '中国矿业大学（北京）', '本科', 1);
-INSERT INTO `school` VALUES (52, '中国石油大学（北京）', '本科', 1);
-INSERT INTO `school` VALUES (53, '中国地质大学（北京）', '本科', 1);
-INSERT INTO `school` VALUES (54, '北京联合大学', '本科', 1);
-INSERT INTO `school` VALUES (55, '北京城市学院', '本科', 1);
-INSERT INTO `school` VALUES (56, '中国青年政治学院', '本科', 1);
-INSERT INTO `school` VALUES (57, '首钢工学院', '本科', 1);
-INSERT INTO `school` VALUES (58, '中国劳动关系学院', '本科', 1);
-INSERT INTO `school` VALUES (59, '北京吉利学院', '本科', 1);
-INSERT INTO `school` VALUES (60, '首都师范大学科德学院', '本科', 1);
-INSERT INTO `school` VALUES (61, '北京工商大学嘉华学院', '本科', 1);
-INSERT INTO `school` VALUES (62, '北京邮电大学世纪学院', '本科', 1);
-INSERT INTO `school` VALUES (63, '北京工业大学耿丹学院', '本科', 1);
-INSERT INTO `school` VALUES (64, '北京警察学院', '本科', 1);
-INSERT INTO `school` VALUES (65, '北京第二外国语学院中瑞酒店管理学院', '本科', 1);
-INSERT INTO `school` VALUES (66, '中国科学院大学', '本科', 1);
-INSERT INTO `school` VALUES (67, '中国社会科学院大学', '本科', 1);
-INSERT INTO `school` VALUES (68, '北京工业职业技术学院', '专科', 1);
-INSERT INTO `school` VALUES (69, '北京信息职业技术学院', '专科', 1);
-INSERT INTO `school` VALUES (70, '北京电子科技职业学院', '专科', 1);
-INSERT INTO `school` VALUES (71, '北京京北职业技术学院', '专科', 1);
-INSERT INTO `school` VALUES (72, '北京交通职业技术学院', '专科', 1);
-INSERT INTO `school` VALUES (73, '北京青年政治学院', '专科', 1);
-INSERT INTO `school` VALUES (74, '北京农业职业学院', '专科', 1);
-INSERT INTO `school` VALUES (75, '北京政法职业学院', '专科', 1);
-INSERT INTO `school` VALUES (76, '北京财贸职业学院', '专科', 1);
-INSERT INTO `school` VALUES (77, '北京北大方正软件职业技术\n学院', '专科', 1);
-INSERT INTO `school` VALUES (78, '北京经贸职业学院', '专科', 1);
-INSERT INTO `school` VALUES (79, '北京经济技术职业学院', '专科', 1);
-INSERT INTO `school` VALUES (80, '北京戏曲艺术职业学院', '专科', 1);
-INSERT INTO `school` VALUES (81, '北京汇佳职业学院', '专科', 1);
-INSERT INTO `school` VALUES (82, '北京科技经营管理学院', '专科', 1);
-INSERT INTO `school` VALUES (83, '北京科技职业学院', '专科', 1);
-INSERT INTO `school` VALUES (84, '北京培黎职业学院', '专科', 1);
-INSERT INTO `school` VALUES (85, '北京经济管理职业学院', '专科', 1);
-INSERT INTO `school` VALUES (86, '北京劳动保障职业学院', '专科', 1);
-INSERT INTO `school` VALUES (87, '北京社会管理职业学院', '专科', 1);
-INSERT INTO `school` VALUES (88, '北京艺术传媒职业学院', '专科', 1);
-INSERT INTO `school` VALUES (89, '北京体育职业学院', '专科', 1);
-INSERT INTO `school` VALUES (90, '北京交通运输职业学院', '专科', 1);
-INSERT INTO `school` VALUES (91, '北京卫生职业学院', '专科', 1);
-INSERT INTO `school` VALUES (92, '北京网络职业学院', '专科', 1);
-INSERT INTO `school` VALUES (93, '南开大学', '本科', 2);
-INSERT INTO `school` VALUES (94, '天津大学', '本科', 2);
-INSERT INTO `school` VALUES (95, '天津科技大学', '本科', 2);
-INSERT INTO `school` VALUES (96, '天津工业大学', '本科', 2);
-INSERT INTO `school` VALUES (97, '中国民航大学', '本科', 2);
-INSERT INTO `school` VALUES (98, '天津理工大学', '本科', 2);
-INSERT INTO `school` VALUES (99, '天津农学院', '本科', 2);
-INSERT INTO `school` VALUES (100, '天津医科大学', '本科', 2);
-INSERT INTO `school` VALUES (101, '天津中医药大学', '本科', 2);
-INSERT INTO `school` VALUES (102, '天津师范大学', '本科', 2);
-INSERT INTO `school` VALUES (103, '天津职业技术师范大学', '本科', 2);
-INSERT INTO `school` VALUES (104, '天津外国语大学', '本科', 2);
-INSERT INTO `school` VALUES (105, '天津商业大学', '本科', 2);
-INSERT INTO `school` VALUES (106, '天津财经大学', '本科', 2);
-INSERT INTO `school` VALUES (107, '天津体育学院', '本科', 2);
-INSERT INTO `school` VALUES (108, '天津音乐学院', '本科', 2);
-INSERT INTO `school` VALUES (109, '天津美术学院', '本科', 2);
-INSERT INTO `school` VALUES (110, '天津城建大学', '本科', 2);
-INSERT INTO `school` VALUES (111, '天津天狮学院', '本科', 2);
-INSERT INTO `school` VALUES (112, '天津中德应用技术大学', '本科', 2);
-INSERT INTO `school` VALUES (113, '天津外国语大学滨海外事学院', '本科', 2);
-INSERT INTO `school` VALUES (114, '天津体育学院运动与文化艺术\n学院', '本科', 2);
-INSERT INTO `school` VALUES (115, '天津商业大学宝德学院', '本科', 2);
-INSERT INTO `school` VALUES (116, '天津医科大学临床医学院', '本科', 2);
-INSERT INTO `school` VALUES (117, '南开大学滨海学院', '本科', 2);
-INSERT INTO `school` VALUES (118, '天津师范大学津沽学院', '本科', 2);
-INSERT INTO `school` VALUES (119, '天津理工大学中环信息学院', '本科', 2);
-INSERT INTO `school` VALUES (120, '北京科技大学天津学院', '本科', 2);
-INSERT INTO `school` VALUES (121, '天津大学仁爱学院', '本科', 2);
-INSERT INTO `school` VALUES (122, '天津财经大学珠江学院', '本科', 2);
-INSERT INTO `school` VALUES (123, '天津市职业大学', '专科', 2);
-INSERT INTO `school` VALUES (124, '天津滨海职业学院', '专科', 2);
-INSERT INTO `school` VALUES (125, '天津工程职业技术学院', '专科', 2);
-INSERT INTO `school` VALUES (126, '天津青年职业学院', '专科', 2);
-INSERT INTO `school` VALUES (127, '天津渤海职业技术学院', '专科', 2);
-INSERT INTO `school` VALUES (128, '天津电子信息职业技术学院', '专科', 2);
-INSERT INTO `school` VALUES (129, '天津机电职业技术学院', '专科', 2);
-INSERT INTO `school` VALUES (130, '天津现代职业技术学院', '专科', 2);
-INSERT INTO `school` VALUES (131, '天津公安警官职业学院', '专科', 2);
-INSERT INTO `school` VALUES (132, '天津轻工职业技术学院', '专科', 2);
-INSERT INTO `school` VALUES (133, '天津商务职业学院', '专科', 2);
-INSERT INTO `school` VALUES (134, '天津国土资源和房屋职业学院', '专科', 2);
-INSERT INTO `school` VALUES (135, '天津医学高等专科学校', '专科', 2);
-INSERT INTO `school` VALUES (136, '天津开发区职业技术学院', '专科', 2);
-INSERT INTO `school` VALUES (137, '天津艺术职业学院', '专科', 2);
-INSERT INTO `school` VALUES (138, '天津交通职业学院', '专科', 2);
-INSERT INTO `school` VALUES (139, '天津冶金职业技术学院', '专科', 2);
-INSERT INTO `school` VALUES (140, '天津石油职业技术学院', '专科', 2);
-INSERT INTO `school` VALUES (141, '天津城市职业学院', '专科', 2);
-INSERT INTO `school` VALUES (142, '天津铁道职业技术学院', '专科', 2);
-INSERT INTO `school` VALUES (143, '天津工艺美术职业学院', '专科', 2);
-INSERT INTO `school` VALUES (144, '天津城市建设管理职业技术\n学院', '专科', 2);
-INSERT INTO `school` VALUES (145, '天津生物工程职业技术学院', '专科', 2);
-INSERT INTO `school` VALUES (146, '天津海运职业学院', '专科', 2);
-INSERT INTO `school` VALUES (147, '天津广播影视职业学院', '专科', 2);
-INSERT INTO `school` VALUES (148, '天津体育职业学院', '专科', 2);
-INSERT INTO `school` VALUES (149, '天津滨海汽车工程职业学院', '专科', 2);
-INSERT INTO `school` VALUES (150, '河北大学', '本科', 3);
-INSERT INTO `school` VALUES (151, '河北工程大学', '本科', 3);
-INSERT INTO `school` VALUES (152, '河北地质大学', '本科', 3);
-INSERT INTO `school` VALUES (153, '河北工业大学', '本科', 3);
-INSERT INTO `school` VALUES (154, '华北理工大学', '本科', 3);
-INSERT INTO `school` VALUES (155, '河北科技大学', '本科', 3);
-INSERT INTO `school` VALUES (156, '河北建筑工程学院', '本科', 3);
-INSERT INTO `school` VALUES (157, '河北水利电力学院', '本科', 3);
-INSERT INTO `school` VALUES (158, '河北农业大学', '本科', 3);
-INSERT INTO `school` VALUES (159, '河北医科大学', '本科', 3);
-INSERT INTO `school` VALUES (160, '河北北方学院', '本科', 3);
-INSERT INTO `school` VALUES (161, '承德医学院', '本科', 3);
-INSERT INTO `school` VALUES (162, '河北师范大学', '本科', 3);
-INSERT INTO `school` VALUES (163, '保定学院', '本科', 3);
-INSERT INTO `school` VALUES (164, '河北民族师范学院', '本科', 3);
-INSERT INTO `school` VALUES (165, '唐山师范学院', '本科', 3);
-INSERT INTO `school` VALUES (166, '廊坊师范学院', '本科', 3);
-INSERT INTO `school` VALUES (167, '衡水学院', '本科', 3);
-INSERT INTO `school` VALUES (168, '石家庄学院', '本科', 3);
-INSERT INTO `school` VALUES (169, '邯郸学院', '本科', 3);
-INSERT INTO `school` VALUES (170, '邢台学院', '本科', 3);
-INSERT INTO `school` VALUES (171, '沧州师范学院', '本科', 3);
-INSERT INTO `school` VALUES (172, '石家庄铁道大学', '本科', 3);
-INSERT INTO `school` VALUES (173, '燕山大学', '本科', 3);
-INSERT INTO `school` VALUES (174, '河北科技师范学院', '本科', 3);
-INSERT INTO `school` VALUES (175, '唐山学院', '本科', 3);
-INSERT INTO `school` VALUES (176, '华北科技学院', '本科', 3);
-INSERT INTO `school` VALUES (177, '中国人民武装警察部队学院', '本科', 3);
-INSERT INTO `school` VALUES (178, '河北体育学院', '本科', 3);
-INSERT INTO `school` VALUES (179, '河北金融学院', '本科', 3);
-INSERT INTO `school` VALUES (180, '北华航天工业学院', '本科', 3);
-INSERT INTO `school` VALUES (181, '防灾科技学院', '本科', 3);
-INSERT INTO `school` VALUES (182, '河北经贸大学', '本科', 3);
-INSERT INTO `school` VALUES (183, '中央司法警官学院', '本科', 3);
-INSERT INTO `school` VALUES (184, '河北传媒学院', '本科', 3);
-INSERT INTO `school` VALUES (185, '河北工程技术学院', '本科', 3);
-INSERT INTO `school` VALUES (186, '河北美术学院', '本科', 3);
-INSERT INTO `school` VALUES (187, '河北科技学院', '本科', 3);
-INSERT INTO `school` VALUES (188, '河北外国语学院', '本科', 3);
-INSERT INTO `school` VALUES (189, '河北大学工商学院', '本科', 3);
-INSERT INTO `school` VALUES (190, '华北理工大学轻工学院', '本科', 3);
-INSERT INTO `school` VALUES (191, '河北科技大学理工学院', '本科', 3);
-INSERT INTO `school` VALUES (192, '河北师范大学汇华学院', '本科', 3);
-INSERT INTO `school` VALUES (193, '河北经贸大学经济管理学院', '本科', 3);
-INSERT INTO `school` VALUES (194, '河北医科大学临床学院', '本科', 3);
-INSERT INTO `school` VALUES (195, '华北电力大学科技学院', '本科', 3);
-INSERT INTO `school` VALUES (196, '河北工程大学科信学院', '本科', 3);
-INSERT INTO `school` VALUES (197, '河北工业大学城市学院', '本科', 3);
-INSERT INTO `school` VALUES (198, '燕山大学里仁学院', '本科', 3);
-INSERT INTO `school` VALUES (199, '石家庄铁道大学四方学院', '本科', 3);
-INSERT INTO `school` VALUES (200, '河北地质大学华信学院', '本科', 3);
-INSERT INTO `school` VALUES (201, '河北农业大学现代科技学院', '本科', 3);
-INSERT INTO `school` VALUES (202, '华北理工大学冀唐学院', '本科', 3);
-INSERT INTO `school` VALUES (203, '中国地质大学长城学院', '本科', 3);
-INSERT INTO `school` VALUES (204, '燕京理工学院', '本科', 3);
-INSERT INTO `school` VALUES (205, '北京中医药大学东方学院', '本科', 3);
-INSERT INTO `school` VALUES (206, '北京交通大学海滨学院', '本科', 3);
-INSERT INTO `school` VALUES (207, '河北东方学院', '本科', 3);
-INSERT INTO `school` VALUES (208, '河北中医学院', '本科', 3);
-INSERT INTO `school` VALUES (209, '张家口学院', '本科', 3);
-INSERT INTO `school` VALUES (210, '河北环境工程学院', '本科', 3);
-INSERT INTO `school` VALUES (211, '河北工业职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (212, '邯郸职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (213, '石家庄职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (214, '张家口职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (215, '承德石油高等专科学校', '专科', 3);
-INSERT INTO `school` VALUES (216, '邢台职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (217, '河北软件职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (218, '河北石油职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (219, '河北建材职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (220, '河北政法职业学院', '专科', 3);
-INSERT INTO `school` VALUES (221, '沧州职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (222, '河北能源职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (223, '石家庄铁路职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (224, '保定职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (225, '秦皇岛职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (226, '石家庄工程职业学院', '专科', 3);
-INSERT INTO `school` VALUES (227, '石家庄城市经济职业学院', '专科', 3);
-INSERT INTO `school` VALUES (228, '唐山职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (229, '衡水职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (230, '唐山工业职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (231, '邢台医学高等专科学校', '专科', 3);
-INSERT INTO `school` VALUES (232, '河北省艺术职业学院', '专科', 3);
-INSERT INTO `school` VALUES (233, '河北旅游职业学院', '专科', 3);
-INSERT INTO `school` VALUES (234, '石家庄财经职业学院', '专科', 3);
-INSERT INTO `school` VALUES (235, '河北交通职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (236, '河北化工医药职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (237, '石家庄信息工程职业学院', '专科', 3);
-INSERT INTO `school` VALUES (238, '河北对外经贸职业学院', '专科', 3);
-INSERT INTO `school` VALUES (239, '保定电力职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (240, '河北机电职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (241, '渤海石油职业学院', '专科', 3);
-INSERT INTO `school` VALUES (242, '廊坊职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (243, '唐山科技职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (244, '石家庄邮电职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (245, '河北公安警察职业学院', '专科', 3);
-INSERT INTO `school` VALUES (246, '石家庄工商职业学院', '专科', 3);
-INSERT INTO `school` VALUES (247, '石家庄理工职业学院', '专科', 3);
-INSERT INTO `school` VALUES (248, '石家庄科技信息职业学院', '专科', 3);
-INSERT INTO `school` VALUES (249, '河北司法警官职业学院', '专科', 3);
-INSERT INTO `school` VALUES (250, '沧州医学高等专科学校', '专科', 3);
-INSERT INTO `school` VALUES (251, '河北女子职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (252, '石家庄医学高等专科学校', '专科', 3);
-INSERT INTO `school` VALUES (253, '石家庄经济职业学院', '专科', 3);
-INSERT INTO `school` VALUES (254, '冀中职业学院', '专科', 3);
-INSERT INTO `school` VALUES (255, '石家庄人民医学高等专科学校', '专科', 3);
-INSERT INTO `school` VALUES (256, '石家庄科技工程职业学院', '专科', 3);
-INSERT INTO `school` VALUES (257, '河北劳动关系职业学院', '专科', 3);
-INSERT INTO `school` VALUES (258, '石家庄科技职业学院', '专科', 3);
-INSERT INTO `school` VALUES (259, '泊头职业学院', '专科', 3);
-INSERT INTO `school` VALUES (260, '宣化科技职业学院', '专科', 3);
-INSERT INTO `school` VALUES (261, '廊坊燕京职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (262, '承德护理职业学院', '专科', 3);
-INSERT INTO `school` VALUES (263, '石家庄幼儿师范高等专科学校', '专科', 3);
-INSERT INTO `school` VALUES (264, '廊坊卫生职业学院', '专科', 3);
-INSERT INTO `school` VALUES (265, '河北轨道运输职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (266, '保定幼儿师范高等专科学校', '专科', 3);
-INSERT INTO `school` VALUES (267, '河北工艺美术职业学院', '专科', 3);
-INSERT INTO `school` VALUES (268, '渤海理工职业学院', '专科', 3);
-INSERT INTO `school` VALUES (269, '唐山幼儿师范高等专科学校', '专科', 3);
-INSERT INTO `school` VALUES (270, '曹妃甸职业技术学院', '专科', 3);
-INSERT INTO `school` VALUES (271, '山西大学', '本科', 4);
-INSERT INTO `school` VALUES (272, '太原科技大学', '本科', 4);
-INSERT INTO `school` VALUES (273, '中北大学', '本科', 4);
-INSERT INTO `school` VALUES (274, '太原理工大学', '本科', 4);
-INSERT INTO `school` VALUES (275, '山西农业大学', '本科', 4);
-INSERT INTO `school` VALUES (276, '山西医科大学', '本科', 4);
-INSERT INTO `school` VALUES (277, '长治医学院', '本科', 4);
-INSERT INTO `school` VALUES (278, '山西师范大学', '本科', 4);
-INSERT INTO `school` VALUES (279, '太原师范学院', '本科', 4);
-INSERT INTO `school` VALUES (280, '山西大同大学', '本科', 4);
-INSERT INTO `school` VALUES (281, '晋中学院', '本科', 4);
-INSERT INTO `school` VALUES (282, '长治学院', '本科', 4);
-INSERT INTO `school` VALUES (283, '运城学院', '本科', 4);
-INSERT INTO `school` VALUES (284, '忻州师范学院', '本科', 4);
-INSERT INTO `school` VALUES (285, '山西财经大学', '本科', 4);
-INSERT INTO `school` VALUES (286, '山西中医药大学', '本科', 4);
-INSERT INTO `school` VALUES (287, '吕梁学院', '本科', 4);
-INSERT INTO `school` VALUES (288, '太原学院', '本科', 4);
-INSERT INTO `school` VALUES (289, '山西警察学院', '本科', 4);
-INSERT INTO `school` VALUES (290, '山西应用科技学院', '本科', 4);
-INSERT INTO `school` VALUES (291, '山西大学商务学院', '本科', 4);
-INSERT INTO `school` VALUES (292, '太原理工大学现代科技学院', '本科', 4);
-INSERT INTO `school` VALUES (293, '山西农业大学信息学院', '本科', 4);
-INSERT INTO `school` VALUES (294, '山西师范大学现代文理学院', '本科', 4);
-INSERT INTO `school` VALUES (295, '中北大学信息商务学院', '本科', 4);
-INSERT INTO `school` VALUES (296, '太原科技大学华科学院', '本科', 4);
-INSERT INTO `school` VALUES (297, '山西医科大学晋祠学院', '本科', 4);
-INSERT INTO `school` VALUES (298, '山西财经大学华商学院', '本科', 4);
-INSERT INTO `school` VALUES (299, '山西工商学院', '本科', 4);
-INSERT INTO `school` VALUES (300, '太原工业学院', '本科', 4);
-INSERT INTO `school` VALUES (301, '山西传媒学院', '本科', 4);
-INSERT INTO `school` VALUES (302, '山西工程技术学院', '本科', 4);
-INSERT INTO `school` VALUES (303, '山西能源学院', '本科', 4);
-INSERT INTO `school` VALUES (304, '山西省财政税务专科学校', '专科', 4);
-INSERT INTO `school` VALUES (305, '长治职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (306, '山西艺术职业学院', '专科', 4);
-INSERT INTO `school` VALUES (307, '晋城职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (308, '山西建筑职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (309, '山西药科职业学院', '专科', 4);
-INSERT INTO `school` VALUES (310, '山西工程职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (311, '山西交通职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (312, '大同煤炭职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (313, '山西机电职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (314, '山西戏剧职业学院', '专科', 4);
-INSERT INTO `school` VALUES (315, '山西财贸职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (316, '山西林业职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (317, '山西水利职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (318, '阳泉职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (319, '临汾职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (320, '山西职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (321, '山西煤炭职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (322, '山西金融职业学院', '专科', 4);
-INSERT INTO `school` VALUES (323, '太原城市职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (324, '山西信息职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (325, '山西体育职业学院', '专科', 4);
-INSERT INTO `school` VALUES (326, '山西警官职业学院', '专科', 4);
-INSERT INTO `school` VALUES (327, '山西国际商务职业学院', '专科', 4);
-INSERT INTO `school` VALUES (328, '潞安职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (329, '太原旅游职业学院', '专科', 4);
-INSERT INTO `school` VALUES (330, '山西旅游职业学院', '专科', 4);
-INSERT INTO `school` VALUES (331, '山西管理职业学院', '专科', 4);
-INSERT INTO `school` VALUES (332, '山西电力职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (333, '忻州职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (334, '山西同文职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (335, '晋中职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (336, '山西华澳商贸职业学院', '专科', 4);
-INSERT INTO `school` VALUES (337, '山西运城农业职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (338, '运城幼儿师范高等专科学校', '专科', 4);
-INSERT INTO `school` VALUES (339, '山西老区职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (340, '山西经贸职业学院', '专科', 4);
-INSERT INTO `school` VALUES (341, '朔州职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (342, '运城职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (343, '山西轻工职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (344, '晋中师范高等专科学校', '专科', 4);
-INSERT INTO `school` VALUES (345, '阳泉师范高等专科学校', '专科', 4);
-INSERT INTO `school` VALUES (346, '山西青年职业学院', '专科', 4);
-INSERT INTO `school` VALUES (347, '运城护理职业学院', '专科', 4);
-INSERT INTO `school` VALUES (348, '运城师范高等专科学校', '专科', 4);
-INSERT INTO `school` VALUES (349, '朔州师范高等专科学校', '专科', 4);
-INSERT INTO `school` VALUES (350, '吕梁职业技术学院', '专科', 4);
-INSERT INTO `school` VALUES (351, '内蒙古大学', '本科', 5);
-INSERT INTO `school` VALUES (352, '内蒙古科技大学', '本科', 5);
-INSERT INTO `school` VALUES (353, '内蒙古工业大学', '本科', 5);
-INSERT INTO `school` VALUES (354, '内蒙古农业大学', '本科', 5);
-INSERT INTO `school` VALUES (355, '内蒙古医科大学', '本科', 5);
-INSERT INTO `school` VALUES (356, '内蒙古师范大学', '本科', 5);
-INSERT INTO `school` VALUES (357, '内蒙古民族大学', '本科', 5);
-INSERT INTO `school` VALUES (358, '赤峰学院', '本科', 5);
-INSERT INTO `school` VALUES (359, '内蒙古财经大学', '本科', 5);
-INSERT INTO `school` VALUES (360, '呼伦贝尔学院', '本科', 5);
-INSERT INTO `school` VALUES (361, '集宁师范学院', '本科', 5);
-INSERT INTO `school` VALUES (362, '河套学院', '本科', 5);
-INSERT INTO `school` VALUES (363, '呼和浩特民族学院', '本科', 5);
-INSERT INTO `school` VALUES (364, '内蒙古大学创业学院', '本科', 5);
-INSERT INTO `school` VALUES (365, '内蒙古师范大学鸿德学院', '本科', 5);
-INSERT INTO `school` VALUES (366, '内蒙古艺术学院', '本科', 5);
-INSERT INTO `school` VALUES (367, '鄂尔多斯应用技术学院', '本科', 5);
-INSERT INTO `school` VALUES (368, '内蒙古建筑职业技术学院', '专科', 5);
-INSERT INTO `school` VALUES (369, '内蒙古丰州职业学院', '专科', 5);
-INSERT INTO `school` VALUES (370, '包头职业技术学院', '专科', 5);
-INSERT INTO `school` VALUES (371, '兴安职业技术学院', '专科', 5);
-INSERT INTO `school` VALUES (372, '呼和浩特职业学院', '专科', 5);
-INSERT INTO `school` VALUES (373, '包头轻工职业技术学院', '专科', 5);
-INSERT INTO `school` VALUES (374, '内蒙古电子信息职业技术学院', '专科', 5);
-INSERT INTO `school` VALUES (375, '内蒙古机电职业技术学院', '专科', 5);
-INSERT INTO `school` VALUES (376, '内蒙古化工职业学院', '专科', 5);
-INSERT INTO `school` VALUES (377, '内蒙古商贸职业学院', '专科', 5);
-INSERT INTO `school` VALUES (378, '锡林郭勒职业学院', '专科', 5);
-INSERT INTO `school` VALUES (379, '内蒙古警察职业学院', '专科', 5);
-INSERT INTO `school` VALUES (380, '内蒙古体育职业学院', '专科', 5);
-INSERT INTO `school` VALUES (381, '乌兰察布职业学院', '专科', 5);
-INSERT INTO `school` VALUES (382, '通辽职业学院', '专科', 5);
-INSERT INTO `school` VALUES (383, '科尔沁艺术职业学院', '专科', 5);
-INSERT INTO `school` VALUES (384, '内蒙古交通职业技术学院', '专科', 5);
-INSERT INTO `school` VALUES (385, '包头钢铁职业技术学院', '专科', 5);
-INSERT INTO `school` VALUES (386, '乌海职业技术学院', '专科', 5);
-INSERT INTO `school` VALUES (387, '内蒙古科技职业学院', '专科', 5);
-INSERT INTO `school` VALUES (388, '内蒙古北方职业技术学院', '专科', 5);
-INSERT INTO `school` VALUES (389, '赤峰职业技术学院', '专科', 5);
-INSERT INTO `school` VALUES (390, '内蒙古经贸外语职业学院', '专科', 5);
-INSERT INTO `school` VALUES (391, '包头铁道职业技术学院', '专科', 5);
-INSERT INTO `school` VALUES (392, '乌兰察布医学高等专科学校', '专科', 5);
-INSERT INTO `school` VALUES (393, '鄂尔多斯职业学院', '专科', 5);
-INSERT INTO `school` VALUES (394, '内蒙古工业职业学院', '专科', 5);
-INSERT INTO `school` VALUES (395, '呼伦贝尔职业技术学院', '专科', 5);
-INSERT INTO `school` VALUES (396, '满洲里俄语职业学院', '专科', 5);
-INSERT INTO `school` VALUES (397, '内蒙古能源职业学院', '专科', 5);
-INSERT INTO `school` VALUES (398, '赤峰工业职业技术学院', '专科', 5);
-INSERT INTO `school` VALUES (399, '阿拉善职业技术学院', '专科', 5);
-INSERT INTO `school` VALUES (400, '内蒙古美术职业学院', '专科', 5);
-INSERT INTO `school` VALUES (401, '内蒙古民族幼儿师范\n高等专科学校', '专科', 5);
-INSERT INTO `school` VALUES (402, '鄂尔多斯生态环境职业学院', '专科', 5);
-INSERT INTO `school` VALUES (403, '扎兰屯职业学院', '专科', 5);
-INSERT INTO `school` VALUES (404, '辽宁大学', '本科', 6);
-INSERT INTO `school` VALUES (405, '大连理工大学', '本科', 6);
-INSERT INTO `school` VALUES (406, '沈阳工业大学', '本科', 6);
-INSERT INTO `school` VALUES (407, '沈阳航空航天大学', '本科', 6);
-INSERT INTO `school` VALUES (408, '沈阳理工大学', '本科', 6);
-INSERT INTO `school` VALUES (409, '东北大学', '本科', 6);
-INSERT INTO `school` VALUES (410, '辽宁科技大学', '本科', 6);
-INSERT INTO `school` VALUES (411, '辽宁工程技术大学', '本科', 6);
-INSERT INTO `school` VALUES (412, '辽宁石油化工大学', '本科', 6);
-INSERT INTO `school` VALUES (413, '沈阳化工大学', '本科', 6);
-INSERT INTO `school` VALUES (414, '大连交通大学', '本科', 6);
-INSERT INTO `school` VALUES (415, '大连海事大学', '本科', 6);
-INSERT INTO `school` VALUES (416, '大连工业大学', '本科', 6);
-INSERT INTO `school` VALUES (417, '沈阳建筑大学', '本科', 6);
-INSERT INTO `school` VALUES (418, '辽宁工业大学', '本科', 6);
-INSERT INTO `school` VALUES (419, '沈阳农业大学', '本科', 6);
-INSERT INTO `school` VALUES (420, '大连海洋大学', '本科', 6);
-INSERT INTO `school` VALUES (421, '中国医科大学', '本科', 6);
-INSERT INTO `school` VALUES (422, '锦州医科大学', '本科', 6);
-INSERT INTO `school` VALUES (423, '大连医科大学', '本科', 6);
-INSERT INTO `school` VALUES (424, '辽宁中医药大学', '本科', 6);
-INSERT INTO `school` VALUES (425, '沈阳药科大学', '本科', 6);
-INSERT INTO `school` VALUES (426, '沈阳医学院', '本科', 6);
-INSERT INTO `school` VALUES (427, '辽宁师范大学', '本科', 6);
-INSERT INTO `school` VALUES (428, '沈阳师范大学', '本科', 6);
-INSERT INTO `school` VALUES (429, '渤海大学', '本科', 6);
-INSERT INTO `school` VALUES (430, '鞍山师范学院', '本科', 6);
-INSERT INTO `school` VALUES (431, '大连外国语大学', '本科', 6);
-INSERT INTO `school` VALUES (432, '东北财经大学', '本科', 6);
-INSERT INTO `school` VALUES (433, '中国刑事警察学院', '本科', 6);
-INSERT INTO `school` VALUES (434, '沈阳体育学院', '本科', 6);
-INSERT INTO `school` VALUES (435, '沈阳音乐学院', '本科', 6);
-INSERT INTO `school` VALUES (436, '鲁迅美术学院', '本科', 6);
-INSERT INTO `school` VALUES (437, '辽宁对外经贸学院', '本科', 6);
-INSERT INTO `school` VALUES (438, '沈阳大学', '本科', 6);
-INSERT INTO `school` VALUES (439, '大连大学', '本科', 6);
-INSERT INTO `school` VALUES (440, '辽宁科技学院', '本科', 6);
-INSERT INTO `school` VALUES (441, '辽宁警察学院', '本科', 6);
-INSERT INTO `school` VALUES (442, '沈阳工程学院', '本科', 6);
-INSERT INTO `school` VALUES (443, '辽东学院', '本科', 6);
-INSERT INTO `school` VALUES (444, '大连民族大学', '本科', 6);
-INSERT INTO `school` VALUES (445, '大连理工大学城市学院', '本科', 6);
-INSERT INTO `school` VALUES (446, '沈阳工业大学工程学院', '本科', 6);
-INSERT INTO `school` VALUES (447, '沈阳航空航天大学北方科技\n学院', '本科', 6);
-INSERT INTO `school` VALUES (448, '沈阳工学院', '本科', 6);
-INSERT INTO `school` VALUES (449, '大连工业大学艺术与信息工程\n学院', '本科', 6);
-INSERT INTO `school` VALUES (450, '大连科技学院', '本科', 6);
-INSERT INTO `school` VALUES (451, '沈阳城市建设学院', '本科', 6);
-INSERT INTO `school` VALUES (452, '中国医科大学临床医药学院', '本科', 6);
-INSERT INTO `school` VALUES (453, '大连医科大学中山学院', '本科', 6);
-INSERT INTO `school` VALUES (454, '锦州医科大学医疗学院', '本科', 6);
-INSERT INTO `school` VALUES (455, '辽宁师范大学海华学院', '本科', 6);
-INSERT INTO `school` VALUES (456, '辽宁理工学院', '本科', 6);
-INSERT INTO `school` VALUES (457, '大连财经学院', '本科', 6);
-INSERT INTO `school` VALUES (458, '沈阳城市学院', '本科', 6);
-INSERT INTO `school` VALUES (459, '辽宁石油化工大学顺华能源\n学院', '本科', 6);
-INSERT INTO `school` VALUES (460, '大连艺术学院', '本科', 6);
-INSERT INTO `school` VALUES (461, '辽宁中医药大学杏林学院', '本科', 6);
-INSERT INTO `school` VALUES (462, '辽宁何氏医学院', '本科', 6);
-INSERT INTO `school` VALUES (463, '沈阳科技学院', '本科', 6);
-INSERT INTO `school` VALUES (464, '大连东软信息学院', '本科', 6);
-INSERT INTO `school` VALUES (465, '辽宁财贸学院', '本科', 6);
-INSERT INTO `school` VALUES (466, '辽宁传媒学院', '本科', 6);
-INSERT INTO `school` VALUES (467, '营口理工学院', '本科', 6);
-INSERT INTO `school` VALUES (468, '朝阳师范高等专科学校', '专科', 6);
-INSERT INTO `school` VALUES (469, '抚顺师范高等专科学校', '专科', 6);
-INSERT INTO `school` VALUES (470, '锦州师范高等专科学校', '专科', 6);
-INSERT INTO `school` VALUES (471, '营口职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (472, '铁岭师范高等专科学校', '专科', 6);
-INSERT INTO `school` VALUES (473, '大连职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (474, '辽宁农业职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (475, '抚顺职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (476, '辽阳职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (477, '阜新高等专科学校', '专科', 6);
-INSERT INTO `school` VALUES (478, '辽宁省交通高等专科学校', '专科', 6);
-INSERT INTO `school` VALUES (479, '辽宁税务高等专科学校', '专科', 6);
-INSERT INTO `school` VALUES (480, '盘锦职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (481, '沈阳航空职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (482, '辽宁体育运动职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (483, '辽宁职业学院', '专科', 6);
-INSERT INTO `school` VALUES (484, '辽宁林业职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (485, '沈阳职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (486, '辽宁理工职业学院', '专科', 6);
-INSERT INTO `school` VALUES (487, '大连商务职业学院', '专科', 6);
-INSERT INTO `school` VALUES (488, '辽宁金融职业学院', '专科', 6);
-INSERT INTO `school` VALUES (489, '辽宁轨道交通职业学院', '专科', 6);
-INSERT INTO `school` VALUES (490, '辽宁广告职业学院', '专科', 6);
-INSERT INTO `school` VALUES (491, '辽宁机电职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (492, '辽宁经济职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (493, '辽宁石化职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (494, '渤海船舶职业学院', '专科', 6);
-INSERT INTO `school` VALUES (495, '大连软件职业学院', '专科', 6);
-INSERT INTO `school` VALUES (496, '大连翻译职业学院', '专科', 6);
-INSERT INTO `school` VALUES (497, '辽宁商贸职业学院', '专科', 6);
-INSERT INTO `school` VALUES (498, '大连枫叶职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (499, '辽宁装备制造职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (500, '辽河石油职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (501, '辽宁地质工程职业学院', '专科', 6);
-INSERT INTO `school` VALUES (502, '辽宁铁道职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (503, '辽宁建筑职业学院', '专科', 6);
-INSERT INTO `school` VALUES (504, '大连航运职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (505, '大连装备制造职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (506, '大连汽车职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (507, '辽宁现代服务职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (508, '辽宁冶金职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (509, '辽宁工程职业学院', '专科', 6);
-INSERT INTO `school` VALUES (510, '辽宁城市建设职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (511, '辽宁医药职业学院', '专科', 6);
-INSERT INTO `school` VALUES (512, '铁岭卫生职业学院', '专科', 6);
-INSERT INTO `school` VALUES (513, '沈阳北软信息职业技术学院', '专科', 6);
-INSERT INTO `school` VALUES (514, '辽宁政法职业学院', '专科', 6);
-INSERT INTO `school` VALUES (515, '辽宁民族师范高等专科学校', '专科', 6);
-INSERT INTO `school` VALUES (516, '辽宁轻工职业学院', '专科', 6);
-INSERT INTO `school` VALUES (517, '辽宁水利职业学院', '专科', 6);
-INSERT INTO `school` VALUES (518, '辽宁特殊教育师范高等专科\n学校', '专科', 6);
-INSERT INTO `school` VALUES (519, '吉林大学', '本科', 7);
-INSERT INTO `school` VALUES (520, '延边大学', '本科', 7);
-INSERT INTO `school` VALUES (521, '长春理工大学', '本科', 7);
-INSERT INTO `school` VALUES (522, '东北电力大学', '本科', 7);
-INSERT INTO `school` VALUES (523, '长春工业大学', '本科', 7);
-INSERT INTO `school` VALUES (524, '吉林建筑大学', '本科', 7);
-INSERT INTO `school` VALUES (525, '吉林化工学院', '本科', 7);
-INSERT INTO `school` VALUES (526, '吉林农业大学', '本科', 7);
-INSERT INTO `school` VALUES (527, '长春中医药大学', '本科', 7);
-INSERT INTO `school` VALUES (528, '东北师范大学', '本科', 7);
-INSERT INTO `school` VALUES (529, '北华大学', '本科', 7);
-INSERT INTO `school` VALUES (530, '通化师范学院', '本科', 7);
-INSERT INTO `school` VALUES (531, '吉林师范大学', '本科', 7);
-INSERT INTO `school` VALUES (532, '吉林工程技术师范学院', '本科', 7);
-INSERT INTO `school` VALUES (533, '长春师范大学', '本科', 7);
-INSERT INTO `school` VALUES (534, '白城师范学院', '本科', 7);
-INSERT INTO `school` VALUES (535, '吉林财经大学', '本科', 7);
-INSERT INTO `school` VALUES (536, '吉林体育学院', '本科', 7);
-INSERT INTO `school` VALUES (537, '吉林艺术学院', '本科', 7);
-INSERT INTO `school` VALUES (538, '吉林华桥外国语学院', '本科', 7);
-INSERT INTO `school` VALUES (539, '吉林工商学院', '本科', 7);
-INSERT INTO `school` VALUES (540, '长春工程学院', '本科', 7);
-INSERT INTO `school` VALUES (541, '吉林农业科技学院', '本科', 7);
-INSERT INTO `school` VALUES (542, '吉林警察学院', '本科', 7);
-INSERT INTO `school` VALUES (543, '长春大学', '本科', 7);
-INSERT INTO `school` VALUES (544, '长春光华学院', '本科', 7);
-INSERT INTO `school` VALUES (545, '长春工业大学人文信息学院', '本科', 7);
-INSERT INTO `school` VALUES (546, '长春理工大学光电信息学院', '本科', 7);
-INSERT INTO `school` VALUES (547, '长春财经学院', '本科', 7);
-INSERT INTO `school` VALUES (548, '吉林建筑大学城建学院', '本科', 7);
-INSERT INTO `school` VALUES (549, '长春建筑学院', '本科', 7);
-INSERT INTO `school` VALUES (550, '长春科技学院', '本科', 7);
-INSERT INTO `school` VALUES (551, '吉林动画学院', '本科', 7);
-INSERT INTO `school` VALUES (552, '吉林师范大学博达学院', '本科', 7);
-INSERT INTO `school` VALUES (553, '长春大学旅游学院', '本科', 7);
-INSERT INTO `school` VALUES (554, '东北师范大学人文学院', '本科', 7);
-INSERT INTO `school` VALUES (555, '吉林医药学院', '本科', 7);
-INSERT INTO `school` VALUES (556, '长春师范高等专科学校', '专科', 7);
-INSERT INTO `school` VALUES (557, '辽源职业技术学院', '专科', 7);
-INSERT INTO `school` VALUES (558, '四平职业大学', '专科', 7);
-INSERT INTO `school` VALUES (559, '长春汽车工业高等专科学校', '专科', 7);
-INSERT INTO `school` VALUES (560, '长春金融高等专科学校', '专科', 7);
-INSERT INTO `school` VALUES (561, '长春医学高等专科学校', '专科', 7);
-INSERT INTO `school` VALUES (562, '吉林交通职业技术学院', '专科', 7);
-INSERT INTO `school` VALUES (563, '长春东方职业学院', '专科', 7);
-INSERT INTO `school` VALUES (564, '吉林司法警官职业学院', '专科', 7);
-INSERT INTO `school` VALUES (565, '吉林电子信息职业技术学院', '专科', 7);
-INSERT INTO `school` VALUES (566, '吉林工业职业技术学院', '专科', 7);
-INSERT INTO `school` VALUES (567, '吉林工程职业学院', '专科', 7);
-INSERT INTO `school` VALUES (568, '长春职业技术学院', '专科', 7);
-INSERT INTO `school` VALUES (569, '白城医学高等专科学校', '专科', 7);
-INSERT INTO `school` VALUES (570, '长春信息技术职业学院', '专科', 7);
-INSERT INTO `school` VALUES (571, '松原职业技术学院', '专科', 7);
-INSERT INTO `school` VALUES (572, '吉林铁道职业技术学院', '专科', 7);
-INSERT INTO `school` VALUES (573, '白城职业技术学院', '专科', 7);
-INSERT INTO `school` VALUES (574, '长白山职业技术学院', '专科', 7);
-INSERT INTO `school` VALUES (575, '吉林科技职业技术学院', '专科', 7);
-INSERT INTO `school` VALUES (576, '延边职业技术学院', '专科', 7);
-INSERT INTO `school` VALUES (577, '吉林城市职业技术学院', '专科', 7);
-INSERT INTO `school` VALUES (578, '吉林职业技术学院', '专科', 7);
-INSERT INTO `school` VALUES (579, '吉林水利电力职业学院', '专科', 7);
-INSERT INTO `school` VALUES (580, '长春健康职业学院', '专科', 7);
-INSERT INTO `school` VALUES (581, '黑龙江大学', '本科', 8);
-INSERT INTO `school` VALUES (582, '哈尔滨工业大学', '本科', 8);
-INSERT INTO `school` VALUES (583, '哈尔滨理工大学', '本科', 8);
-INSERT INTO `school` VALUES (584, '哈尔滨工程大学', '本科', 8);
-INSERT INTO `school` VALUES (585, '黑龙江科技大学', '本科', 8);
-INSERT INTO `school` VALUES (586, '东北石油大学', '本科', 8);
-INSERT INTO `school` VALUES (587, '佳木斯大学', '本科', 8);
-INSERT INTO `school` VALUES (588, '黑龙江八一农垦大学', '本科', 8);
-INSERT INTO `school` VALUES (589, '东北农业大学', '本科', 8);
-INSERT INTO `school` VALUES (590, '东北林业大学', '本科', 8);
-INSERT INTO `school` VALUES (591, '哈尔滨医科大学', '本科', 8);
-INSERT INTO `school` VALUES (592, '黑龙江中医药大学', '本科', 8);
-INSERT INTO `school` VALUES (593, '牡丹江医学院', '本科', 8);
-INSERT INTO `school` VALUES (594, '哈尔滨师范大学', '本科', 8);
-INSERT INTO `school` VALUES (595, '齐齐哈尔大学', '本科', 8);
-INSERT INTO `school` VALUES (596, '牡丹江师范学院', '本科', 8);
-INSERT INTO `school` VALUES (597, '哈尔滨学院', '本科', 8);
-INSERT INTO `school` VALUES (598, '大庆师范学院', '本科', 8);
-INSERT INTO `school` VALUES (599, '绥化学院', '本科', 8);
-INSERT INTO `school` VALUES (600, '哈尔滨商业大学', '本科', 8);
-INSERT INTO `school` VALUES (601, '哈尔滨体育学院', '本科', 8);
-INSERT INTO `school` VALUES (602, '哈尔滨金融学院', '本科', 8);
-INSERT INTO `school` VALUES (603, '齐齐哈尔医学院', '本科', 8);
-INSERT INTO `school` VALUES (604, '黑龙江工业学院', '本科', 8);
-INSERT INTO `school` VALUES (605, '黑龙江东方学院', '本科', 8);
-INSERT INTO `school` VALUES (606, '哈尔滨信息工程学院', '本科', 8);
-INSERT INTO `school` VALUES (607, '黑龙江工程学院', '本科', 8);
-INSERT INTO `school` VALUES (608, '齐齐哈尔工程学院', '本科', 8);
-INSERT INTO `school` VALUES (609, '黑龙江外国语学院', '本科', 8);
-INSERT INTO `school` VALUES (610, '黑龙江财经学院', '本科', 8);
-INSERT INTO `school` VALUES (611, '哈尔滨石油学院', '本科', 8);
-INSERT INTO `school` VALUES (612, '黑龙江工商学院', '本科', 8);
-INSERT INTO `school` VALUES (613, '哈尔滨远东理工学院', '本科', 8);
-INSERT INTO `school` VALUES (614, '哈尔滨剑桥学院', '本科', 8);
-INSERT INTO `school` VALUES (615, '黑龙江工程学院昆仑旅游学院', '本科', 8);
-INSERT INTO `school` VALUES (616, '哈尔滨广厦学院', '本科', 8);
-INSERT INTO `school` VALUES (617, '哈尔滨华德学院', '本科', 8);
-INSERT INTO `school` VALUES (618, '黑河学院', '本科', 8);
-INSERT INTO `school` VALUES (619, '哈尔滨音乐学院', '本科', 8);
-INSERT INTO `school` VALUES (620, '齐齐哈尔高等师范专科学校', '专科', 8);
-INSERT INTO `school` VALUES (621, '伊春职业学院', '专科', 8);
-INSERT INTO `school` VALUES (622, '牡丹江大学', '专科', 8);
-INSERT INTO `school` VALUES (623, '黑龙江职业学院', '专科', 8);
-INSERT INTO `school` VALUES (624, '黑龙江建筑职业技术学院', '专科', 8);
-INSERT INTO `school` VALUES (625, '黑龙江艺术职业学院', '专科', 8);
-INSERT INTO `school` VALUES (626, '大庆职业学院', '专科', 8);
-INSERT INTO `school` VALUES (627, '黑龙江林业职业技术学院', '专科', 8);
-INSERT INTO `school` VALUES (628, '黑龙江农业职业技术学院', '专科', 8);
-INSERT INTO `school` VALUES (629, '黑龙江农业工程职业学院', '专科', 8);
-INSERT INTO `school` VALUES (630, '黑龙江农垦职业学院', '专科', 8);
-INSERT INTO `school` VALUES (631, '黑龙江司法警官职业学院', '专科', 8);
-INSERT INTO `school` VALUES (632, '鹤岗师范高等专科学校', '专科', 8);
-INSERT INTO `school` VALUES (633, '哈尔滨电力职业技术学院', '专科', 8);
-INSERT INTO `school` VALUES (634, '哈尔滨铁道职业技术学院', '专科', 8);
-INSERT INTO `school` VALUES (635, '大兴安岭职业学院', '专科', 8);
-INSERT INTO `school` VALUES (636, '黑龙江农业经济职业学院', '专科', 8);
-INSERT INTO `school` VALUES (637, '哈尔滨职业技术学院', '专科', 8);
-INSERT INTO `school` VALUES (638, '哈尔滨传媒职业学院', '专科', 8);
-INSERT INTO `school` VALUES (639, '黑龙江生物科技职业学院', '专科', 8);
-INSERT INTO `school` VALUES (640, '黑龙江商业职业学院', '专科', 8);
-INSERT INTO `school` VALUES (641, '黑龙江公安警官职业学院', '专科', 8);
-INSERT INTO `school` VALUES (642, '黑龙江信息技术职业学院', '专科', 8);
-INSERT INTO `school` VALUES (643, '哈尔滨城市职业学院', '专科', 8);
-INSERT INTO `school` VALUES (644, '黑龙江农垦科技职业学院', '专科', 8);
-INSERT INTO `school` VALUES (645, '黑龙江旅游职业技术学院', '专科', 8);
-INSERT INTO `school` VALUES (646, '黑龙江三江美术职业学院', '专科', 8);
-INSERT INTO `school` VALUES (647, '黑龙江生态工程职业学院', '专科', 8);
-INSERT INTO `school` VALUES (648, '黑龙江能源职业学院', '专科', 8);
-INSERT INTO `school` VALUES (649, '七台河职业学院', '专科', 8);
-INSERT INTO `school` VALUES (650, '黑龙江民族职业学院', '专科', 8);
-INSERT INTO `school` VALUES (651, '大庆医学高等专科学校', '专科', 8);
-INSERT INTO `school` VALUES (652, '黑龙江交通职业技术学院', '专科', 8);
-INSERT INTO `school` VALUES (653, '哈尔滨应用职业技术学院', '专科', 8);
-INSERT INTO `school` VALUES (654, '黑龙江幼儿师范高等专科学校', '专科', 8);
-INSERT INTO `school` VALUES (655, '哈尔滨科学技术职业学院', '专科', 8);
-INSERT INTO `school` VALUES (656, '黑龙江粮食职业学院', '专科', 8);
-INSERT INTO `school` VALUES (657, '佳木斯职业学院', '专科', 8);
-INSERT INTO `school` VALUES (658, '黑龙江护理高等专科学校', '专科', 8);
-INSERT INTO `school` VALUES (659, '齐齐哈尔理工职业学院', '专科', 8);
-INSERT INTO `school` VALUES (660, '哈尔滨幼儿师范高等专科学校', '专科', 8);
-INSERT INTO `school` VALUES (661, '黑龙江冰雪体育职业学院', '专科', 8);
-INSERT INTO `school` VALUES (662, '复旦大学', '本科', 9);
-INSERT INTO `school` VALUES (663, '同济大学', '本科', 9);
-INSERT INTO `school` VALUES (664, '上海交通大学', '本科', 9);
-INSERT INTO `school` VALUES (665, '华东理工大学', '本科', 9);
-INSERT INTO `school` VALUES (666, '上海理工大学', '本科', 9);
-INSERT INTO `school` VALUES (667, '上海海事大学', '本科', 9);
-INSERT INTO `school` VALUES (668, '东华大学', '本科', 9);
-INSERT INTO `school` VALUES (669, '上海电力学院', '本科', 9);
-INSERT INTO `school` VALUES (670, '上海应用技术大学', '本科', 9);
-INSERT INTO `school` VALUES (671, '上海健康医学院', '本科', 9);
-INSERT INTO `school` VALUES (672, '上海海洋大学', '本科', 9);
-INSERT INTO `school` VALUES (673, '上海中医药大学', '本科', 9);
-INSERT INTO `school` VALUES (674, '华东师范大学', '本科', 9);
-INSERT INTO `school` VALUES (675, '上海师范大学', '本科', 9);
-INSERT INTO `school` VALUES (676, '上海外国语大学', '本科', 9);
-INSERT INTO `school` VALUES (677, '上海财经大学', '本科', 9);
-INSERT INTO `school` VALUES (678, '上海对外经贸大学', '本科', 9);
-INSERT INTO `school` VALUES (679, '上海海关学院', '本科', 9);
-INSERT INTO `school` VALUES (680, '华东政法大学', '本科', 9);
-INSERT INTO `school` VALUES (681, '上海体育学院', '本科', 9);
-INSERT INTO `school` VALUES (682, '上海音乐学院', '本科', 9);
-INSERT INTO `school` VALUES (683, '上海戏剧学院', '本科', 9);
-INSERT INTO `school` VALUES (684, '上海大学', '本科', 9);
-INSERT INTO `school` VALUES (685, '上海公安学院', '本科', 9);
-INSERT INTO `school` VALUES (686, '上海工程技术大学', '本科', 9);
-INSERT INTO `school` VALUES (687, '上海立信会计金融学院', '本科', 9);
-INSERT INTO `school` VALUES (688, '上海电机学院', '本科', 9);
-INSERT INTO `school` VALUES (689, '上海杉达学院', '本科', 9);
-INSERT INTO `school` VALUES (690, '上海政法学院', '本科', 9);
-INSERT INTO `school` VALUES (691, '上海第二工业大学', '本科', 9);
-INSERT INTO `school` VALUES (692, '上海商学院', '本科', 9);
-INSERT INTO `school` VALUES (693, '上海建桥学院', '本科', 9);
-INSERT INTO `school` VALUES (694, '上海兴伟学院', '本科', 9);
-INSERT INTO `school` VALUES (695, '上海视觉艺术学院', '本科', 9);
-INSERT INTO `school` VALUES (696, '上海外国语大学贤达经济人文\n学院', '本科', 9);
-INSERT INTO `school` VALUES (697, '上海师范大学天华学院', '本科', 9);
-INSERT INTO `school` VALUES (698, '上海科技大学', '本科', 9);
-INSERT INTO `school` VALUES (699, '上海纽约大学', '本科', 9);
-INSERT INTO `school` VALUES (700, '上海旅游高等专科学校', '专科', 9);
-INSERT INTO `school` VALUES (701, '上海东海职业技术学院', '专科', 9);
-INSERT INTO `school` VALUES (702, '上海工商职业技术学院', '专科', 9);
-INSERT INTO `school` VALUES (703, '上海出版印刷高等专科学校', '专科', 9);
-INSERT INTO `school` VALUES (704, '上海行健职业学院', '专科', 9);
-INSERT INTO `school` VALUES (705, '上海城建职业学院', '专科', 9);
-INSERT INTO `school` VALUES (706, '上海交通职业技术学院', '专科', 9);
-INSERT INTO `school` VALUES (707, '上海海事职业技术学院', '专科', 9);
-INSERT INTO `school` VALUES (708, '上海电子信息职业技术学院', '专科', 9);
-INSERT INTO `school` VALUES (709, '上海震旦职业学院', '专科', 9);
-INSERT INTO `school` VALUES (710, '上海民远职业技术学院', '专科', 9);
-INSERT INTO `school` VALUES (711, '上海欧华职业技术学院', '专科', 9);
-INSERT INTO `school` VALUES (712, '上海思博职业技术学院', '专科', 9);
-INSERT INTO `school` VALUES (713, '上海立达职业技术学院', '专科', 9);
-INSERT INTO `school` VALUES (714, '上海工艺美术职业学院', '专科', 9);
-INSERT INTO `school` VALUES (715, '上海济光职业技术学院', '专科', 9);
-INSERT INTO `school` VALUES (716, '上海工商外国语职业学院', '专科', 9);
-INSERT INTO `school` VALUES (717, '上海科学技术职业学院', '专科', 9);
-INSERT INTO `school` VALUES (718, '上海农林职业技术学院', '专科', 9);
-INSERT INTO `school` VALUES (719, '上海邦德职业技术学院', '专科', 9);
-INSERT INTO `school` VALUES (720, '上海中侨职业技术学院', '专科', 9);
-INSERT INTO `school` VALUES (721, '上海电影艺术职业学院', '专科', 9);
-INSERT INTO `school` VALUES (722, '上海中华职业技术学院', '专科', 9);
-INSERT INTO `school` VALUES (723, '上海工会管理职业学院', '专科', 9);
-INSERT INTO `school` VALUES (724, '上海体育职业学院', '专科', 9);
-INSERT INTO `school` VALUES (725, '上海民航职业技术学院', '专科', 9);
-INSERT INTO `school` VALUES (726, '南京大学', '本科', 10);
-INSERT INTO `school` VALUES (727, '苏州大学', '本科', 10);
-INSERT INTO `school` VALUES (728, '东南大学', '本科', 10);
-INSERT INTO `school` VALUES (729, '南京航空航天大学', '本科', 10);
-INSERT INTO `school` VALUES (730, '南京理工大学', '本科', 10);
-INSERT INTO `school` VALUES (731, '江苏科技大学', '本科', 10);
-INSERT INTO `school` VALUES (732, '中国矿业大学', '本科', 10);
-INSERT INTO `school` VALUES (733, '南京工业大学', '本科', 10);
-INSERT INTO `school` VALUES (734, '常州大学', '本科', 10);
-INSERT INTO `school` VALUES (735, '南京邮电大学', '本科', 10);
-INSERT INTO `school` VALUES (736, '河海大学', '本科', 10);
-INSERT INTO `school` VALUES (737, '江南大学', '本科', 10);
-INSERT INTO `school` VALUES (738, '南京林业大学', '本科', 10);
-INSERT INTO `school` VALUES (739, '江苏大学', '本科', 10);
-INSERT INTO `school` VALUES (740, '南京信息工程大学', '本科', 10);
-INSERT INTO `school` VALUES (741, '南通大学', '本科', 10);
-INSERT INTO `school` VALUES (742, '盐城工学院', '本科', 10);
-INSERT INTO `school` VALUES (743, '南京农业大学', '本科', 10);
-INSERT INTO `school` VALUES (744, '南京医科大学', '本科', 10);
-INSERT INTO `school` VALUES (745, '徐州医科大学', '本科', 10);
-INSERT INTO `school` VALUES (746, '南京中医药大学', '本科', 10);
-INSERT INTO `school` VALUES (747, '中国药科大学', '本科', 10);
-INSERT INTO `school` VALUES (748, '南京师范大学', '本科', 10);
-INSERT INTO `school` VALUES (749, '江苏师范大学', '本科', 10);
-INSERT INTO `school` VALUES (750, '淮阴师范学院', '本科', 10);
-INSERT INTO `school` VALUES (751, '盐城师范学院', '本科', 10);
-INSERT INTO `school` VALUES (752, '南京财经大学', '本科', 10);
-INSERT INTO `school` VALUES (753, '江苏警官学院', '本科', 10);
-INSERT INTO `school` VALUES (754, '南京体育学院', '本科', 10);
-INSERT INTO `school` VALUES (755, '南京艺术学院', '本科', 10);
-INSERT INTO `school` VALUES (756, '苏州科技大学', '本科', 10);
-INSERT INTO `school` VALUES (757, '常熟理工学院', '本科', 10);
-INSERT INTO `school` VALUES (758, '淮阴工学院', '本科', 10);
-INSERT INTO `school` VALUES (759, '常州工学院', '本科', 10);
-INSERT INTO `school` VALUES (760, '扬州大学', '本科', 10);
-INSERT INTO `school` VALUES (761, '三江学院', '本科', 10);
-INSERT INTO `school` VALUES (762, '南京工程学院', '本科', 10);
-INSERT INTO `school` VALUES (763, '南京审计大学', '本科', 10);
-INSERT INTO `school` VALUES (764, '南京晓庄学院', '本科', 10);
-INSERT INTO `school` VALUES (765, '江苏理工学院', '本科', 10);
-INSERT INTO `school` VALUES (766, '淮海工学院', '本科', 10);
-INSERT INTO `school` VALUES (767, '徐州工程学院', '本科', 10);
-INSERT INTO `school` VALUES (768, '南京特殊教育师范学院', '本科', 10);
-INSERT INTO `school` VALUES (769, '南通理工学院', '本科', 10);
-INSERT INTO `school` VALUES (770, '南京森林警察学院', '本科', 10);
-INSERT INTO `school` VALUES (771, '东南大学成贤学院', '本科', 10);
-INSERT INTO `school` VALUES (772, '泰州学院', '本科', 10);
-INSERT INTO `school` VALUES (773, '无锡太湖学院', '本科', 10);
-INSERT INTO `school` VALUES (774, '金陵科技学院', '本科', 10);
-INSERT INTO `school` VALUES (775, '中国矿业大学徐海学院', '本科', 10);
-INSERT INTO `school` VALUES (776, '南京大学金陵学院', '本科', 10);
-INSERT INTO `school` VALUES (777, '南京理工大学紫金学院', '本科', 10);
-INSERT INTO `school` VALUES (778, '南京航空航天大学金城学院', '本科', 10);
-INSERT INTO `school` VALUES (779, '中国传媒大学南广学院', '本科', 10);
-INSERT INTO `school` VALUES (780, '南京理工大学泰州科技学院', '本科', 10);
-INSERT INTO `school` VALUES (781, '南京师范大学泰州学院', '本科', 10);
-INSERT INTO `school` VALUES (782, '南京工业大学浦江学院', '本科', 10);
-INSERT INTO `school` VALUES (783, '南京师范大学中北学院', '本科', 10);
-INSERT INTO `school` VALUES (784, '南京医科大学康达学院', '本科', 10);
-INSERT INTO `school` VALUES (785, '南京中医药大学翰林学院', '本科', 10);
-INSERT INTO `school` VALUES (786, '南京信息工程大学滨江学院', '本科', 10);
-INSERT INTO `school` VALUES (787, '苏州大学文正学院', '本科', 10);
-INSERT INTO `school` VALUES (788, '苏州大学应用技术学院', '本科', 10);
-INSERT INTO `school` VALUES (789, '苏州科技大学天平学院', '本科', 10);
-INSERT INTO `school` VALUES (790, '江苏大学京江学院', '本科', 10);
-INSERT INTO `school` VALUES (791, '扬州大学广陵学院', '本科', 10);
-INSERT INTO `school` VALUES (792, '江苏师范大学科文学院', '本科', 10);
-INSERT INTO `school` VALUES (793, '南京邮电大学通达学院', '本科', 10);
-INSERT INTO `school` VALUES (794, '南京财经大学红山学院', '本科', 10);
-INSERT INTO `school` VALUES (795, '江苏科技大学苏州理工学院', '本科', 10);
-INSERT INTO `school` VALUES (796, '常州大学怀德学院', '本科', 10);
-INSERT INTO `school` VALUES (797, '南通大学杏林学院', '本科', 10);
-INSERT INTO `school` VALUES (798, '南京审计大学金审学院', '本科', 10);
-INSERT INTO `school` VALUES (799, '宿迁学院', '本科', 10);
-INSERT INTO `school` VALUES (800, '江苏第二师范学院', '本科', 10);
-INSERT INTO `school` VALUES (801, '西交利物浦大学', '本科', 10);
-INSERT INTO `school` VALUES (802, '昆山杜克大学', '本科', 10);
-INSERT INTO `school` VALUES (803, '盐城幼儿师范高等专科学校', '专科', 10);
-INSERT INTO `school` VALUES (804, '苏州幼儿师范高等专科学校', '专科', 10);
-INSERT INTO `school` VALUES (805, '明达职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (806, '无锡职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (807, '江苏建筑职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (808, '南京工业职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (809, '江苏工程职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (810, '苏州工艺美术职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (811, '连云港职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (812, '镇江市高等专科学校', '专科', 10);
-INSERT INTO `school` VALUES (813, '南通职业大学', '专科', 10);
-INSERT INTO `school` VALUES (814, '苏州职业大学', '专科', 10);
-INSERT INTO `school` VALUES (815, '沙洲职业工学院', '专科', 10);
-INSERT INTO `school` VALUES (816, '扬州市职业大学', '专科', 10);
-INSERT INTO `school` VALUES (817, '连云港师范高等专科学校', '专科', 10);
-INSERT INTO `school` VALUES (818, '江苏经贸职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (819, '九州职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (820, '硅湖职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (821, '泰州职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (822, '常州信息职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (823, '江苏联合职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (824, '江苏海事职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (825, '应天职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (826, '无锡科技职业学院', '专科', 10);
-INSERT INTO `school` VALUES (827, '江苏医药职业学院', '专科', 10);
-INSERT INTO `school` VALUES (828, '扬州环境资源职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (829, '南通科技职业学院', '专科', 10);
-INSERT INTO `school` VALUES (830, '苏州经贸职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (831, '苏州工业职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (832, '苏州托普信息职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (833, '苏州卫生职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (834, '无锡商业职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (835, '南通航运职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (836, '南京交通职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (837, '淮安信息职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (838, '江苏农牧科技职业学院', '专科', 10);
-INSERT INTO `school` VALUES (839, '常州纺织服装职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (840, '苏州农业职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (841, '苏州工业园区职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (842, '太湖创意职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (843, '炎黄职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (844, '南京科技职业学院', '专科', 10);
-INSERT INTO `school` VALUES (845, '正德职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (846, '钟山职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (847, '无锡南洋职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (848, '江南影视艺术职业学院', '专科', 10);
-INSERT INTO `school` VALUES (849, '金肯职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (850, '常州轻工职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (851, '常州工程职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (852, '江苏农林职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (853, '江苏食品药品职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (854, '建东职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (855, '南京铁道职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (856, '徐州工业职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (857, '江苏信息职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (858, '宿迁职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (859, '南京信息职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (860, '江海职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (861, '常州机电职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (862, '江阴职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (863, '无锡城市职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (864, '无锡工艺职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (865, '金山职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (866, '苏州健雄职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (867, '盐城工业职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (868, '江苏财经职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (869, '扬州工业职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (870, '苏州百年职业学院', '专科', 10);
-INSERT INTO `school` VALUES (871, '昆山登云科技职业学院', '专科', 10);
-INSERT INTO `school` VALUES (872, '南京视觉艺术职业学院', '专科', 10);
-INSERT INTO `school` VALUES (873, '江苏城市职业学院', '专科', 10);
-INSERT INTO `school` VALUES (874, '南京城市职业学院', '专科', 10);
-INSERT INTO `school` VALUES (875, '南京机电职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (876, '苏州高博软件技术职业学院', '专科', 10);
-INSERT INTO `school` VALUES (877, '南京旅游职业学院', '专科', 10);
-INSERT INTO `school` VALUES (878, '江苏卫生健康职业学院', '专科', 10);
-INSERT INTO `school` VALUES (879, '苏州信息职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (880, '宿迁泽达职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (881, '苏州工业园区服务外包\n职业学院', '专科', 10);
-INSERT INTO `school` VALUES (882, '徐州幼儿师范高等专科学校', '专科', 10);
-INSERT INTO `school` VALUES (883, '徐州生物工程职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (884, '江苏商贸职业学院', '专科', 10);
-INSERT INTO `school` VALUES (885, '南通师范高等专科学校', '专科', 10);
-INSERT INTO `school` VALUES (886, '扬州中瑞酒店职业学院', '专科', 10);
-INSERT INTO `school` VALUES (887, '江苏护理职业学院', '专科', 10);
-INSERT INTO `school` VALUES (888, '江苏财会职业学院', '专科', 10);
-INSERT INTO `school` VALUES (889, '江苏城乡建设职业学院', '专科', 10);
-INSERT INTO `school` VALUES (890, '江苏航空职业技术学院', '专科', 10);
-INSERT INTO `school` VALUES (891, '江苏安全技术职业学院', '专科', 10);
-INSERT INTO `school` VALUES (892, '江苏旅游职业学院', '专科', 10);
-INSERT INTO `school` VALUES (893, '浙江大学', '本科', 11);
-INSERT INTO `school` VALUES (894, '杭州电子科技大学', '本科', 11);
-INSERT INTO `school` VALUES (895, '浙江工业大学', '本科', 11);
-INSERT INTO `school` VALUES (896, '浙江理工大学', '本科', 11);
-INSERT INTO `school` VALUES (897, '浙江海洋大学', '本科', 11);
-INSERT INTO `school` VALUES (898, '浙江农林大学', '本科', 11);
-INSERT INTO `school` VALUES (899, '温州医科大学', '本科', 11);
-INSERT INTO `school` VALUES (900, '浙江中医药大学', '本科', 11);
-INSERT INTO `school` VALUES (901, '浙江师范大学', '本科', 11);
-INSERT INTO `school` VALUES (902, '杭州师范大学', '本科', 11);
-INSERT INTO `school` VALUES (903, '湖州师范学院', '本科', 11);
-INSERT INTO `school` VALUES (904, '绍兴文理学院', '本科', 11);
-INSERT INTO `school` VALUES (905, '台州学院', '本科', 11);
-INSERT INTO `school` VALUES (906, '温州大学', '本科', 11);
-INSERT INTO `school` VALUES (907, '丽水学院', '本科', 11);
-INSERT INTO `school` VALUES (908, '浙江工商大学', '本科', 11);
-INSERT INTO `school` VALUES (909, '嘉兴学院', '本科', 11);
-INSERT INTO `school` VALUES (910, '中国美术学院', '本科', 11);
-INSERT INTO `school` VALUES (911, '中国计量大学', '本科', 11);
-INSERT INTO `school` VALUES (912, '公安海警学院', '本科', 11);
-INSERT INTO `school` VALUES (913, '浙江万里学院', '本科', 11);
-INSERT INTO `school` VALUES (914, '浙江科技学院', '本科', 11);
-INSERT INTO `school` VALUES (915, '宁波工程学院', '本科', 11);
-INSERT INTO `school` VALUES (916, '浙江水利水电学院', '本科', 11);
-INSERT INTO `school` VALUES (917, '浙江财经大学', '本科', 11);
-INSERT INTO `school` VALUES (918, '浙江警察学院', '本科', 11);
-INSERT INTO `school` VALUES (919, '衢州学院', '本科', 11);
-INSERT INTO `school` VALUES (920, '宁波大学', '本科', 11);
-INSERT INTO `school` VALUES (921, '浙江传媒学院', '本科', 11);
-INSERT INTO `school` VALUES (922, '浙江树人学院', '本科', 11);
-INSERT INTO `school` VALUES (923, '浙江越秀外国语学院', '本科', 11);
-INSERT INTO `school` VALUES (924, '宁波大红鹰学院', '本科', 11);
-INSERT INTO `school` VALUES (925, '浙江大学城市学院', '本科', 11);
-INSERT INTO `school` VALUES (926, '浙江大学宁波理工学院', '本科', 11);
-INSERT INTO `school` VALUES (927, '杭州医学院', '本科', 11);
-INSERT INTO `school` VALUES (928, '浙江工业大学之江学院', '本科', 11);
-INSERT INTO `school` VALUES (929, '浙江师范大学行知学院', '本科', 11);
-INSERT INTO `school` VALUES (930, '宁波大学科学技术学院', '本科', 11);
-INSERT INTO `school` VALUES (931, '杭州电子科技大学信息工程\n学院', '本科', 11);
-INSERT INTO `school` VALUES (932, '浙江理工大学科技与艺术\n学院', '本科', 11);
-INSERT INTO `school` VALUES (933, '浙江海洋大学东海科学技术\n学院', '本科', 11);
-INSERT INTO `school` VALUES (934, '浙江农林大学暨阳学院', '本科', 11);
-INSERT INTO `school` VALUES (935, '温州医科大学仁济学院', '本科', 11);
-INSERT INTO `school` VALUES (936, '浙江中医药大学滨江学院', '本科', 11);
-INSERT INTO `school` VALUES (937, '杭州师范大学钱江学院', '本科', 11);
-INSERT INTO `school` VALUES (938, '湖州师范学院求真学院', '本科', 11);
-INSERT INTO `school` VALUES (939, '绍兴文理学院元培学院', '本科', 11);
-INSERT INTO `school` VALUES (940, '温州大学瓯江学院', '本科', 11);
-INSERT INTO `school` VALUES (941, '浙江工商大学杭州商学院', '本科', 11);
-INSERT INTO `school` VALUES (942, '嘉兴学院南湖学院', '本科', 11);
-INSERT INTO `school` VALUES (943, '中国计量大学现代科技学院', '本科', 11);
-INSERT INTO `school` VALUES (944, '浙江财经大学东方学院', '本科', 11);
-INSERT INTO `school` VALUES (945, '温州商学院', '本科', 11);
-INSERT INTO `school` VALUES (946, '同济大学浙江学院', '本科', 11);
-INSERT INTO `school` VALUES (947, '上海财经大学浙江学院', '本科', 11);
-INSERT INTO `school` VALUES (948, '浙江外国语学院', '本科', 11);
-INSERT INTO `school` VALUES (949, '浙江音乐学院', '本科', 11);
-INSERT INTO `school` VALUES (950, '宁波诺丁汉大学', '本科', 11);
-INSERT INTO `school` VALUES (951, '温州肯恩大学', '本科', 11);
-INSERT INTO `school` VALUES (952, '宁波职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (953, '温州职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (954, '浙江交通职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (955, '金华职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (956, '宁波城市职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (957, '浙江电力职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (958, '浙江同济科技职业学院', '专科', 11);
-INSERT INTO `school` VALUES (959, '浙江工商职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (960, '台州职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (961, '浙江工贸职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (962, '浙江医药高等专科学校', '专科', 11);
-INSERT INTO `school` VALUES (963, '浙江机电职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (964, '浙江建设职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (965, '浙江艺术职业学院', '专科', 11);
-INSERT INTO `school` VALUES (966, '浙江经贸职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (967, '浙江商业职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (968, '浙江经济职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (969, '浙江旅游职业学院', '专科', 11);
-INSERT INTO `school` VALUES (970, '浙江育英职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (971, '浙江警官职业学院', '专科', 11);
-INSERT INTO `school` VALUES (972, '浙江金融职业学院', '专科', 11);
-INSERT INTO `school` VALUES (973, '浙江工业职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (974, '杭州职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (975, '嘉兴职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (976, '湖州职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (977, '绍兴职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (978, '衢州职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (979, '丽水职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (980, '浙江东方职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (981, '义乌工商职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (982, '浙江纺织服装职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (983, '杭州科技职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (984, '浙江长征职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (985, '嘉兴南洋职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (986, '浙江广厦建设职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (987, '杭州万向职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (988, '浙江邮电职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (989, '宁波卫生职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (990, '台州科技职业学院', '专科', 11);
-INSERT INTO `school` VALUES (991, '浙江国际海运职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (992, '浙江体育职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (993, '温州科技职业学院', '专科', 11);
-INSERT INTO `school` VALUES (994, '浙江汽车职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (995, '浙江横店影视职业学院', '专科', 11);
-INSERT INTO `school` VALUES (996, '浙江农业商贸职业学院', '专科', 11);
-INSERT INTO `school` VALUES (997, '浙江特殊教育职业学院', '专科', 11);
-INSERT INTO `school` VALUES (998, '浙江安防职业技术学院', '专科', 11);
-INSERT INTO `school` VALUES (999, '浙江舟山群岛新区旅游与健康\n职业学院', '专科', 11);
-INSERT INTO `school` VALUES (1000, '安徽大学', '本科', 12);
-INSERT INTO `school` VALUES (1001, '中国科学技术大学', '本科', 12);
-INSERT INTO `school` VALUES (1002, '合肥工业大学', '本科', 12);
-INSERT INTO `school` VALUES (1003, '安徽工业大学', '本科', 12);
-INSERT INTO `school` VALUES (1004, '安徽理工大学', '本科', 12);
-INSERT INTO `school` VALUES (1005, '安徽工程大学', '本科', 12);
-INSERT INTO `school` VALUES (1006, '安徽农业大学', '本科', 12);
-INSERT INTO `school` VALUES (1007, '安徽医科大学', '本科', 12);
-INSERT INTO `school` VALUES (1008, '蚌埠医学院', '本科', 12);
-INSERT INTO `school` VALUES (1009, '皖南医学院', '本科', 12);
-INSERT INTO `school` VALUES (1010, '安徽中医药大学', '本科', 12);
-INSERT INTO `school` VALUES (1011, '安徽师范大学', '本科', 12);
-INSERT INTO `school` VALUES (1012, '阜阳师范学院', '本科', 12);
-INSERT INTO `school` VALUES (1013, '安庆师范大学', '本科', 12);
-INSERT INTO `school` VALUES (1014, '淮北师范大学', '本科', 12);
-INSERT INTO `school` VALUES (1015, '黄山学院', '本科', 12);
-INSERT INTO `school` VALUES (1016, '皖西学院', '本科', 12);
-INSERT INTO `school` VALUES (1017, '滁州学院', '本科', 12);
-INSERT INTO `school` VALUES (1018, '安徽财经大学', '本科', 12);
-INSERT INTO `school` VALUES (1019, '宿州学院', '本科', 12);
-INSERT INTO `school` VALUES (1020, '巢湖学院', '本科', 12);
-INSERT INTO `school` VALUES (1021, '淮南师范学院', '本科', 12);
-INSERT INTO `school` VALUES (1022, '铜陵学院', '本科', 12);
-INSERT INTO `school` VALUES (1023, '安徽建筑大学', '本科', 12);
-INSERT INTO `school` VALUES (1024, '安徽科技学院', '本科', 12);
-INSERT INTO `school` VALUES (1025, '安徽三联学院', '本科', 12);
-INSERT INTO `school` VALUES (1026, '合肥学院', '本科', 12);
-INSERT INTO `school` VALUES (1027, '蚌埠学院', '本科', 12);
-INSERT INTO `school` VALUES (1028, '池州学院', '本科', 12);
-INSERT INTO `school` VALUES (1029, '安徽新华学院', '本科', 12);
-INSERT INTO `school` VALUES (1030, '安徽文达信息工程学院', '本科', 12);
-INSERT INTO `school` VALUES (1031, '亳州学院', '本科', 12);
-INSERT INTO `school` VALUES (1032, '安徽外国语学院', '本科', 12);
-INSERT INTO `school` VALUES (1033, '安徽财经大学商学院', '本科', 12);
-INSERT INTO `school` VALUES (1034, '安徽大学江淮学院', '本科', 12);
-INSERT INTO `school` VALUES (1035, '安徽信息工程学院', '本科', 12);
-INSERT INTO `school` VALUES (1036, '安徽工业大学工商学院', '本科', 12);
-INSERT INTO `school` VALUES (1037, '安徽建筑大学城市建设学院', '本科', 12);
-INSERT INTO `school` VALUES (1038, '安徽农业大学经济技术学院', '本科', 12);
-INSERT INTO `school` VALUES (1039, '安徽师范大学皖江学院', '本科', 12);
-INSERT INTO `school` VALUES (1040, '安徽医科大学临床医学院', '本科', 12);
-INSERT INTO `school` VALUES (1041, '阜阳师范学院信息工程学院', '本科', 12);
-INSERT INTO `school` VALUES (1042, '淮北师范大学信息学院', '本科', 12);
-INSERT INTO `school` VALUES (1043, '合肥师范学院', '本科', 12);
-INSERT INTO `school` VALUES (1044, '河海大学文天学院', '本科', 12);
-INSERT INTO `school` VALUES (1045, '安徽职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1046, '淮北职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1047, '芜湖职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1048, '淮南联合大学', '专科', 12);
-INSERT INTO `school` VALUES (1049, '安徽商贸职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1050, '安徽水利水电职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1051, '阜阳职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1052, '铜陵职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1053, '民办万博科技职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1054, '安徽警官职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1055, '淮南职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1056, '安徽工业经济职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1057, '合肥通用职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1058, '安徽工贸职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1059, '宿州职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1060, '六安职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1061, '安徽电子信息职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1062, '民办合肥经济技术职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1063, '安徽交通职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1064, '安徽体育运动职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1065, '安徽中医药高等专科学校', '专科', 12);
-INSERT INTO `school` VALUES (1066, '安徽医学高等专科学校', '专科', 12);
-INSERT INTO `school` VALUES (1067, '合肥职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1068, '滁州职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1069, '池州职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1070, '宣城职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1071, '安徽广播影视职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1072, '民办合肥滨湖职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1073, '安徽电气工程职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1074, '安徽冶金科技职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1075, '安徽城市管理职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1076, '安徽机电职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1077, '安徽工商职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1078, '安徽中澳科技职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1079, '阜阳科技职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1080, '亳州职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1081, '安徽国防科技职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1082, '安庆职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1083, '安徽艺术职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1084, '马鞍山师范高等专科学校', '专科', 12);
-INSERT INTO `school` VALUES (1085, '安徽财贸职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1086, '安徽国际商务职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1087, '安徽公安职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1088, '安徽林业职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1089, '安徽审计职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1090, '安徽新闻出版职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1091, '安徽邮电职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1092, '安徽工业职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1093, '民办合肥财经职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1094, '安庆医药高等专科学校', '专科', 12);
-INSERT INTO `school` VALUES (1095, '安徽涉外经济职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1096, '安徽绿海商务职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1097, '合肥共达职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1098, '蚌埠经济技术职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1099, '民办安徽旅游职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1100, '徽商职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1101, '马鞍山职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1102, '安徽现代信息工程职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1103, '安徽矿业职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1104, '合肥信息技术职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1105, '桐城师范高等专科学校', '专科', 12);
-INSERT INTO `school` VALUES (1106, '黄山职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1107, '滁州城市职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1108, '安徽汽车职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1109, '皖西卫生职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1110, '合肥幼儿师范高等专科学校', '专科', 12);
-INSERT INTO `school` VALUES (1111, '安徽长江职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1112, '安徽扬子职业技术学院', '专科', 12);
-INSERT INTO `school` VALUES (1113, '安徽黄梅戏艺术职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1114, '安徽粮食工程职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1115, '安徽卫生健康职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1116, '合肥科技职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1117, '皖北卫生职业学院', '专科', 12);
-INSERT INTO `school` VALUES (1118, '阜阳幼儿师范高等专科学校', '专科', 12);
-INSERT INTO `school` VALUES (1119, '厦门大学', '本科', 13);
-INSERT INTO `school` VALUES (1120, '华侨大学', '本科', 13);
-INSERT INTO `school` VALUES (1121, '福州大学', '本科', 13);
-INSERT INTO `school` VALUES (1122, '福建工程学院', '本科', 13);
-INSERT INTO `school` VALUES (1123, '福建农林大学', '本科', 13);
-INSERT INTO `school` VALUES (1124, '集美大学', '本科', 13);
-INSERT INTO `school` VALUES (1125, '福建医科大学', '本科', 13);
-INSERT INTO `school` VALUES (1126, '福建中医药大学', '本科', 13);
-INSERT INTO `school` VALUES (1127, '福建师范大学', '本科', 13);
-INSERT INTO `school` VALUES (1128, '闽江学院', '本科', 13);
-INSERT INTO `school` VALUES (1129, '武夷学院', '本科', 13);
-INSERT INTO `school` VALUES (1130, '宁德师范学院', '本科', 13);
-INSERT INTO `school` VALUES (1131, '泉州师范学院', '本科', 13);
-INSERT INTO `school` VALUES (1132, '闽南师范大学', '本科', 13);
-INSERT INTO `school` VALUES (1133, '厦门理工学院', '本科', 13);
-INSERT INTO `school` VALUES (1134, '三明学院', '本科', 13);
-INSERT INTO `school` VALUES (1135, '龙岩学院', '本科', 13);
-INSERT INTO `school` VALUES (1136, '福建商学院', '本科', 13);
-INSERT INTO `school` VALUES (1137, '福建警察学院', '本科', 13);
-INSERT INTO `school` VALUES (1138, '莆田学院', '本科', 13);
-INSERT INTO `school` VALUES (1139, '仰恩大学', '本科', 13);
-INSERT INTO `school` VALUES (1140, '厦门医学院', '本科', 13);
-INSERT INTO `school` VALUES (1141, '厦门华厦学院', '本科', 13);
-INSERT INTO `school` VALUES (1142, '闽南理工学院', '本科', 13);
-INSERT INTO `school` VALUES (1143, '福建师范大学闽南科技学院', '本科', 13);
-INSERT INTO `school` VALUES (1144, '福建农林大学东方学院', '本科', 13);
-INSERT INTO `school` VALUES (1145, '厦门工学院', '本科', 13);
-INSERT INTO `school` VALUES (1146, '阳光学院', '本科', 13);
-INSERT INTO `school` VALUES (1147, '厦门大学嘉庚学院', '本科', 13);
-INSERT INTO `school` VALUES (1148, '福州大学至诚学院', '本科', 13);
-INSERT INTO `school` VALUES (1149, '集美大学诚毅学院', '本科', 13);
-INSERT INTO `school` VALUES (1150, '福建师范大学协和学院', '本科', 13);
-INSERT INTO `school` VALUES (1151, '福州外语外贸学院', '本科', 13);
-INSERT INTO `school` VALUES (1152, '福建江夏学院', '本科', 13);
-INSERT INTO `school` VALUES (1153, '泉州信息工程学院', '本科', 13);
-INSERT INTO `school` VALUES (1154, '福州理工学院', '本科', 13);
-INSERT INTO `school` VALUES (1155, '福建农林大学金山学院', '本科', 13);
-INSERT INTO `school` VALUES (1156, '福建船政交通职业学院', '专科', 13);
-INSERT INTO `school` VALUES (1157, '漳州职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1158, '闽西职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1159, '黎明职业大学', '专科', 13);
-INSERT INTO `school` VALUES (1160, '福建华南女子职业学院', '专科', 13);
-INSERT INTO `school` VALUES (1161, '福州职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1162, '福建林业职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1163, '福建信息职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1164, '福建水利电力职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1165, '福建电力职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1166, '厦门海洋职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1167, '福建农业职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1168, '福建卫生职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1169, '泉州医学高等专科学校', '专科', 13);
-INSERT INTO `school` VALUES (1170, '福州英华职业学院', '专科', 13);
-INSERT INTO `school` VALUES (1171, '泉州纺织服装职业学院', '专科', 13);
-INSERT INTO `school` VALUES (1172, '泉州华光职业学院', '专科', 13);
-INSERT INTO `school` VALUES (1173, '泉州理工职业学院', '专科', 13);
-INSERT INTO `school` VALUES (1174, '福建警官职业学院', '专科', 13);
-INSERT INTO `school` VALUES (1175, '闽北职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1176, '福州黎明职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1177, '厦门演艺职业学院', '专科', 13);
-INSERT INTO `school` VALUES (1178, '厦门华天涉外职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1179, '福州科技职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1180, '泉州经贸职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1181, '福建对外经济贸易\n职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1182, '湄洲湾职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1183, '福建生物工程职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1184, '福建艺术职业学院', '专科', 13);
-INSERT INTO `school` VALUES (1185, '福建幼儿师范高等专科学校', '专科', 13);
-INSERT INTO `school` VALUES (1186, '厦门城市职业学院', '专科', 13);
-INSERT INTO `school` VALUES (1187, '泉州工艺美术职业学院', '专科', 13);
-INSERT INTO `school` VALUES (1188, '三明医学科技职业学院', '专科', 13);
-INSERT INTO `school` VALUES (1189, '宁德职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1190, '福州软件职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1191, '厦门兴才职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1192, '厦门软件职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1193, '福建体育职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1194, '漳州城市职业学院', '专科', 13);
-INSERT INTO `school` VALUES (1195, '厦门南洋职业学院', '专科', 13);
-INSERT INTO `school` VALUES (1196, '厦门东海职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1197, '漳州科技职业学院', '专科', 13);
-INSERT INTO `school` VALUES (1198, '漳州理工职业学院', '专科', 13);
-INSERT INTO `school` VALUES (1199, '武夷山职业学院', '专科', 13);
-INSERT INTO `school` VALUES (1200, '漳州卫生职业学院', '专科', 13);
-INSERT INTO `school` VALUES (1201, '泉州海洋职业学院', '专科', 13);
-INSERT INTO `school` VALUES (1202, '泉州轻工职业学院', '专科', 13);
-INSERT INTO `school` VALUES (1203, '厦门安防科技职业学院', '专科', 13);
-INSERT INTO `school` VALUES (1204, '泉州幼儿师范高等专科学校', '专科', 13);
-INSERT INTO `school` VALUES (1205, '闽江师范高等专科学校', '专科', 13);
-INSERT INTO `school` VALUES (1206, '泉州工程职业技术学院', '专科', 13);
-INSERT INTO `school` VALUES (1207, '福州墨尔本理工职业学院', '专科', 13);
-INSERT INTO `school` VALUES (1208, '南昌大学', '本科', 14);
-INSERT INTO `school` VALUES (1209, '华东交通大学', '本科', 14);
-INSERT INTO `school` VALUES (1210, '东华理工大学', '本科', 14);
-INSERT INTO `school` VALUES (1211, '南昌航空大学', '本科', 14);
-INSERT INTO `school` VALUES (1212, '江西理工大学', '本科', 14);
-INSERT INTO `school` VALUES (1213, '景德镇陶瓷大学', '本科', 14);
-INSERT INTO `school` VALUES (1214, '江西农业大学', '本科', 14);
-INSERT INTO `school` VALUES (1215, '江西中医药大学', '本科', 14);
-INSERT INTO `school` VALUES (1216, '赣南医学院', '本科', 14);
-INSERT INTO `school` VALUES (1217, '江西师范大学', '本科', 14);
-INSERT INTO `school` VALUES (1218, '上饶师范学院', '本科', 14);
-INSERT INTO `school` VALUES (1219, '宜春学院', '本科', 14);
-INSERT INTO `school` VALUES (1220, '赣南师范大学', '本科', 14);
-INSERT INTO `school` VALUES (1221, '井冈山大学', '本科', 14);
-INSERT INTO `school` VALUES (1222, '江西财经大学', '本科', 14);
-INSERT INTO `school` VALUES (1223, '江西科技学院', '本科', 14);
-INSERT INTO `school` VALUES (1224, '景德镇学院', '本科', 14);
-INSERT INTO `school` VALUES (1225, '萍乡学院', '本科', 14);
-INSERT INTO `school` VALUES (1226, '江西科技师范大学', '本科', 14);
-INSERT INTO `school` VALUES (1227, '南昌工程学院', '本科', 14);
-INSERT INTO `school` VALUES (1228, '江西警察学院', '本科', 14);
-INSERT INTO `school` VALUES (1229, '新余学院', '本科', 14);
-INSERT INTO `school` VALUES (1230, '九江学院', '本科', 14);
-INSERT INTO `school` VALUES (1231, '江西工程学院', '本科', 14);
-INSERT INTO `school` VALUES (1232, '南昌理工学院', '本科', 14);
-INSERT INTO `school` VALUES (1233, '江西应用科技学院', '本科', 14);
-INSERT INTO `school` VALUES (1234, '江西服装学院', '本科', 14);
-INSERT INTO `school` VALUES (1235, '南昌工学院', '本科', 14);
-INSERT INTO `school` VALUES (1236, '南昌大学科学技术学院', '本科', 14);
-INSERT INTO `school` VALUES (1237, '南昌大学共青学院', '本科', 14);
-INSERT INTO `school` VALUES (1238, '华东交通大学理工学院', '本科', 14);
-INSERT INTO `school` VALUES (1239, '东华理工大学长江学院', '本科', 14);
-INSERT INTO `school` VALUES (1240, '南昌航空大学科技学院', '本科', 14);
-INSERT INTO `school` VALUES (1241, '江西理工大学应用科学学院', '本科', 14);
-INSERT INTO `school` VALUES (1242, '景德镇陶瓷大学科技艺术学院', '本科', 14);
-INSERT INTO `school` VALUES (1243, '江西农业大学南昌商学院', '本科', 14);
-INSERT INTO `school` VALUES (1244, '江西中医药大学科技学院', '本科', 14);
-INSERT INTO `school` VALUES (1245, '江西师范大学科学技术学院', '本科', 14);
-INSERT INTO `school` VALUES (1246, '赣南师范大学科技学院', '本科', 14);
-INSERT INTO `school` VALUES (1247, '江西科技师范大学理工学院', '本科', 14);
-INSERT INTO `school` VALUES (1248, '江西财经大学现代经济管理\n学院', '本科', 14);
-INSERT INTO `school` VALUES (1249, '豫章师范学院', '本科', 14);
-INSERT INTO `school` VALUES (1250, '南昌师范学院', '本科', 14);
-INSERT INTO `school` VALUES (1251, '上饶幼儿师范高等专科学校', '专科', 14);
-INSERT INTO `school` VALUES (1252, '抚州幼儿师范高等专科学校', '专科', 14);
-INSERT INTO `school` VALUES (1253, '江西工业职业技术学院', '专科', 14);
-INSERT INTO `school` VALUES (1254, '江西医学高等专科学校', '专科', 14);
-INSERT INTO `school` VALUES (1255, '九江职业大学', '专科', 14);
-INSERT INTO `school` VALUES (1256, '九江职业技术学院', '专科', 14);
-INSERT INTO `school` VALUES (1257, '江西司法警官职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1258, '江西陶瓷工艺美术职业技术\n学院', '专科', 14);
-INSERT INTO `school` VALUES (1259, '江西旅游商贸职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1260, '江西电力职业技术学院', '专科', 14);
-INSERT INTO `school` VALUES (1261, '江西环境工程职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1262, '江西艺术职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1263, '鹰潭职业技术学院', '专科', 14);
-INSERT INTO `school` VALUES (1264, '江西信息应用职业技术学院', '专科', 14);
-INSERT INTO `school` VALUES (1265, '江西交通职业技术学院', '专科', 14);
-INSERT INTO `school` VALUES (1266, '江西财经职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1267, '江西应用技术职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1268, '江西现代职业技术学院', '专科', 14);
-INSERT INTO `school` VALUES (1269, '江西工业工程职业技术学院', '专科', 14);
-INSERT INTO `school` VALUES (1270, '江西机电职业技术学院', '专科', 14);
-INSERT INTO `school` VALUES (1271, '江西科技职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1272, '南昌职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1273, '江西外语外贸职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1274, '江西工业贸易职业技术学院', '专科', 14);
-INSERT INTO `school` VALUES (1275, '宜春职业技术学院', '专科', 14);
-INSERT INTO `school` VALUES (1276, '江西应用工程职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1277, '江西生物科技职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1278, '江西建设职业技术学院', '专科', 14);
-INSERT INTO `school` VALUES (1279, '抚州职业技术学院', '专科', 14);
-INSERT INTO `school` VALUES (1280, '江西中医药高等专科学校', '专科', 14);
-INSERT INTO `school` VALUES (1281, '江西先锋软件职业技术学院', '专科', 14);
-INSERT INTO `school` VALUES (1282, '江西经济管理职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1283, '江西制造职业技术学院', '专科', 14);
-INSERT INTO `school` VALUES (1284, '江西工程职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1285, '江西青年职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1286, '上饶职业技术学院', '专科', 14);
-INSERT INTO `school` VALUES (1287, '江西航空职业技术学院', '专科', 14);
-INSERT INTO `school` VALUES (1288, '江西农业工程职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1289, '赣西科技职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1290, '江西卫生职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1291, '江西新能源科技职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1292, '江西枫林涉外经贸职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1293, '江西泰豪动漫职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1294, '江西冶金职业技术学院', '专科', 14);
-INSERT INTO `school` VALUES (1295, '江西管理职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1296, '江西传媒职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1297, '江西工商职业技术学院', '专科', 14);
-INSERT INTO `school` VALUES (1298, '景德镇陶瓷职业技术学院', '专科', 14);
-INSERT INTO `school` VALUES (1299, '共青科技职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1300, '赣州师范高等专科学校', '专科', 14);
-INSERT INTO `school` VALUES (1301, '江西水利职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1302, '宜春幼儿师范高等专科学校', '专科', 14);
-INSERT INTO `school` VALUES (1303, '吉安职业技术学院', '专科', 14);
-INSERT INTO `school` VALUES (1304, '江西洪州职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1305, '江西师范高等专科学校', '专科', 14);
-INSERT INTO `school` VALUES (1306, '南昌影视传播职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1307, '赣南卫生健康职业学院', '专科', 14);
-INSERT INTO `school` VALUES (1308, '山东大学', '本科', 15);
-INSERT INTO `school` VALUES (1309, '中国海洋大学', '本科', 15);
-INSERT INTO `school` VALUES (1310, '山东科技大学', '本科', 15);
-INSERT INTO `school` VALUES (1311, '中国石油大学（华东）', '本科', 15);
-INSERT INTO `school` VALUES (1312, '青岛科技大学', '本科', 15);
-INSERT INTO `school` VALUES (1313, '济南大学', '本科', 15);
-INSERT INTO `school` VALUES (1314, '青岛理工大学', '本科', 15);
-INSERT INTO `school` VALUES (1315, '山东建筑大学', '本科', 15);
-INSERT INTO `school` VALUES (1316, '齐鲁工业大学', '本科', 15);
-INSERT INTO `school` VALUES (1317, '山东理工大学', '本科', 15);
-INSERT INTO `school` VALUES (1318, '山东农业大学', '本科', 15);
-INSERT INTO `school` VALUES (1319, '青岛农业大学', '本科', 15);
-INSERT INTO `school` VALUES (1320, '潍坊医学院', '本科', 15);
-INSERT INTO `school` VALUES (1321, '泰山医学院', '本科', 15);
-INSERT INTO `school` VALUES (1322, '滨州医学院', '本科', 15);
-INSERT INTO `school` VALUES (1323, '山东中医药大学', '本科', 15);
-INSERT INTO `school` VALUES (1324, '济宁医学院', '本科', 15);
-INSERT INTO `school` VALUES (1325, '山东师范大学', '本科', 15);
-INSERT INTO `school` VALUES (1326, '曲阜师范大学', '本科', 15);
-INSERT INTO `school` VALUES (1327, '聊城大学', '本科', 15);
-INSERT INTO `school` VALUES (1328, '德州学院', '本科', 15);
-INSERT INTO `school` VALUES (1329, '滨州学院', '本科', 15);
-INSERT INTO `school` VALUES (1330, '鲁东大学', '本科', 15);
-INSERT INTO `school` VALUES (1331, '临沂大学', '本科', 15);
-INSERT INTO `school` VALUES (1332, '泰山学院', '本科', 15);
-INSERT INTO `school` VALUES (1333, '济宁学院', '本科', 15);
-INSERT INTO `school` VALUES (1334, '菏泽学院', '本科', 15);
-INSERT INTO `school` VALUES (1335, '山东财经大学', '本科', 15);
-INSERT INTO `school` VALUES (1336, '山东体育学院', '本科', 15);
-INSERT INTO `school` VALUES (1337, '山东艺术学院', '本科', 15);
-INSERT INTO `school` VALUES (1338, '齐鲁医药学院', '本科', 15);
-INSERT INTO `school` VALUES (1339, '青岛滨海学院', '本科', 15);
-INSERT INTO `school` VALUES (1340, '枣庄学院', '本科', 15);
-INSERT INTO `school` VALUES (1341, '山东工艺美术学院', '本科', 15);
-INSERT INTO `school` VALUES (1342, '青岛大学', '本科', 15);
-INSERT INTO `school` VALUES (1343, '烟台大学', '本科', 15);
-INSERT INTO `school` VALUES (1344, '潍坊学院', '本科', 15);
-INSERT INTO `school` VALUES (1345, '山东警察学院', '本科', 15);
-INSERT INTO `school` VALUES (1346, '山东交通学院', '本科', 15);
-INSERT INTO `school` VALUES (1347, '山东工商学院', '本科', 15);
-INSERT INTO `school` VALUES (1348, '山东女子学院', '本科', 15);
-INSERT INTO `school` VALUES (1349, '烟台南山学院', '本科', 15);
-INSERT INTO `school` VALUES (1350, '潍坊科技学院', '本科', 15);
-INSERT INTO `school` VALUES (1351, '山东英才学院', '本科', 15);
-INSERT INTO `school` VALUES (1352, '青岛恒星科技学院', '本科', 15);
-INSERT INTO `school` VALUES (1353, '青岛黄海学院', '本科', 15);
-INSERT INTO `school` VALUES (1354, '山东现代学院', '本科', 15);
-INSERT INTO `school` VALUES (1355, '山东协和学院', '本科', 15);
-INSERT INTO `school` VALUES (1356, '烟台大学文经学院', '本科', 15);
-INSERT INTO `school` VALUES (1357, '聊城大学东昌学院', '本科', 15);
-INSERT INTO `school` VALUES (1358, '青岛理工大学琴岛学院', '本科', 15);
-INSERT INTO `school` VALUES (1359, '山东师范大学历山学院', '本科', 15);
-INSERT INTO `school` VALUES (1360, '山东财经大学燕山学院', '本科', 15);
-INSERT INTO `school` VALUES (1361, '中国石油大学胜利学院', '本科', 15);
-INSERT INTO `school` VALUES (1362, '山东科技大学泰山科技学院', '本科', 15);
-INSERT INTO `school` VALUES (1363, '山东华宇工学院', '本科', 15);
-INSERT INTO `school` VALUES (1364, '青岛工学院', '本科', 15);
-INSERT INTO `school` VALUES (1365, '青岛农业大学海都学院', '本科', 15);
-INSERT INTO `school` VALUES (1366, '齐鲁理工学院', '本科', 15);
-INSERT INTO `school` VALUES (1367, '山东财经大学东方学院', '本科', 15);
-INSERT INTO `school` VALUES (1368, '济南大学泉城学院', '本科', 15);
-INSERT INTO `school` VALUES (1369, '山东政法学院', '本科', 15);
-INSERT INTO `school` VALUES (1370, '齐鲁师范学院', '本科', 15);
-INSERT INTO `school` VALUES (1371, '山东青年政治学院', '本科', 15);
-INSERT INTO `school` VALUES (1372, '北京电影学院现代创意媒体\n学院', '本科', 15);
-INSERT INTO `school` VALUES (1373, '山东管理学院', '本科', 15);
-INSERT INTO `school` VALUES (1374, '山东农业工程学院', '本科', 15);
-INSERT INTO `school` VALUES (1375, '山东医学高等专科学校', '专科', 15);
-INSERT INTO `school` VALUES (1376, '菏泽医学专科学校', '专科', 15);
-INSERT INTO `school` VALUES (1377, '山东商业职业技术学院', '专科', 15);
-INSERT INTO `school` VALUES (1378, '山东电力高等专科学校', '专科', 15);
-INSERT INTO `school` VALUES (1379, '日照职业技术学院', '专科', 15);
-INSERT INTO `school` VALUES (1380, '曲阜远东职业技术学院', '专科', 15);
-INSERT INTO `school` VALUES (1381, '青岛职业技术学院', '专科', 15);
-INSERT INTO `school` VALUES (1382, '威海职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1383, '山东职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1384, '山东劳动职业技术学院', '专科', 15);
-INSERT INTO `school` VALUES (1385, '莱芜职业技术学院', '专科', 15);
-INSERT INTO `school` VALUES (1386, '济宁职业技术学院', '专科', 15);
-INSERT INTO `school` VALUES (1387, '潍坊职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1388, '烟台职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1389, '东营职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1390, '聊城职业技术学院', '专科', 15);
-INSERT INTO `school` VALUES (1391, '滨州职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1392, '山东科技职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1393, '山东服装职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1394, '德州科技职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1395, '山东力明科技职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1396, '山东圣翰财贸职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1397, '山东水利职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1398, '山东畜牧兽医职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1399, '青岛飞洋职业技术学院', '专科', 15);
-INSERT INTO `school` VALUES (1400, '东营科技职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1401, '山东交通职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1402, '淄博职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1403, '山东外贸职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1404, '青岛酒店管理职业技术学院', '专科', 15);
-INSERT INTO `school` VALUES (1405, '山东信息职业技术学院', '专科', 15);
-INSERT INTO `school` VALUES (1406, '青岛港湾职业技术学院', '专科', 15);
-INSERT INTO `school` VALUES (1407, '山东胜利职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1408, '山东经贸职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1409, '山东工业职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1410, '山东化工职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1411, '青岛求实职业技术学院', '专科', 15);
-INSERT INTO `school` VALUES (1412, '济南职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1413, '烟台工程职业技术学院', '专科', 15);
-INSERT INTO `school` VALUES (1414, '山东凯文科技职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1415, '山东外国语职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1416, '潍坊工商职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1417, '德州职业技术学院', '专科', 15);
-INSERT INTO `school` VALUES (1418, '枣庄科技职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1419, '淄博师范高等专科学校', '专科', 15);
-INSERT INTO `school` VALUES (1420, '山东中医药高等专科学校', '专科', 15);
-INSERT INTO `school` VALUES (1421, '济南工程职业技术学院', '专科', 15);
-INSERT INTO `school` VALUES (1422, '山东电子职业技术学院', '专科', 15);
-INSERT INTO `school` VALUES (1423, '山东旅游职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1424, '山东铝业职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1425, '山东杏林科技职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1426, '泰山职业技术学院', '专科', 15);
-INSERT INTO `school` VALUES (1427, '山东外事翻译职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1428, '山东药品食品职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1429, '山东商务职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1430, '山东轻工职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1431, '山东城市建设职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1432, '烟台汽车工程职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1433, '山东司法警官职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1434, '菏泽家政职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1435, '山东传媒职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1436, '临沂职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1437, '枣庄职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1438, '山东理工职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1439, '山东文化产业职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1440, '青岛远洋船员职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1441, '济南幼儿师范高等专科学校', '专科', 15);
-INSERT INTO `school` VALUES (1442, '济南护理职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1443, '泰山护理职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1444, '山东海事职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1445, '潍坊护理职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1446, '潍坊工程职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1447, '菏泽职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1448, '山东艺术设计职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1449, '威海海洋职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1450, '山东特殊教育职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1451, '烟台黄金职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1452, '日照航海工程职业学院', '专科', 15);
-INSERT INTO `school` VALUES (1453, '华北水利水电大学', '本科', 16);
-INSERT INTO `school` VALUES (1454, '郑州大学', '本科', 16);
-INSERT INTO `school` VALUES (1455, '河南理工大学', '本科', 16);
-INSERT INTO `school` VALUES (1456, '郑州轻工业学院', '本科', 16);
-INSERT INTO `school` VALUES (1457, '河南工业大学', '本科', 16);
-INSERT INTO `school` VALUES (1458, '河南科技大学', '本科', 16);
-INSERT INTO `school` VALUES (1459, '中原工学院', '本科', 16);
-INSERT INTO `school` VALUES (1460, '河南农业大学', '本科', 16);
-INSERT INTO `school` VALUES (1461, '河南科技学院', '本科', 16);
-INSERT INTO `school` VALUES (1462, '河南牧业经济学院', '本科', 16);
-INSERT INTO `school` VALUES (1463, '河南中医药大学', '本科', 16);
-INSERT INTO `school` VALUES (1464, '新乡医学院', '本科', 16);
-INSERT INTO `school` VALUES (1465, '河南大学', '本科', 16);
-INSERT INTO `school` VALUES (1466, '河南师范大学', '本科', 16);
-INSERT INTO `school` VALUES (1467, '信阳师范学院', '本科', 16);
-INSERT INTO `school` VALUES (1468, '周口师范学院', '本科', 16);
-INSERT INTO `school` VALUES (1469, '安阳师范学院', '本科', 16);
-INSERT INTO `school` VALUES (1470, '许昌学院', '本科', 16);
-INSERT INTO `school` VALUES (1471, '南阳师范学院', '本科', 16);
-INSERT INTO `school` VALUES (1472, '洛阳师范学院', '本科', 16);
-INSERT INTO `school` VALUES (1473, '商丘师范学院', '本科', 16);
-INSERT INTO `school` VALUES (1474, '河南财经政法大学', '本科', 16);
-INSERT INTO `school` VALUES (1475, '郑州航空工业管理学院', '本科', 16);
-INSERT INTO `school` VALUES (1476, '黄淮学院', '本科', 16);
-INSERT INTO `school` VALUES (1477, '平顶山学院', '本科', 16);
-INSERT INTO `school` VALUES (1478, '郑州工程技术学院', '本科', 16);
-INSERT INTO `school` VALUES (1479, '洛阳理工学院', '本科', 16);
-INSERT INTO `school` VALUES (1480, '新乡学院', '本科', 16);
-INSERT INTO `school` VALUES (1481, '信阳农林学院', '本科', 16);
-INSERT INTO `school` VALUES (1482, '河南工学院', '本科', 16);
-INSERT INTO `school` VALUES (1483, '安阳工学院', '本科', 16);
-INSERT INTO `school` VALUES (1484, '河南工程学院', '本科', 16);
-INSERT INTO `school` VALUES (1485, '河南财政金融学院', '本科', 16);
-INSERT INTO `school` VALUES (1486, '南阳理工学院', '本科', 16);
-INSERT INTO `school` VALUES (1487, '河南城建学院', '本科', 16);
-INSERT INTO `school` VALUES (1488, '河南警察学院', '本科', 16);
-INSERT INTO `school` VALUES (1489, '黄河科技学院', '本科', 16);
-INSERT INTO `school` VALUES (1490, '铁道警察学院', '本科', 16);
-INSERT INTO `school` VALUES (1491, '郑州科技学院', '本科', 16);
-INSERT INTO `school` VALUES (1492, '郑州工业应用技术学院', '本科', 16);
-INSERT INTO `school` VALUES (1493, '郑州师范学院', '本科', 16);
-INSERT INTO `school` VALUES (1494, '郑州财经学院', '本科', 16);
-INSERT INTO `school` VALUES (1495, '黄河交通学院', '本科', 16);
-INSERT INTO `school` VALUES (1496, '商丘工学院', '本科', 16);
-INSERT INTO `school` VALUES (1497, '河南大学民生学院', '本科', 16);
-INSERT INTO `school` VALUES (1498, '河南师范大学新联学院', '本科', 16);
-INSERT INTO `school` VALUES (1499, '信阳学院', '本科', 16);
-INSERT INTO `school` VALUES (1500, '安阳学院', '本科', 16);
-INSERT INTO `school` VALUES (1501, '新乡医学院三全学院', '本科', 16);
-INSERT INTO `school` VALUES (1502, '河南科技学院新科学院', '本科', 16);
-INSERT INTO `school` VALUES (1503, '郑州工商学院', '本科', 16);
-INSERT INTO `school` VALUES (1504, '中原工学院信息商务学院', '本科', 16);
-INSERT INTO `school` VALUES (1505, '商丘学院', '本科', 16);
-INSERT INTO `school` VALUES (1506, '郑州成功财经学院', '本科', 16);
-INSERT INTO `school` VALUES (1507, '郑州升达经贸管理学院', '本科', 16);
-INSERT INTO `school` VALUES (1508, '河南职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1509, '漯河职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1510, '三门峡职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1511, '郑州铁路职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1512, '开封大学', '专科', 16);
-INSERT INTO `school` VALUES (1513, '焦作大学', '专科', 16);
-INSERT INTO `school` VALUES (1514, '濮阳职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1515, '郑州电力高等专科学校', '专科', 16);
-INSERT INTO `school` VALUES (1516, '黄河水利职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1517, '许昌职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1518, '河南工业和信息化职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1519, '河南水利与环境职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1520, '商丘职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1521, '平顶山工业职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1522, '周口职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1523, '济源职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1524, '河南司法警官职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1525, '鹤壁职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1526, '河南工业职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1527, '郑州澍青医学高等专科学校', '专科', 16);
-INSERT INTO `school` VALUES (1528, '焦作师范高等专科学校', '专科', 16);
-INSERT INTO `school` VALUES (1529, '河南检察职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1530, '河南质量工程职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1531, '郑州信息科技职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1532, '漯河医学高等专科学校', '专科', 16);
-INSERT INTO `school` VALUES (1533, '南阳医学高等专科学校', '专科', 16);
-INSERT INTO `school` VALUES (1534, '商丘医学高等专科学校', '专科', 16);
-INSERT INTO `school` VALUES (1535, '郑州电子信息职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1536, '信阳职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1537, '嵩山少林武术职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1538, '郑州工业安全职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1539, '永城职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1540, '河南经贸职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1541, '河南交通职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1542, '河南农业职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1543, '郑州旅游职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1544, '郑州职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1545, '河南信息统计职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1546, '河南林业职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1547, '河南工业贸易职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1548, '郑州电力职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1549, '周口科技职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1550, '河南建筑职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1551, '漯河食品职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1552, '郑州城市职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1553, '安阳职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1554, '新乡职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1555, '驻马店职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1556, '焦作工贸职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1557, '许昌陶瓷职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1558, '郑州理工职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1559, '郑州信息工程职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1560, '长垣烹饪职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1561, '开封文化艺术职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1562, '河南应用技术职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1563, '河南艺术职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1564, '河南机电职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1565, '河南护理职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1566, '许昌电气职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1567, '信阳涉外职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1568, '鹤壁汽车工程职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1569, '南阳职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1570, '郑州商贸旅游职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1571, '河南推拿职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1572, '洛阳职业技术学院', '专科', 16);
-INSERT INTO `school` VALUES (1573, '郑州幼儿师范高等专科学校', '专科', 16);
-INSERT INTO `school` VALUES (1574, '安阳幼儿师范高等专科学校', '专科', 16);
-INSERT INTO `school` VALUES (1575, '郑州黄河护理职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1576, '河南医学高等专科学校', '专科', 16);
-INSERT INTO `school` VALUES (1577, '郑州财税金融职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1578, '南阳农业职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1579, '洛阳科技职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1580, '鹤壁能源化工职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1581, '平顶山文化艺术职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1582, '濮阳医学高等专科学校', '专科', 16);
-INSERT INTO `school` VALUES (1583, '驻马店幼儿师范高等专科学校', '专科', 16);
-INSERT INTO `school` VALUES (1584, '三门峡社会管理职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1585, '河南轻工职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1586, '河南测绘职业学院', '专科', 16);
-INSERT INTO `school` VALUES (1587, '武汉大学', '本科', 17);
-INSERT INTO `school` VALUES (1588, '华中科技大学', '本科', 17);
-INSERT INTO `school` VALUES (1589, '武汉科技大学', '本科', 17);
-INSERT INTO `school` VALUES (1590, '长江大学', '本科', 17);
-INSERT INTO `school` VALUES (1591, '武汉工程大学', '本科', 17);
-INSERT INTO `school` VALUES (1592, '中国地质大学（武汉）', '本科', 17);
-INSERT INTO `school` VALUES (1593, '武汉纺织大学', '本科', 17);
-INSERT INTO `school` VALUES (1594, '武汉轻工大学', '本科', 17);
-INSERT INTO `school` VALUES (1595, '武汉理工大学', '本科', 17);
-INSERT INTO `school` VALUES (1596, '湖北工业大学', '本科', 17);
-INSERT INTO `school` VALUES (1597, '华中农业大学', '本科', 17);
-INSERT INTO `school` VALUES (1598, '湖北中医药大学', '本科', 17);
-INSERT INTO `school` VALUES (1599, '华中师范大学', '本科', 17);
-INSERT INTO `school` VALUES (1600, '湖北大学', '本科', 17);
-INSERT INTO `school` VALUES (1601, '湖北师范大学', '本科', 17);
-INSERT INTO `school` VALUES (1602, '黄冈师范学院', '本科', 17);
-INSERT INTO `school` VALUES (1603, '湖北民族学院', '本科', 17);
-INSERT INTO `school` VALUES (1604, '汉江师范学院', '本科', 17);
-INSERT INTO `school` VALUES (1605, '湖北文理学院', '本科', 17);
-INSERT INTO `school` VALUES (1606, '中南财经政法大学', '本科', 17);
-INSERT INTO `school` VALUES (1607, '武汉体育学院', '本科', 17);
-INSERT INTO `school` VALUES (1608, '湖北美术学院', '本科', 17);
-INSERT INTO `school` VALUES (1609, '中南民族大学', '本科', 17);
-INSERT INTO `school` VALUES (1610, '湖北汽车工业学院', '本科', 17);
-INSERT INTO `school` VALUES (1611, '湖北工程学院', '本科', 17);
-INSERT INTO `school` VALUES (1612, '湖北理工学院', '本科', 17);
-INSERT INTO `school` VALUES (1613, '湖北科技学院', '本科', 17);
-INSERT INTO `school` VALUES (1614, '湖北医药学院', '本科', 17);
-INSERT INTO `school` VALUES (1615, '江汉大学', '本科', 17);
-INSERT INTO `school` VALUES (1616, '三峡大学', '本科', 17);
-INSERT INTO `school` VALUES (1617, '湖北警官学院', '本科', 17);
-INSERT INTO `school` VALUES (1618, '荆楚理工学院', '本科', 17);
-INSERT INTO `school` VALUES (1619, '武汉音乐学院', '本科', 17);
-INSERT INTO `school` VALUES (1620, '湖北经济学院', '本科', 17);
-INSERT INTO `school` VALUES (1621, '武汉商学院', '本科', 17);
-INSERT INTO `school` VALUES (1622, '武汉东湖学院', '本科', 17);
-INSERT INTO `school` VALUES (1623, '汉口学院', '本科', 17);
-INSERT INTO `school` VALUES (1624, '武昌首义学院', '本科', 17);
-INSERT INTO `school` VALUES (1625, '武昌理工学院', '本科', 17);
-INSERT INTO `school` VALUES (1626, '武汉生物工程学院', '本科', 17);
-INSERT INTO `school` VALUES (1627, '武汉晴川学院', '本科', 17);
-INSERT INTO `school` VALUES (1628, '湖北大学知行学院', '本科', 17);
-INSERT INTO `school` VALUES (1629, '武汉科技大学城市学院', '本科', 17);
-INSERT INTO `school` VALUES (1630, '三峡大学科技学院', '本科', 17);
-INSERT INTO `school` VALUES (1631, '江汉大学文理学院', '本科', 17);
-INSERT INTO `school` VALUES (1632, '湖北工业大学工程技术学院', '本科', 17);
-INSERT INTO `school` VALUES (1633, '武汉工程大学邮电与信息工程\n学院', '本科', 17);
-INSERT INTO `school` VALUES (1634, '武汉纺织大学外经贸学院', '本科', 17);
-INSERT INTO `school` VALUES (1635, '武昌工学院', '本科', 17);
-INSERT INTO `school` VALUES (1636, '武汉工商学院', '本科', 17);
-INSERT INTO `school` VALUES (1637, '长江大学工程技术学院', '本科', 17);
-INSERT INTO `school` VALUES (1638, '长江大学文理学院', '本科', 17);
-INSERT INTO `school` VALUES (1639, '湖北商贸学院', '本科', 17);
-INSERT INTO `school` VALUES (1640, '湖北汽车工业学院科技学院', '本科', 17);
-INSERT INTO `school` VALUES (1641, '湖北医药学院药护学院', '本科', 17);
-INSERT INTO `school` VALUES (1642, '湖北民族学院科技学院', '本科', 17);
-INSERT INTO `school` VALUES (1643, '湖北经济学院法商学院', '本科', 17);
-INSERT INTO `school` VALUES (1644, '武汉体育学院体育科技学院', '本科', 17);
-INSERT INTO `school` VALUES (1645, '湖北师范大学文理学院', '本科', 17);
-INSERT INTO `school` VALUES (1646, '湖北文理学院理工学院', '本科', 17);
-INSERT INTO `school` VALUES (1647, '湖北工程学院新技术学院', '本科', 17);
-INSERT INTO `school` VALUES (1648, '文华学院', '本科', 17);
-INSERT INTO `school` VALUES (1649, '武汉学院', '本科', 17);
-INSERT INTO `school` VALUES (1650, '武汉工程科技学院', '本科', 17);
-INSERT INTO `school` VALUES (1651, '武汉华夏理工学院', '本科', 17);
-INSERT INTO `school` VALUES (1652, '武汉传媒学院', '本科', 17);
-INSERT INTO `school` VALUES (1653, '武汉设计工程学院', '本科', 17);
-INSERT INTO `school` VALUES (1654, '湖北第二师范学院', '本科', 17);
-INSERT INTO `school` VALUES (1655, '武汉职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1656, '黄冈职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1657, '长江职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1658, '荆州理工职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1659, '湖北工业职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1660, '鄂州职业大学', '专科', 17);
-INSERT INTO `school` VALUES (1661, '武汉城市职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1662, '湖北职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1663, '武汉船舶职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1664, '恩施职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1665, '襄阳职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1666, '武汉工贸职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1667, '荆州职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1668, '武汉工程职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1669, '仙桃职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1670, '湖北轻工职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1671, '湖北交通职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1672, '湖北中医药高等专科学校', '专科', 17);
-INSERT INTO `school` VALUES (1673, '武汉航海职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1674, '武汉铁路职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1675, '武汉软件工程职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1676, '湖北三峡职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1677, '随州职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1678, '武汉电力职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1679, '湖北水利水电职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1680, '湖北城市建设职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1681, '武汉警官职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1682, '湖北生物科技职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1683, '湖北开放职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1684, '武汉科技职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1685, '武汉外语外事职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1686, '武汉信息传播职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1687, '武昌职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1688, '武汉商贸职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1689, '湖北艺术职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1690, '武汉交通职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1691, '咸宁职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1692, '长江工程职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1693, '江汉艺术职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1694, '武汉工业职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1695, '武汉民政职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1696, '鄂东职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1697, '湖北财税职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1698, '黄冈科技职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1699, '湖北国土资源职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1700, '湖北生态工程职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1701, '三峡电力职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1702, '湖北科技职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1703, '湖北青年职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1704, '湖北工程职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1705, '三峡旅游职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1706, '天门职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1707, '湖北体育职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1708, '襄阳汽车职业技术学院', '专科', 17);
-INSERT INTO `school` VALUES (1709, '湖北幼儿师范高等专科学校', '专科', 17);
-INSERT INTO `school` VALUES (1710, '湖北铁道运输职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1711, '武汉海事职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1712, '长江艺术工程职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1713, '荆门职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1714, '武汉铁路桥梁职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1715, '武汉光谷职业学院', '专科', 17);
-INSERT INTO `school` VALUES (1716, '湘潭大学', '本科', 18);
-INSERT INTO `school` VALUES (1717, '吉首大学', '本科', 18);
-INSERT INTO `school` VALUES (1718, '湖南大学', '本科', 18);
-INSERT INTO `school` VALUES (1719, '中南大学', '本科', 18);
-INSERT INTO `school` VALUES (1720, '湖南科技大学', '本科', 18);
-INSERT INTO `school` VALUES (1721, '长沙理工大学', '本科', 18);
-INSERT INTO `school` VALUES (1722, '湖南农业大学', '本科', 18);
-INSERT INTO `school` VALUES (1723, '中南林业科技大学', '本科', 18);
-INSERT INTO `school` VALUES (1724, '湖南中医药大学', '本科', 18);
-INSERT INTO `school` VALUES (1725, '湖南师范大学', '本科', 18);
-INSERT INTO `school` VALUES (1726, '湖南理工学院', '本科', 18);
-INSERT INTO `school` VALUES (1727, '湘南学院', '本科', 18);
-INSERT INTO `school` VALUES (1728, '衡阳师范学院', '本科', 18);
-INSERT INTO `school` VALUES (1729, '邵阳学院', '本科', 18);
-INSERT INTO `school` VALUES (1730, '怀化学院', '本科', 18);
-INSERT INTO `school` VALUES (1731, '湖南文理学院', '本科', 18);
-INSERT INTO `school` VALUES (1732, '湖南科技学院', '本科', 18);
-INSERT INTO `school` VALUES (1733, '湖南人文科技学院', '本科', 18);
-INSERT INTO `school` VALUES (1734, '湖南商学院', '本科', 18);
-INSERT INTO `school` VALUES (1735, '南华大学', '本科', 18);
-INSERT INTO `school` VALUES (1736, '长沙医学院', '本科', 18);
-INSERT INTO `school` VALUES (1737, '长沙学院', '本科', 18);
-INSERT INTO `school` VALUES (1738, '湖南工程学院', '本科', 18);
-INSERT INTO `school` VALUES (1739, '湖南城市学院', '本科', 18);
-INSERT INTO `school` VALUES (1740, '湖南工学院', '本科', 18);
-INSERT INTO `school` VALUES (1741, '湖南财政经济学院', '本科', 18);
-INSERT INTO `school` VALUES (1742, '湖南警察学院', '本科', 18);
-INSERT INTO `school` VALUES (1743, '湖南工业大学', '本科', 18);
-INSERT INTO `school` VALUES (1744, '湖南女子学院', '本科', 18);
-INSERT INTO `school` VALUES (1745, '湖南第一师范学院', '本科', 18);
-INSERT INTO `school` VALUES (1746, '湖南医药学院', '本科', 18);
-INSERT INTO `school` VALUES (1747, '湖南涉外经济学院', '本科', 18);
-INSERT INTO `school` VALUES (1748, '湘潭大学兴湘学院', '本科', 18);
-INSERT INTO `school` VALUES (1749, '湖南工业大学科技学院', '本科', 18);
-INSERT INTO `school` VALUES (1750, '湖南科技大学潇湘学院', '本科', 18);
-INSERT INTO `school` VALUES (1751, '南华大学船山学院', '本科', 18);
-INSERT INTO `school` VALUES (1752, '湖南商学院北津学院', '本科', 18);
-INSERT INTO `school` VALUES (1753, '湖南师范大学树达学院', '本科', 18);
-INSERT INTO `school` VALUES (1754, '湖南农业大学东方科技学院', '本科', 18);
-INSERT INTO `school` VALUES (1755, '中南林业科技大学涉外学院', '本科', 18);
-INSERT INTO `school` VALUES (1756, '湖南文理学院芙蓉学院', '本科', 18);
-INSERT INTO `school` VALUES (1757, '湖南理工学院南湖学院', '本科', 18);
-INSERT INTO `school` VALUES (1758, '衡阳师范学院南岳学院', '本科', 18);
-INSERT INTO `school` VALUES (1759, '湖南工程学院应用技术学院', '本科', 18);
-INSERT INTO `school` VALUES (1760, '湖南中医药大学湘杏学院', '本科', 18);
-INSERT INTO `school` VALUES (1761, '吉首大学张家界学院', '本科', 18);
-INSERT INTO `school` VALUES (1762, '长沙理工大学城南学院', '本科', 18);
-INSERT INTO `school` VALUES (1763, '长沙师范学院', '本科', 18);
-INSERT INTO `school` VALUES (1764, '湖南应用技术学院', '本科', 18);
-INSERT INTO `school` VALUES (1765, '湖南信息学院', '本科', 18);
-INSERT INTO `school` VALUES (1766, '湖南交通工程学院', '本科', 18);
-INSERT INTO `school` VALUES (1767, '湘中幼儿师范高等专科学校', '专科', 18);
-INSERT INTO `school` VALUES (1768, '长沙民政职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1769, '湖南工业职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1770, '株洲师范高等专科学校', '专科', 18);
-INSERT INTO `school` VALUES (1771, '湖南信息职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1772, '湖南税务高等专科学校', '专科', 18);
-INSERT INTO `school` VALUES (1773, '湖南冶金职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1774, '长沙航空职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1775, '湖南大众传媒职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1776, '永州职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1777, '湖南铁道职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1778, '湖南科技职业学院', '专科', 18);
-INSERT INTO `school` VALUES (1779, '湖南生物机电职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1780, '湖南交通职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1781, '湖南商务职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1782, '湖南体育职业学院', '专科', 18);
-INSERT INTO `school` VALUES (1783, '湖南工程职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1784, '保险职业学院', '专科', 18);
-INSERT INTO `school` VALUES (1785, '湖南外贸职业学院', '专科', 18);
-INSERT INTO `school` VALUES (1786, '湖南网络工程职业学院', '专科', 18);
-INSERT INTO `school` VALUES (1787, '邵阳职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1788, '湖南司法警官职业学院', '专科', 18);
-INSERT INTO `school` VALUES (1789, '长沙商贸旅游职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1790, '湖南环境生物职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1791, '湖南邮电职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1792, '湘潭医卫职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1793, '郴州职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1794, '娄底职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1795, '张家界航空工业职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1796, '长沙环境保护职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1797, '湖南艺术职业学院', '专科', 18);
-INSERT INTO `school` VALUES (1798, '湖南机电职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1799, '长沙职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1800, '怀化职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1801, '岳阳职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1802, '常德职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1803, '长沙南方职业学院', '专科', 18);
-INSERT INTO `school` VALUES (1804, '潇湘职业学院', '专科', 18);
-INSERT INTO `school` VALUES (1805, '湖南化工职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1806, '湖南城建职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1807, '湖南石油化工职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1808, '湖南中医药高等专科学校', '专科', 18);
-INSERT INTO `school` VALUES (1809, '湖南民族职业学院', '专科', 18);
-INSERT INTO `school` VALUES (1810, '湘西民族职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1811, '湖南财经工业职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1812, '益阳职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1813, '湖南工艺美术职业学院', '专科', 18);
-INSERT INTO `school` VALUES (1814, '湖南九嶷职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1815, '湖南理工职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1816, '湖南软件职业学院', '专科', 18);
-INSERT INTO `school` VALUES (1817, '湖南汽车工程职业学院', '专科', 18);
-INSERT INTO `school` VALUES (1818, '长沙电力职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1819, '湖南水利水电职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1820, '湖南现代物流职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1821, '湖南高速铁路职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1822, '湖南铁路科技职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1823, '湖南安全技术职业学院', '专科', 18);
-INSERT INTO `school` VALUES (1824, '湖南电气职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1825, '湖南外国语职业学院', '专科', 18);
-INSERT INTO `school` VALUES (1826, '益阳医学高等专科学校', '专科', 18);
-INSERT INTO `school` VALUES (1827, '湖南都市职业学院', '专科', 18);
-INSERT INTO `school` VALUES (1828, '湖南电子科技职业学院', '专科', 18);
-INSERT INTO `school` VALUES (1829, '湖南国防工业职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1830, '湖南高尔夫旅游职业学院', '专科', 18);
-INSERT INTO `school` VALUES (1831, '湖南工商职业学院', '专科', 18);
-INSERT INTO `school` VALUES (1832, '湖南三一工业职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1833, '长沙卫生职业学院', '专科', 18);
-INSERT INTO `school` VALUES (1834, '湖南食品药品职业学院', '专科', 18);
-INSERT INTO `school` VALUES (1835, '湖南有色金属职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1836, '湖南吉利汽车职业技术学院', '专科', 18);
-INSERT INTO `school` VALUES (1837, '湖南幼儿师范高等专科学校', '专科', 18);
-INSERT INTO `school` VALUES (1838, '湘南幼儿师范高等专科学校', '专科', 18);
-INSERT INTO `school` VALUES (1839, '湖南劳动人事职业学院', '专科', 18);
-INSERT INTO `school` VALUES (1840, '中山大学', '本科', 19);
-INSERT INTO `school` VALUES (1841, '暨南大学', '本科', 19);
-INSERT INTO `school` VALUES (1842, '汕头大学', '本科', 19);
-INSERT INTO `school` VALUES (1843, '华南理工大学', '本科', 19);
-INSERT INTO `school` VALUES (1844, '华南农业大学', '本科', 19);
-INSERT INTO `school` VALUES (1845, '广东海洋大学', '本科', 19);
-INSERT INTO `school` VALUES (1846, '广州医科大学', '本科', 19);
-INSERT INTO `school` VALUES (1847, '广东医科大学', '本科', 19);
-INSERT INTO `school` VALUES (1848, '广州中医药大学', '本科', 19);
-INSERT INTO `school` VALUES (1849, '广东药科大学', '本科', 19);
-INSERT INTO `school` VALUES (1850, '华南师范大学', '本科', 19);
-INSERT INTO `school` VALUES (1851, '韶关学院', '本科', 19);
-INSERT INTO `school` VALUES (1852, '惠州学院', '本科', 19);
-INSERT INTO `school` VALUES (1853, '韩山师范学院', '本科', 19);
-INSERT INTO `school` VALUES (1854, '岭南师范学院', '本科', 19);
-INSERT INTO `school` VALUES (1855, '肇庆学院', '本科', 19);
-INSERT INTO `school` VALUES (1856, '嘉应学院', '本科', 19);
-INSERT INTO `school` VALUES (1857, '广州体育学院', '本科', 19);
-INSERT INTO `school` VALUES (1858, '广州美术学院', '本科', 19);
-INSERT INTO `school` VALUES (1859, '星海音乐学院', '本科', 19);
-INSERT INTO `school` VALUES (1860, '广东技术师范学院', '本科', 19);
-INSERT INTO `school` VALUES (1861, '深圳大学', '本科', 19);
-INSERT INTO `school` VALUES (1862, '广东财经大学', '本科', 19);
-INSERT INTO `school` VALUES (1863, '广东白云学院', '本科', 19);
-INSERT INTO `school` VALUES (1864, '广州大学', '本科', 19);
-INSERT INTO `school` VALUES (1865, '广州航海学院', '本科', 19);
-INSERT INTO `school` VALUES (1866, '广东警官学院', '本科', 19);
-INSERT INTO `school` VALUES (1867, '仲恺农业工程学院', '本科', 19);
-INSERT INTO `school` VALUES (1868, '五邑大学', '本科', 19);
-INSERT INTO `school` VALUES (1869, '广东金融学院', '本科', 19);
-INSERT INTO `school` VALUES (1870, '电子科技大学中山学院', '本科', 19);
-INSERT INTO `school` VALUES (1871, '广东石油化工学院', '本科', 19);
-INSERT INTO `school` VALUES (1872, '东莞理工学院', '本科', 19);
-INSERT INTO `school` VALUES (1873, '广东工业大学', '本科', 19);
-INSERT INTO `school` VALUES (1874, '广东外语外贸大学', '本科', 19);
-INSERT INTO `school` VALUES (1875, '佛山科学技术学院', '本科', 19);
-INSERT INTO `school` VALUES (1876, '广东培正学院', '本科', 19);
-INSERT INTO `school` VALUES (1877, '南方医科大学', '本科', 19);
-INSERT INTO `school` VALUES (1878, '广东东软学院', '本科', 19);
-INSERT INTO `school` VALUES (1879, '华南理工大学广州学院', '本科', 19);
-INSERT INTO `school` VALUES (1880, '广州大学华软软件学院', '本科', 19);
-INSERT INTO `school` VALUES (1881, '中山大学南方学院', '本科', 19);
-INSERT INTO `school` VALUES (1882, '广东外语外贸大学南国商学院', '本科', 19);
-INSERT INTO `school` VALUES (1883, '广东财经大学华商学院', '本科', 19);
-INSERT INTO `school` VALUES (1884, '广东海洋大学寸金学院', '本科', 19);
-INSERT INTO `school` VALUES (1885, '华南农业大学珠江学院', '本科', 19);
-INSERT INTO `school` VALUES (1886, '广东技术师范学院天河学院', '本科', 19);
-INSERT INTO `school` VALUES (1887, '北京师范大学珠海分校', '本科', 19);
-INSERT INTO `school` VALUES (1888, '广东工业大学华立学院', '本科', 19);
-INSERT INTO `school` VALUES (1889, '广州大学松田学院', '本科', 19);
-INSERT INTO `school` VALUES (1890, '广州商学院', '本科', 19);
-INSERT INTO `school` VALUES (1891, '北京理工大学珠海学院', '本科', 19);
-INSERT INTO `school` VALUES (1892, '吉林大学珠海学院', '本科', 19);
-INSERT INTO `school` VALUES (1893, '广州工商学院', '本科', 19);
-INSERT INTO `school` VALUES (1894, '广东科技学院', '本科', 19);
-INSERT INTO `school` VALUES (1895, '广东理工学院', '本科', 19);
-INSERT INTO `school` VALUES (1896, '东莞理工学院城市学院', '本科', 19);
-INSERT INTO `school` VALUES (1897, '中山大学新华学院', '本科', 19);
-INSERT INTO `school` VALUES (1898, '广东第二师范学院', '本科', 19);
-INSERT INTO `school` VALUES (1899, '南方科技大学', '本科', 19);
-INSERT INTO `school` VALUES (1900, '北京师范大学-香港浸会大学联合国际学院', '本科', 19);
-INSERT INTO `school` VALUES (1901, '香港中文大学（深圳）', '本科', 19);
-INSERT INTO `school` VALUES (1902, '深圳北理莫斯科大学', '本科', 19);
-INSERT INTO `school` VALUES (1903, '广东以色列理工学院', '本科', 19);
-INSERT INTO `school` VALUES (1904, '顺德职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1905, '广东轻工职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1906, '广东交通职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1907, '广东水利电力职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1908, '潮汕职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1909, '深圳职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1910, '广东南华工商职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1911, '私立华联学院', '专科', 19);
-INSERT INTO `school` VALUES (1912, '广州民航职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1913, '广州番禺职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1914, '广东松山职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1915, '广东农工商职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1916, '广东新安职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1917, '佛山职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1918, '广东科学技术职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1919, '广东食品药品职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1920, '广州康大职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1921, '珠海艺术职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1922, '广东行政职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1923, '广东体育职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1924, '广东职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1925, '广东建设职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1926, '广东女子职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1927, '广东机电职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1928, '广东岭南职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1929, '汕尾职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1930, '罗定职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1931, '阳江职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1932, '河源职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1933, '广东邮电职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1934, '汕头职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1935, '揭阳职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1936, '深圳信息职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1937, '清远职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1938, '广东工贸职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1939, '广东司法警官职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1940, '广东亚视演艺职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1941, '广东省外语艺术职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1942, '广东文艺职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1943, '广州体育职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1944, '广州工程技术职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1945, '中山火炬职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1946, '江门职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1947, '茂名职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1948, '珠海城市职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1949, '广州涉外经济职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1950, '广州南洋理工职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1951, '广州科技职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1952, '惠州经济职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1953, '广东工商职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1954, '肇庆医学高等专科学校', '专科', 19);
-INSERT INTO `school` VALUES (1955, '广州现代信息工程职业技术\n学院', '专科', 19);
-INSERT INTO `school` VALUES (1956, '广东理工职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1957, '广州华南商贸职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1958, '广州华立科技职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1959, '广州城市职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1960, '广东工程职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1961, '广州铁路职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1962, '广东科贸职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1963, '广州科技贸易职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1964, '中山职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1965, '广州珠江职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1966, '广州松田职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1967, '广东文理职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1968, '广州城建职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1969, '东莞职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1970, '广东南方职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1971, '广州华商职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1972, '广州华夏职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1973, '广东环境保护工程职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1974, '广东青年职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1975, '广州东华职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1976, '广东创新科技职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1977, '广东舞蹈戏剧职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1978, '惠州卫生职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1979, '广东信息工程职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1980, '广东生态工程职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1981, '惠州城市职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1982, '广东碧桂园职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1983, '公安边防部队高等专科学校', '专科', 19);
-INSERT INTO `school` VALUES (1984, '广东茂名健康职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1985, '广东酒店管理职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1986, '广东茂名幼儿师范专科学校', '专科', 19);
-INSERT INTO `school` VALUES (1987, '广州卫生职业技术学院', '专科', 19);
-INSERT INTO `school` VALUES (1988, '惠州工程职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1989, '广东江门中医药职业学院', '专科', 19);
-INSERT INTO `school` VALUES (1990, '湛江幼儿师范专科学校', '专科', 19);
-INSERT INTO `school` VALUES (1991, '广西大学', '本科', 20);
-INSERT INTO `school` VALUES (1992, '广西科技大学', '本科', 20);
-INSERT INTO `school` VALUES (1993, '桂林电子科技大学', '本科', 20);
-INSERT INTO `school` VALUES (1994, '桂林理工大学', '本科', 20);
-INSERT INTO `school` VALUES (1995, '广西医科大学', '本科', 20);
-INSERT INTO `school` VALUES (1996, '右江民族医学院', '本科', 20);
-INSERT INTO `school` VALUES (1997, '广西中医药大学', '本科', 20);
-INSERT INTO `school` VALUES (1998, '桂林医学院', '本科', 20);
-INSERT INTO `school` VALUES (1999, '广西师范大学', '本科', 20);
-INSERT INTO `school` VALUES (2000, '广西师范学院', '本科', 20);
-INSERT INTO `school` VALUES (2001, '广西民族师范学院', '本科', 20);
-INSERT INTO `school` VALUES (2002, '河池学院', '本科', 20);
-INSERT INTO `school` VALUES (2003, '玉林师范学院', '本科', 20);
-INSERT INTO `school` VALUES (2004, '广西艺术学院', '本科', 20);
-INSERT INTO `school` VALUES (2005, '广西民族大学', '本科', 20);
-INSERT INTO `school` VALUES (2006, '百色学院', '本科', 20);
-INSERT INTO `school` VALUES (2007, '梧州学院', '本科', 20);
-INSERT INTO `school` VALUES (2008, '广西科技师范学院', '本科', 20);
-INSERT INTO `school` VALUES (2009, '广西财经学院', '本科', 20);
-INSERT INTO `school` VALUES (2010, '南宁学院', '本科', 20);
-INSERT INTO `school` VALUES (2011, '钦州学院', '本科', 20);
-INSERT INTO `school` VALUES (2012, '桂林航天工业学院', '本科', 20);
-INSERT INTO `school` VALUES (2013, '桂林旅游学院', '本科', 20);
-INSERT INTO `school` VALUES (2014, '贺州学院', '本科', 20);
-INSERT INTO `school` VALUES (2015, '广西警察学院', '本科', 20);
-INSERT INTO `school` VALUES (2016, '北海艺术设计学院', '本科', 20);
-INSERT INTO `school` VALUES (2017, '广西大学行健文理学院', '本科', 20);
-INSERT INTO `school` VALUES (2018, '广西科技大学鹿山学院', '本科', 20);
-INSERT INTO `school` VALUES (2019, '广西民族大学相思湖学院', '本科', 20);
-INSERT INTO `school` VALUES (2020, '广西师范大学漓江学院', '本科', 20);
-INSERT INTO `school` VALUES (2021, '广西师范学院师园学院', '本科', 20);
-INSERT INTO `school` VALUES (2022, '广西中医药大学赛恩斯新医药\n学院', '本科', 20);
-INSERT INTO `school` VALUES (2023, '桂林电子科技大学信息科技\n学院', '本科', 20);
-INSERT INTO `school` VALUES (2024, '桂林理工大学博文管理学院', '本科', 20);
-INSERT INTO `school` VALUES (2025, '广西外国语学院', '本科', 20);
-INSERT INTO `school` VALUES (2026, '北京航空航天大学北海学院', '本科', 20);
-INSERT INTO `school` VALUES (2027, '广西机电职业技术学院', '专科', 20);
-INSERT INTO `school` VALUES (2028, '广西体育高等专科学校', '专科', 20);
-INSERT INTO `school` VALUES (2029, '南宁职业技术学院', '专科', 20);
-INSERT INTO `school` VALUES (2030, '广西水利电力职业技术学院', '专科', 20);
-INSERT INTO `school` VALUES (2031, '桂林师范高等专科学校', '专科', 20);
-INSERT INTO `school` VALUES (2032, '广西职业技术学院', '专科', 20);
-INSERT INTO `school` VALUES (2033, '柳州职业技术学院', '专科', 20);
-INSERT INTO `school` VALUES (2034, '广西生态工程职业技术学院', '专科', 20);
-INSERT INTO `school` VALUES (2035, '广西交通职业技术学院', '专科', 20);
-INSERT INTO `school` VALUES (2036, '广西工业职业技术学院', '专科', 20);
-INSERT INTO `school` VALUES (2037, '广西国际商务职业技术学院', '专科', 20);
-INSERT INTO `school` VALUES (2038, '广西农业职业技术学院', '专科', 20);
-INSERT INTO `school` VALUES (2039, '柳州铁道职业技术学院', '专科', 20);
-INSERT INTO `school` VALUES (2040, '广西建设职业技术学院', '专科', 20);
-INSERT INTO `school` VALUES (2041, '广西现代职业技术学院', '专科', 20);
-INSERT INTO `school` VALUES (2042, '北海职业学院', '专科', 20);
-INSERT INTO `school` VALUES (2043, '桂林山水职业学院', '专科', 20);
-INSERT INTO `school` VALUES (2044, '广西经贸职业技术学院', '专科', 20);
-INSERT INTO `school` VALUES (2045, '广西工商职业技术学院', '专科', 20);
-INSERT INTO `school` VALUES (2046, '广西演艺职业学院', '专科', 20);
-INSERT INTO `school` VALUES (2047, '广西电力职业技术学院', '专科', 20);
-INSERT INTO `school` VALUES (2048, '广西城市职业学院', '专科', 20);
-INSERT INTO `school` VALUES (2049, '广西英华国际职业学院', '专科', 20);
-INSERT INTO `school` VALUES (2050, '柳州城市职业学院', '专科', 20);
-INSERT INTO `school` VALUES (2051, '百色职业学院', '专科', 20);
-INSERT INTO `school` VALUES (2052, '广西工程职业学院', '专科', 20);
-INSERT INTO `school` VALUES (2053, '广西理工职业技术学院', '专科', 20);
-INSERT INTO `school` VALUES (2054, '梧州职业学院', '专科', 20);
-INSERT INTO `school` VALUES (2055, '广西经济职业学院', '专科', 20);
-INSERT INTO `school` VALUES (2056, '广西幼儿师范高等专科学校', '专科', 20);
-INSERT INTO `school` VALUES (2057, '广西科技职业学院', '专科', 20);
-INSERT INTO `school` VALUES (2058, '广西卫生职业技术学院', '专科', 20);
-INSERT INTO `school` VALUES (2059, '广西培贤国际职业学院', '专科', 20);
-INSERT INTO `school` VALUES (2060, '广西金融职业技术学院', '专科', 20);
-INSERT INTO `school` VALUES (2061, '广西中远职业学院', '专科', 20);
-INSERT INTO `school` VALUES (2062, '玉柴职业技术学院', '专科', 20);
-INSERT INTO `school` VALUES (2063, '广西蓝天航空职业学院', '专科', 20);
-INSERT INTO `school` VALUES (2064, '广西安全工程职业技术学院', '专科', 20);
-INSERT INTO `school` VALUES (2065, '海南大学', '本科', 21);
-INSERT INTO `school` VALUES (2066, '海南热带海洋学院', '本科', 21);
-INSERT INTO `school` VALUES (2067, '海南师范大学', '本科', 21);
-INSERT INTO `school` VALUES (2068, '海南医学院', '本科', 21);
-INSERT INTO `school` VALUES (2069, '海口经济学院', '本科', 21);
-INSERT INTO `school` VALUES (2070, '琼台师范学院', '本科', 21);
-INSERT INTO `school` VALUES (2071, '三亚学院', '本科', 21);
-INSERT INTO `school` VALUES (2072, '海南职业技术学院', '专科', 21);
-INSERT INTO `school` VALUES (2073, '三亚城市职业学院', '专科', 21);
-INSERT INTO `school` VALUES (2074, '海南软件职业技术学院', '专科', 21);
-INSERT INTO `school` VALUES (2075, '海南政法职业学院', '专科', 21);
-INSERT INTO `school` VALUES (2076, '海南外国语职业学院', '专科', 21);
-INSERT INTO `school` VALUES (2077, '海南经贸职业技术学院', '专科', 21);
-INSERT INTO `school` VALUES (2078, '海南工商职业学院', '专科', 21);
-INSERT INTO `school` VALUES (2079, '三亚航空旅游职业学院', '专科', 21);
-INSERT INTO `school` VALUES (2080, '海南科技职业学院', '专科', 21);
-INSERT INTO `school` VALUES (2081, '三亚理工职业学院', '专科', 21);
-INSERT INTO `school` VALUES (2082, '海南体育职业技术学院', '专科', 21);
-INSERT INTO `school` VALUES (2083, '三亚中瑞酒店管理职业学院', '专科', 21);
-INSERT INTO `school` VALUES (2084, '重庆大学', '本科', 22);
-INSERT INTO `school` VALUES (2085, '重庆邮电大学', '本科', 22);
-INSERT INTO `school` VALUES (2086, '重庆交通大学', '本科', 22);
-INSERT INTO `school` VALUES (2087, '重庆医科大学', '本科', 22);
-INSERT INTO `school` VALUES (2088, '西南大学', '本科', 22);
-INSERT INTO `school` VALUES (2089, '重庆师范大学', '本科', 22);
-INSERT INTO `school` VALUES (2090, '重庆文理学院', '本科', 22);
-INSERT INTO `school` VALUES (2091, '重庆三峡学院', '本科', 22);
-INSERT INTO `school` VALUES (2092, '长江师范学院', '本科', 22);
-INSERT INTO `school` VALUES (2093, '四川外国语大学', '本科', 22);
-INSERT INTO `school` VALUES (2094, '西南政法大学', '本科', 22);
-INSERT INTO `school` VALUES (2095, '四川美术学院', '本科', 22);
-INSERT INTO `school` VALUES (2096, '重庆科技学院', '本科', 22);
-INSERT INTO `school` VALUES (2097, '重庆理工大学', '本科', 22);
-INSERT INTO `school` VALUES (2098, '重庆工商大学', '本科', 22);
-INSERT INTO `school` VALUES (2099, '重庆工程学院', '本科', 22);
-INSERT INTO `school` VALUES (2100, '重庆大学城市科技学院', '本科', 22);
-INSERT INTO `school` VALUES (2101, '重庆警察学院', '本科', 22);
-INSERT INTO `school` VALUES (2102, '重庆人文科技学院', '本科', 22);
-INSERT INTO `school` VALUES (2103, '四川外国语大学重庆南方翻译\n学院', '本科', 22);
-INSERT INTO `school` VALUES (2104, '重庆师范大学涉外商贸学院', '本科', 22);
-INSERT INTO `school` VALUES (2105, '重庆工商大学融智学院', '本科', 22);
-INSERT INTO `school` VALUES (2106, '重庆工商大学派斯学院', '本科', 22);
-INSERT INTO `school` VALUES (2107, '重庆邮电大学移通学院', '本科', 22);
-INSERT INTO `school` VALUES (2108, '重庆第二师范学院', '本科', 22);
-INSERT INTO `school` VALUES (2109, '重庆航天职业技术学院', '专科', 22);
-INSERT INTO `school` VALUES (2110, '重庆电力高等专科学校', '专科', 22);
-INSERT INTO `school` VALUES (2111, '重庆工业职业技术学院', '专科', 22);
-INSERT INTO `school` VALUES (2112, '重庆三峡职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2113, '重庆工贸职业技术学院', '专科', 22);
-INSERT INTO `school` VALUES (2114, '重庆机电职业技术学院', '专科', 22);
-INSERT INTO `school` VALUES (2115, '重庆电子工程职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2116, '重庆海联职业技术学院', '专科', 22);
-INSERT INTO `school` VALUES (2117, '重庆信息技术职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2118, '重庆传媒职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2119, '重庆城市管理职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2120, '重庆工程职业技术学院', '专科', 22);
-INSERT INTO `school` VALUES (2121, '重庆房地产职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2122, '重庆城市职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2123, '重庆水利电力职业技术学院', '专科', 22);
-INSERT INTO `school` VALUES (2124, '重庆工商职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2125, '重庆应用技术职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2126, '重庆三峡医药高等专科学校', '专科', 22);
-INSERT INTO `school` VALUES (2127, '重庆医药高等专科学校', '专科', 22);
-INSERT INTO `school` VALUES (2128, '重庆青年职业技术学院', '专科', 22);
-INSERT INTO `school` VALUES (2129, '重庆财经职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2130, '重庆科创职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2131, '重庆建筑工程职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2132, '重庆电讯职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2133, '重庆能源职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2134, '重庆商务职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2135, '重庆交通职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2136, '重庆化工职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2137, '重庆旅游职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2138, '重庆安全技术职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2139, '重庆公共运输职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2140, '重庆艺术工程职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2141, '重庆轻工职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2142, '重庆电信职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2143, '重庆经贸职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2144, '重庆幼儿师范高等专科学校', '专科', 22);
-INSERT INTO `school` VALUES (2145, '重庆文化艺术职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2146, '重庆科技职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2147, '重庆资源与环境保护职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2148, '重庆护理职业学院', '专科', 22);
-INSERT INTO `school` VALUES (2149, '四川大学', '本科', 23);
-INSERT INTO `school` VALUES (2150, '西南交通大学', '本科', 23);
-INSERT INTO `school` VALUES (2151, '电子科技大学', '本科', 23);
-INSERT INTO `school` VALUES (2152, '西南石油大学', '本科', 23);
-INSERT INTO `school` VALUES (2153, '成都理工大学', '本科', 23);
-INSERT INTO `school` VALUES (2154, '西南科技大学', '本科', 23);
-INSERT INTO `school` VALUES (2155, '成都信息工程大学', '本科', 23);
-INSERT INTO `school` VALUES (2156, '四川理工学院', '本科', 23);
-INSERT INTO `school` VALUES (2157, '西华大学', '本科', 23);
-INSERT INTO `school` VALUES (2158, '中国民用航空飞行学院', '本科', 23);
-INSERT INTO `school` VALUES (2159, '四川农业大学', '本科', 23);
-INSERT INTO `school` VALUES (2160, '西昌学院', '本科', 23);
-INSERT INTO `school` VALUES (2161, '西南医科大学', '本科', 23);
-INSERT INTO `school` VALUES (2162, '成都中医药大学', '本科', 23);
-INSERT INTO `school` VALUES (2163, '川北医学院', '本科', 23);
-INSERT INTO `school` VALUES (2164, '四川师范大学', '本科', 23);
-INSERT INTO `school` VALUES (2165, '西华师范大学', '本科', 23);
-INSERT INTO `school` VALUES (2166, '绵阳师范学院', '本科', 23);
-INSERT INTO `school` VALUES (2167, '内江师范学院', '本科', 23);
-INSERT INTO `school` VALUES (2168, '宜宾学院', '本科', 23);
-INSERT INTO `school` VALUES (2169, '四川文理学院', '本科', 23);
-INSERT INTO `school` VALUES (2170, '阿坝师范学院', '本科', 23);
-INSERT INTO `school` VALUES (2171, '乐山师范学院', '本科', 23);
-INSERT INTO `school` VALUES (2172, '西南财经大学', '本科', 23);
-INSERT INTO `school` VALUES (2173, '成都体育学院', '本科', 23);
-INSERT INTO `school` VALUES (2174, '四川音乐学院', '本科', 23);
-INSERT INTO `school` VALUES (2175, '西南民族大学', '本科', 23);
-INSERT INTO `school` VALUES (2176, '成都学院', '本科', 23);
-INSERT INTO `school` VALUES (2177, '成都工业学院', '本科', 23);
-INSERT INTO `school` VALUES (2178, '攀枝花学院', '本科', 23);
-INSERT INTO `school` VALUES (2179, '四川旅游学院', '本科', 23);
-INSERT INTO `school` VALUES (2180, '四川民族学院', '本科', 23);
-INSERT INTO `school` VALUES (2181, '四川警察学院', '本科', 23);
-INSERT INTO `school` VALUES (2182, '成都东软学院', '本科', 23);
-INSERT INTO `school` VALUES (2183, '电子科技大学成都学院', '本科', 23);
-INSERT INTO `school` VALUES (2184, '成都理工大学工程技术学院', '本科', 23);
-INSERT INTO `school` VALUES (2185, '四川传媒学院', '本科', 23);
-INSERT INTO `school` VALUES (2186, '成都信息工程大学银杏酒店管理学院', '本科', 23);
-INSERT INTO `school` VALUES (2187, '成都文理学院', '本科', 23);
-INSERT INTO `school` VALUES (2188, '四川工商学院', '本科', 23);
-INSERT INTO `school` VALUES (2189, '四川外国语大学成都学院', '本科', 23);
-INSERT INTO `school` VALUES (2190, '成都医学院', '本科', 23);
-INSERT INTO `school` VALUES (2191, '四川工业科技学院', '本科', 23);
-INSERT INTO `school` VALUES (2192, '四川大学锦城学院', '本科', 23);
-INSERT INTO `school` VALUES (2193, '西南财经大学天府学院', '本科', 23);
-INSERT INTO `school` VALUES (2194, '四川大学锦江学院', '本科', 23);
-INSERT INTO `school` VALUES (2195, '四川文化艺术学院', '本科', 23);
-INSERT INTO `school` VALUES (2196, '西南科技大学城市学院', '本科', 23);
-INSERT INTO `school` VALUES (2197, '西南交通大学希望学院', '本科', 23);
-INSERT INTO `school` VALUES (2198, '成都师范学院', '本科', 23);
-INSERT INTO `school` VALUES (2199, '四川电影电视学院', '本科', 23);
-INSERT INTO `school` VALUES (2200, '成都纺织高等专科学校', '专科', 23);
-INSERT INTO `school` VALUES (2201, '民办四川天一学院', '专科', 23);
-INSERT INTO `school` VALUES (2202, '成都航空职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2203, '四川电力职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2204, '成都职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2205, '四川化工职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2206, '四川水利职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2207, '南充职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2208, '内江职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2209, '四川航天职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2210, '四川邮电职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2211, '四川机电职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2212, '绵阳职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2213, '四川交通职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2214, '四川工商职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2215, '四川工程职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2216, '四川建筑职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2217, '达州职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2218, '四川托普信息技术职业学院', '专科', 23);
-INSERT INTO `school` VALUES (2219, '四川国际标榜职业学院', '专科', 23);
-INSERT INTO `school` VALUES (2220, '成都农业科技职业学院', '专科', 23);
-INSERT INTO `school` VALUES (2221, '宜宾职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2222, '泸州职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2223, '眉山职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2224, '成都艺术职业学院', '专科', 23);
-INSERT INTO `school` VALUES (2225, '四川职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2226, '乐山职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2227, '雅安职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2228, '四川商务职业学院', '专科', 23);
-INSERT INTO `school` VALUES (2229, '四川司法警官职业学院', '专科', 23);
-INSERT INTO `school` VALUES (2230, '广安职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2231, '四川信息职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2232, '四川文化传媒职业学院', '专科', 23);
-INSERT INTO `school` VALUES (2233, '四川华新现代职业学院', '专科', 23);
-INSERT INTO `school` VALUES (2234, '四川管理职业学院', '专科', 23);
-INSERT INTO `school` VALUES (2235, '四川艺术职业学院', '专科', 23);
-INSERT INTO `school` VALUES (2236, '四川中医药高等专科学校', '专科', 23);
-INSERT INTO `school` VALUES (2237, '四川科技职业学院', '专科', 23);
-INSERT INTO `school` VALUES (2238, '四川文化产业职业学院', '专科', 23);
-INSERT INTO `school` VALUES (2239, '四川财经职业学院', '专科', 23);
-INSERT INTO `school` VALUES (2240, '四川城市职业学院', '专科', 23);
-INSERT INTO `school` VALUES (2241, '四川现代职业学院', '专科', 23);
-INSERT INTO `school` VALUES (2242, '四川幼儿师范高等专科学校', '专科', 23);
-INSERT INTO `school` VALUES (2243, '四川长江职业学院', '专科', 23);
-INSERT INTO `school` VALUES (2244, '四川三河职业学院', '专科', 23);
-INSERT INTO `school` VALUES (2245, '川北幼儿师范高等专科学校', '专科', 23);
-INSERT INTO `school` VALUES (2246, '四川卫生康复职业学院', '专科', 23);
-INSERT INTO `school` VALUES (2247, '四川汽车职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2248, '巴中职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2249, '四川希望汽车职业学院', '专科', 23);
-INSERT INTO `school` VALUES (2250, '四川电子机械职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2251, '四川文轩职业学院', '专科', 23);
-INSERT INTO `school` VALUES (2252, '川南幼儿师范高等专科学校', '专科', 23);
-INSERT INTO `school` VALUES (2253, '四川护理职业学院', '专科', 23);
-INSERT INTO `school` VALUES (2254, '成都工业职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2255, '四川西南航空职业学院', '专科', 23);
-INSERT INTO `school` VALUES (2256, '成都工贸职业技术学院', '专科', 23);
-INSERT INTO `school` VALUES (2257, '四川应用技术职业学院', '专科', 23);
-INSERT INTO `school` VALUES (2258, '贵州大学', '本科', 24);
-INSERT INTO `school` VALUES (2259, '贵州医科大学', '本科', 24);
-INSERT INTO `school` VALUES (2260, '遵义医学院', '本科', 24);
-INSERT INTO `school` VALUES (2261, '贵阳中医学院', '本科', 24);
-INSERT INTO `school` VALUES (2262, '贵州师范大学', '本科', 24);
-INSERT INTO `school` VALUES (2263, '遵义师范学院', '本科', 24);
-INSERT INTO `school` VALUES (2264, '铜仁学院', '本科', 24);
-INSERT INTO `school` VALUES (2265, '兴义民族师范学院', '本科', 24);
-INSERT INTO `school` VALUES (2266, '安顺学院', '本科', 24);
-INSERT INTO `school` VALUES (2267, '贵州工程应用技术学院', '本科', 24);
-INSERT INTO `school` VALUES (2268, '凯里学院', '本科', 24);
-INSERT INTO `school` VALUES (2269, '黔南民族师范学院', '本科', 24);
-INSERT INTO `school` VALUES (2270, '贵州财经大学', '本科', 24);
-INSERT INTO `school` VALUES (2271, '贵州民族大学', '本科', 24);
-INSERT INTO `school` VALUES (2272, '贵阳学院', '本科', 24);
-INSERT INTO `school` VALUES (2273, '六盘水师范学院', '本科', 24);
-INSERT INTO `school` VALUES (2274, '贵州商学院', '本科', 24);
-INSERT INTO `school` VALUES (2275, '贵州警察学院', '本科', 24);
-INSERT INTO `school` VALUES (2276, '贵阳中医学院时珍学院', '本科', 24);
-INSERT INTO `school` VALUES (2277, '贵州财经大学商务学院', '本科', 24);
-INSERT INTO `school` VALUES (2278, '贵州大学科技学院', '本科', 24);
-INSERT INTO `school` VALUES (2279, '贵州大学明德学院', '本科', 24);
-INSERT INTO `school` VALUES (2280, '贵州民族大学人文科技学院', '本科', 24);
-INSERT INTO `school` VALUES (2281, '贵州师范大学求是学院', '本科', 24);
-INSERT INTO `school` VALUES (2282, '遵义医学院医学与科技学院', '本科', 24);
-INSERT INTO `school` VALUES (2283, '贵州医科大学神奇民族医药\n学院', '本科', 24);
-INSERT INTO `school` VALUES (2284, '贵州师范学院', '本科', 24);
-INSERT INTO `school` VALUES (2285, '贵州理工学院', '本科', 24);
-INSERT INTO `school` VALUES (2286, '茅台学院', '本科', 24);
-INSERT INTO `school` VALUES (2287, '黔南民族医学高等专科学校', '专科', 24);
-INSERT INTO `school` VALUES (2288, '贵州交通职业技术学院', '专科', 24);
-INSERT INTO `school` VALUES (2289, '贵州航天职业技术学院', '专科', 24);
-INSERT INTO `school` VALUES (2290, '贵州电子信息职业技术学院', '专科', 24);
-INSERT INTO `school` VALUES (2291, '安顺职业技术学院', '专科', 24);
-INSERT INTO `school` VALUES (2292, '黔东南民族职业技术学院', '专科', 24);
-INSERT INTO `school` VALUES (2293, '黔南民族职业技术学院', '专科', 24);
-INSERT INTO `school` VALUES (2294, '遵义职业技术学院', '专科', 24);
-INSERT INTO `school` VALUES (2295, '贵州城市职业学院', '专科', 24);
-INSERT INTO `school` VALUES (2296, '贵州工业职业技术学院', '专科', 24);
-INSERT INTO `school` VALUES (2297, '贵州电力职业技术学院', '专科', 24);
-INSERT INTO `school` VALUES (2298, '六盘水职业技术学院', '专科', 24);
-INSERT INTO `school` VALUES (2299, '铜仁职业技术学院', '专科', 24);
-INSERT INTO `school` VALUES (2300, '黔西南民族职业技术学院', '专科', 24);
-INSERT INTO `school` VALUES (2301, '贵州轻工职业技术学院', '专科', 24);
-INSERT INTO `school` VALUES (2302, '遵义医药高等专科学校', '专科', 24);
-INSERT INTO `school` VALUES (2303, '贵阳护理职业学院', '专科', 24);
-INSERT INTO `school` VALUES (2304, '贵阳职业技术学院', '专科', 24);
-INSERT INTO `school` VALUES (2305, '毕节职业技术学院', '专科', 24);
-INSERT INTO `school` VALUES (2306, '贵州职业技术学院', '专科', 24);
-INSERT INTO `school` VALUES (2307, '贵州盛华职业学院', '专科', 24);
-INSERT INTO `school` VALUES (2308, '贵州工商职业学院', '专科', 24);
-INSERT INTO `school` VALUES (2309, '贵阳幼儿师范高等专科学校', '专科', 24);
-INSERT INTO `school` VALUES (2310, '铜仁幼儿师范高等专科学校', '专科', 24);
-INSERT INTO `school` VALUES (2311, '黔南民族幼儿师范高等专科\n学校', '专科', 24);
-INSERT INTO `school` VALUES (2312, '毕节医学高等专科学校', '专科', 24);
-INSERT INTO `school` VALUES (2313, '贵州建设职业技术学院', '专科', 24);
-INSERT INTO `school` VALUES (2314, '毕节幼儿师范高等专科学校', '专科', 24);
-INSERT INTO `school` VALUES (2315, '贵州农业职业学院', '专科', 24);
-INSERT INTO `school` VALUES (2316, '贵州工程职业学院', '专科', 24);
-INSERT INTO `school` VALUES (2317, '贵州工贸职业学院', '专科', 24);
-INSERT INTO `school` VALUES (2318, '贵州水利水电职业技术学院', '专科', 24);
-INSERT INTO `school` VALUES (2319, '贵州电子商务职业技术学院', '专科', 24);
-INSERT INTO `school` VALUES (2320, '贵州应用技术职业学院', '专科', 24);
-INSERT INTO `school` VALUES (2321, '贵州电子科技职业学院', '专科', 24);
-INSERT INTO `school` VALUES (2322, '贵州装备制造职业学院', '专科', 24);
-INSERT INTO `school` VALUES (2323, '贵州健康职业学院', '专科', 24);
-INSERT INTO `school` VALUES (2324, '贵州食品工程职业学院', '专科', 24);
-INSERT INTO `school` VALUES (2325, '贵州经贸职业技术学院', '专科', 24);
-INSERT INTO `school` VALUES (2326, '贵州护理职业技术学院', '专科', 24);
-INSERT INTO `school` VALUES (2327, '贵州航空职业技术学院', '专科', 24);
-INSERT INTO `school` VALUES (2328, '云南大学', '本科', 25);
-INSERT INTO `school` VALUES (2329, '昆明理工大学', '本科', 25);
-INSERT INTO `school` VALUES (2330, '云南农业大学', '本科', 25);
-INSERT INTO `school` VALUES (2331, '西南林业大学', '本科', 25);
-INSERT INTO `school` VALUES (2332, '昆明医科大学', '本科', 25);
-INSERT INTO `school` VALUES (2333, '大理大学', '本科', 25);
-INSERT INTO `school` VALUES (2334, '云南中医学院', '本科', 25);
-INSERT INTO `school` VALUES (2335, '云南师范大学', '本科', 25);
-INSERT INTO `school` VALUES (2336, '昭通学院', '本科', 25);
-INSERT INTO `school` VALUES (2337, '曲靖师范学院', '本科', 25);
-INSERT INTO `school` VALUES (2338, '普洱学院', '本科', 25);
-INSERT INTO `school` VALUES (2339, '保山学院', '本科', 25);
-INSERT INTO `school` VALUES (2340, '红河学院', '本科', 25);
-INSERT INTO `school` VALUES (2341, '云南财经大学', '本科', 25);
-INSERT INTO `school` VALUES (2342, '云南艺术学院', '本科', 25);
-INSERT INTO `school` VALUES (2343, '云南民族大学', '本科', 25);
-INSERT INTO `school` VALUES (2344, '玉溪师范学院', '本科', 25);
-INSERT INTO `school` VALUES (2345, '楚雄师范学院', '本科', 25);
-INSERT INTO `school` VALUES (2346, '云南警官学院', '本科', 25);
-INSERT INTO `school` VALUES (2347, '昆明学院', '本科', 25);
-INSERT INTO `school` VALUES (2348, '文山学院', '本科', 25);
-INSERT INTO `school` VALUES (2349, '云南经济管理学院', '本科', 25);
-INSERT INTO `school` VALUES (2350, '云南大学滇池学院', '本科', 25);
-INSERT INTO `school` VALUES (2351, '云南大学旅游文化学院', '本科', 25);
-INSERT INTO `school` VALUES (2352, '昆明理工大学津桥学院', '本科', 25);
-INSERT INTO `school` VALUES (2353, '云南师范大学商学院', '本科', 25);
-INSERT INTO `school` VALUES (2354, '云南师范大学文理学院', '本科', 25);
-INSERT INTO `school` VALUES (2355, '昆明医科大学海源学院', '本科', 25);
-INSERT INTO `school` VALUES (2356, '云南艺术学院文华学院', '本科', 25);
-INSERT INTO `school` VALUES (2357, '云南工商学院', '本科', 25);
-INSERT INTO `school` VALUES (2358, '滇西科技师范学院', '本科', 25);
-INSERT INTO `school` VALUES (2359, '滇西应用技术大学', '本科', 25);
-INSERT INTO `school` VALUES (2360, '昆明冶金高等专科学校', '专科', 25);
-INSERT INTO `school` VALUES (2361, '云南国土资源职业学院', '专科', 25);
-INSERT INTO `school` VALUES (2362, '云南交通职业技术学院', '专科', 25);
-INSERT INTO `school` VALUES (2363, '昆明工业职业技术学院', '专科', 25);
-INSERT INTO `school` VALUES (2364, '云南农业职业技术学院', '专科', 25);
-INSERT INTO `school` VALUES (2365, '云南司法警官职业学院', '专科', 25);
-INSERT INTO `school` VALUES (2366, '云南文化艺术职业学院', '专科', 25);
-INSERT INTO `school` VALUES (2367, '云南体育运动职业技术学院', '专科', 25);
-INSERT INTO `school` VALUES (2368, '云南科技信息职业学院', '专科', 25);
-INSERT INTO `school` VALUES (2369, '西双版纳职业技术学院', '专科', 25);
-INSERT INTO `school` VALUES (2370, '昆明艺术职业学院', '专科', 25);
-INSERT INTO `school` VALUES (2371, '玉溪农业职业技术学院', '专科', 25);
-INSERT INTO `school` VALUES (2372, '云南能源职业技术学院', '专科', 25);
-INSERT INTO `school` VALUES (2373, '云南国防工业职业技术学院', '专科', 25);
-INSERT INTO `school` VALUES (2374, '云南机电职业技术学院', '专科', 25);
-INSERT INTO `school` VALUES (2375, '云南林业职业技术学院', '专科', 25);
-INSERT INTO `school` VALUES (2376, '云南城市建设职业学院', '专科', 25);
-INSERT INTO `school` VALUES (2377, '云南工程职业学院', '专科', 25);
-INSERT INTO `school` VALUES (2378, '曲靖医学高等专科学校', '专科', 25);
-INSERT INTO `school` VALUES (2379, '楚雄医药高等专科学校', '专科', 25);
-INSERT INTO `school` VALUES (2380, '保山中医药高等专科学校', '专科', 25);
-INSERT INTO `school` VALUES (2381, '丽江师范高等专科学校', '专科', 25);
-INSERT INTO `school` VALUES (2382, '德宏师范高等专科学校', '专科', 25);
-INSERT INTO `school` VALUES (2383, '云南新兴职业学院', '专科', 25);
-INSERT INTO `school` VALUES (2384, '云南锡业职业技术学院', '专科', 25);
-INSERT INTO `school` VALUES (2385, '云南经贸外事职业学院', '专科', 25);
-INSERT INTO `school` VALUES (2386, '云南三鑫职业技术学院', '专科', 25);
-INSERT INTO `school` VALUES (2387, '德宏职业学院', '专科', 25);
-INSERT INTO `school` VALUES (2388, '云南商务职业学院', '专科', 25);
-INSERT INTO `school` VALUES (2389, '昆明卫生职业学院', '专科', 25);
-INSERT INTO `school` VALUES (2390, '云南现代职业技术学院', '专科', 25);
-INSERT INTO `school` VALUES (2391, '云南旅游职业学院', '专科', 25);
-INSERT INTO `school` VALUES (2392, '红河卫生职业学院', '专科', 25);
-INSERT INTO `school` VALUES (2393, '云南外事外语职业学院', '专科', 25);
-INSERT INTO `school` VALUES (2394, '大理农林职业技术学院', '专科', 25);
-INSERT INTO `school` VALUES (2395, '公安消防部队高等专科学校', '专科', 25);
-INSERT INTO `school` VALUES (2396, '云南财经职业学院', '专科', 25);
-INSERT INTO `school` VALUES (2397, '昆明铁道职业技术学院', '专科', 25);
-INSERT INTO `school` VALUES (2398, '昭通卫生职业学院', '专科', 25);
-INSERT INTO `school` VALUES (2399, '大理护理职业学院', '专科', 25);
-INSERT INTO `school` VALUES (2400, '云南水利水电职业学院', '专科', 25);
-INSERT INTO `school` VALUES (2401, '云南轻纺职业学院', '专科', 25);
-INSERT INTO `school` VALUES (2402, '云南特殊教育职业学院', '专科', 25);
-INSERT INTO `school` VALUES (2403, '云南工贸职业技术学院', '专科', 25);
-INSERT INTO `school` VALUES (2404, '云南交通运输职业学院', '专科', 25);
-INSERT INTO `school` VALUES (2405, '西藏大学', '本科', 26);
-INSERT INTO `school` VALUES (2406, '西藏民族大学', '本科', 26);
-INSERT INTO `school` VALUES (2407, '西藏藏医学院', '本科', 26);
-INSERT INTO `school` VALUES (2408, '西藏农牧学院', '本科', 26);
-INSERT INTO `school` VALUES (2409, '西藏警官高等专科学校', '专科', 26);
-INSERT INTO `school` VALUES (2410, '拉萨师范高等专科学校', '专科', 26);
-INSERT INTO `school` VALUES (2411, '西藏职业技术学院', '专科', 26);
-INSERT INTO `school` VALUES (2412, '西北大学', '本科', 27);
-INSERT INTO `school` VALUES (2413, '西安交通大学', '本科', 27);
-INSERT INTO `school` VALUES (2414, '西北工业大学', '本科', 27);
-INSERT INTO `school` VALUES (2415, '西安理工大学', '本科', 27);
-INSERT INTO `school` VALUES (2416, '西安电子科技大学', '本科', 27);
-INSERT INTO `school` VALUES (2417, '西安工业大学', '本科', 27);
-INSERT INTO `school` VALUES (2418, '西安建筑科技大学', '本科', 27);
-INSERT INTO `school` VALUES (2419, '西安科技大学', '本科', 27);
-INSERT INTO `school` VALUES (2420, '西安石油大学', '本科', 27);
-INSERT INTO `school` VALUES (2421, '陕西科技大学', '本科', 27);
-INSERT INTO `school` VALUES (2422, '西安工程大学', '本科', 27);
-INSERT INTO `school` VALUES (2423, '长安大学', '本科', 27);
-INSERT INTO `school` VALUES (2424, '西北农林科技大学', '本科', 27);
-INSERT INTO `school` VALUES (2425, '陕西中医药大学', '本科', 27);
-INSERT INTO `school` VALUES (2426, '陕西师范大学', '本科', 27);
-INSERT INTO `school` VALUES (2427, '延安大学', '本科', 27);
-INSERT INTO `school` VALUES (2428, '陕西理工大学', '本科', 27);
-INSERT INTO `school` VALUES (2429, '宝鸡文理学院', '本科', 27);
-INSERT INTO `school` VALUES (2430, '咸阳师范学院', '本科', 27);
-INSERT INTO `school` VALUES (2431, '渭南师范学院', '本科', 27);
-INSERT INTO `school` VALUES (2432, '西安外国语大学', '本科', 27);
-INSERT INTO `school` VALUES (2433, '西北政法大学', '本科', 27);
-INSERT INTO `school` VALUES (2434, '西安体育学院', '本科', 27);
-INSERT INTO `school` VALUES (2435, '西安音乐学院', '本科', 27);
-INSERT INTO `school` VALUES (2436, '西安美术学院', '本科', 27);
-INSERT INTO `school` VALUES (2437, '西安文理学院', '本科', 27);
-INSERT INTO `school` VALUES (2438, '榆林学院', '本科', 27);
-INSERT INTO `school` VALUES (2439, '商洛学院', '本科', 27);
-INSERT INTO `school` VALUES (2440, '安康学院', '本科', 27);
-INSERT INTO `school` VALUES (2441, '西安培华学院', '本科', 27);
-INSERT INTO `school` VALUES (2442, '西安财经学院', '本科', 27);
-INSERT INTO `school` VALUES (2443, '西安邮电大学', '本科', 27);
-INSERT INTO `school` VALUES (2444, '西安航空学院', '本科', 27);
-INSERT INTO `school` VALUES (2445, '西安医学院', '本科', 27);
-INSERT INTO `school` VALUES (2446, '西安欧亚学院', '本科', 27);
-INSERT INTO `school` VALUES (2447, '西安外事学院', '本科', 27);
-INSERT INTO `school` VALUES (2448, '西安翻译学院', '本科', 27);
-INSERT INTO `school` VALUES (2449, '西京学院', '本科', 27);
-INSERT INTO `school` VALUES (2450, '西安思源学院', '本科', 27);
-INSERT INTO `school` VALUES (2451, '陕西国际商贸学院', '本科', 27);
-INSERT INTO `school` VALUES (2452, '陕西服装工程学院', '本科', 27);
-INSERT INTO `school` VALUES (2453, '西安交通工程学院', '本科', 27);
-INSERT INTO `school` VALUES (2454, '西安交通大学城市学院', '本科', 27);
-INSERT INTO `school` VALUES (2455, '西北大学现代学院', '本科', 27);
-INSERT INTO `school` VALUES (2456, '西安建筑科技大学华清学院', '本科', 27);
-INSERT INTO `school` VALUES (2457, '西安财经学院行知学院', '本科', 27);
-INSERT INTO `school` VALUES (2458, '陕西科技大学镐京学院', '本科', 27);
-INSERT INTO `school` VALUES (2459, '西安工业大学北方信息工程\n学院', '本科', 27);
-INSERT INTO `school` VALUES (2460, '延安大学西安创新学院', '本科', 27);
-INSERT INTO `school` VALUES (2461, '西安电子科技大学长安学院', '本科', 27);
-INSERT INTO `school` VALUES (2462, '西北工业大学明德学院', '本科', 27);
-INSERT INTO `school` VALUES (2463, '长安大学兴华学院', '本科', 27);
-INSERT INTO `school` VALUES (2464, '西安理工大学高科学院', '本科', 27);
-INSERT INTO `school` VALUES (2465, '西安科技大学高新学院', '本科', 27);
-INSERT INTO `school` VALUES (2466, '陕西学前师范学院', '本科', 27);
-INSERT INTO `school` VALUES (2467, '陕西工业职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2468, '杨凌职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2469, '西安电力高等专科学校', '专科', 27);
-INSERT INTO `school` VALUES (2470, '陕西能源职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2471, '陕西国防工业职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2472, '西安航空职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2473, '陕西财经职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2474, '陕西交通职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2475, '陕西职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2476, '西安高新科技职业学院', '专科', 27);
-INSERT INTO `school` VALUES (2477, '西安城市建设职业学院', '专科', 27);
-INSERT INTO `school` VALUES (2478, '陕西铁路工程职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2479, '宝鸡职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2480, '陕西航空职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2481, '陕西电子信息职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2482, '陕西邮电职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2483, '西安海棠职业学院', '专科', 27);
-INSERT INTO `school` VALUES (2484, '西安汽车科技职业学院', '专科', 27);
-INSERT INTO `school` VALUES (2485, '西安东方亚太职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2486, '陕西警官职业学院', '专科', 27);
-INSERT INTO `school` VALUES (2487, '陕西经济管理职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2488, '西安铁路职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2489, '咸阳职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2490, '西安职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2491, '商洛职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2492, '汉中职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2493, '延安职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2494, '渭南职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2495, '安康职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2496, '铜川职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2497, '陕西青年职业学院', '专科', 27);
-INSERT INTO `school` VALUES (2498, '陕西工商职业学院', '专科', 27);
-INSERT INTO `school` VALUES (2499, '陕西电子科技职业学院', '专科', 27);
-INSERT INTO `school` VALUES (2500, '陕西旅游烹饪职业学院', '专科', 27);
-INSERT INTO `school` VALUES (2501, '西安医学高等专科学校', '专科', 27);
-INSERT INTO `school` VALUES (2502, '榆林职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2503, '陕西艺术职业学院', '专科', 27);
-INSERT INTO `school` VALUES (2504, '陕西机电职业技术学院', '专科', 27);
-INSERT INTO `school` VALUES (2505, '兰州大学', '本科', 28);
-INSERT INTO `school` VALUES (2506, '兰州理工大学', '本科', 28);
-INSERT INTO `school` VALUES (2507, '兰州交通大学', '本科', 28);
-INSERT INTO `school` VALUES (2508, '甘肃农业大学', '本科', 28);
-INSERT INTO `school` VALUES (2509, '甘肃中医药大学', '本科', 28);
-INSERT INTO `school` VALUES (2510, '西北师范大学', '本科', 28);
-INSERT INTO `school` VALUES (2511, '兰州城市学院', '本科', 28);
-INSERT INTO `school` VALUES (2512, '陇东学院', '本科', 28);
-INSERT INTO `school` VALUES (2513, '天水师范学院', '本科', 28);
-INSERT INTO `school` VALUES (2514, '河西学院', '本科', 28);
-INSERT INTO `school` VALUES (2515, '兰州财经大学', '本科', 28);
-INSERT INTO `school` VALUES (2516, '西北民族大学', '本科', 28);
-INSERT INTO `school` VALUES (2517, '甘肃政法学院', '本科', 28);
-INSERT INTO `school` VALUES (2518, '甘肃民族师范学院', '本科', 28);
-INSERT INTO `school` VALUES (2519, '兰州文理学院', '本科', 28);
-INSERT INTO `school` VALUES (2520, '甘肃医学院', '本科', 28);
-INSERT INTO `school` VALUES (2521, '兰州工业学院', '本科', 28);
-INSERT INTO `school` VALUES (2522, '西北师范大学知行学院', '本科', 28);
-INSERT INTO `school` VALUES (2523, '兰州财经大学陇桥学院', '本科', 28);
-INSERT INTO `school` VALUES (2524, '兰州财经大学长青学院', '本科', 28);
-INSERT INTO `school` VALUES (2525, '兰州交通大学博文学院', '本科', 28);
-INSERT INTO `school` VALUES (2526, '兰州理工大学技术工程学院', '本科', 28);
-INSERT INTO `school` VALUES (2527, '兰州石化职业技术学院', '专科', 28);
-INSERT INTO `school` VALUES (2528, '陇南师范高等专科学校', '专科', 28);
-INSERT INTO `school` VALUES (2529, '定西师范高等专科学校', '专科', 28);
-INSERT INTO `school` VALUES (2530, '甘肃建筑职业技术学院', '专科', 28);
-INSERT INTO `school` VALUES (2531, '酒泉职业技术学院', '专科', 28);
-INSERT INTO `school` VALUES (2532, '兰州外语职业学院', '专科', 28);
-INSERT INTO `school` VALUES (2533, '兰州职业技术学院', '专科', 28);
-INSERT INTO `school` VALUES (2534, '甘肃警察职业学院', '专科', 28);
-INSERT INTO `school` VALUES (2535, '甘肃林业职业技术学院', '专科', 28);
-INSERT INTO `school` VALUES (2536, '甘肃工业职业技术学院', '专科', 28);
-INSERT INTO `school` VALUES (2537, '武威职业学院', '专科', 28);
-INSERT INTO `school` VALUES (2538, '甘肃交通职业技术学院', '专科', 28);
-INSERT INTO `school` VALUES (2539, '兰州资源环境职业技术学院', '专科', 28);
-INSERT INTO `school` VALUES (2540, '甘肃农业职业技术学院', '专科', 28);
-INSERT INTO `school` VALUES (2541, '甘肃畜牧工程职业技术学院', '专科', 28);
-INSERT INTO `school` VALUES (2542, '甘肃钢铁职业技术学院', '专科', 28);
-INSERT INTO `school` VALUES (2543, '甘肃机电职业技术学院', '专科', 28);
-INSERT INTO `school` VALUES (2544, '甘肃有色冶金职业技术学院', '专科', 28);
-INSERT INTO `school` VALUES (2545, '白银矿冶职业技术学院', '专科', 28);
-INSERT INTO `school` VALUES (2546, '甘肃卫生职业学院', '专科', 28);
-INSERT INTO `school` VALUES (2547, '兰州科技职业学院', '专科', 28);
-INSERT INTO `school` VALUES (2548, '庆阳职业技术学院', '专科', 28);
-INSERT INTO `school` VALUES (2549, '临夏现代职业学院', '专科', 28);
-INSERT INTO `school` VALUES (2550, '甘肃能源化工职业学院', '专科', 28);
-INSERT INTO `school` VALUES (2551, '兰州现代职业学院', '专科', 28);
-INSERT INTO `school` VALUES (2552, '平凉职业技术学院', '专科', 28);
-INSERT INTO `school` VALUES (2553, '甘肃财贸职业学院', '专科', 28);
-INSERT INTO `school` VALUES (2554, '青海大学', '本科', 29);
-INSERT INTO `school` VALUES (2555, '青海师范大学', '本科', 29);
-INSERT INTO `school` VALUES (2556, '青海民族大学', '本科', 29);
-INSERT INTO `school` VALUES (2557, '青海大学昆仑学院', '本科', 29);
-INSERT INTO `school` VALUES (2558, '青海卫生职业技术学院', '专科', 29);
-INSERT INTO `school` VALUES (2559, '青海警官职业学院', '专科', 29);
-INSERT INTO `school` VALUES (2560, '青海畜牧兽医职业技术学院', '专科', 29);
-INSERT INTO `school` VALUES (2561, '青海交通职业技术学院', '专科', 29);
-INSERT INTO `school` VALUES (2562, '青海建筑职业技术学院', '专科', 29);
-INSERT INTO `school` VALUES (2563, '西宁城市职业技术学院', '专科', 29);
-INSERT INTO `school` VALUES (2564, '青海高等职业技术学院', '专科', 29);
-INSERT INTO `school` VALUES (2565, '青海柴达木职业技术学院', '专科', 29);
-INSERT INTO `school` VALUES (2566, '宁夏大学', '本科', 30);
-INSERT INTO `school` VALUES (2567, '宁夏医科大学', '本科', 30);
-INSERT INTO `school` VALUES (2568, '宁夏师范学院', '本科', 30);
-INSERT INTO `school` VALUES (2569, '北方民族大学', '本科', 30);
-INSERT INTO `school` VALUES (2570, '宁夏理工学院', '本科', 30);
-INSERT INTO `school` VALUES (2571, '宁夏大学新华学院', '本科', 30);
-INSERT INTO `school` VALUES (2572, '银川能源学院', '本科', 30);
-INSERT INTO `school` VALUES (2573, '中国矿业大学银川学院', '本科', 30);
-INSERT INTO `school` VALUES (2574, '宁夏民族职业技术学院', '专科', 30);
-INSERT INTO `school` VALUES (2575, '宁夏工业职业学院', '专科', 30);
-INSERT INTO `school` VALUES (2576, '宁夏职业技术学院', '专科', 30);
-INSERT INTO `school` VALUES (2577, '宁夏工商职业技术学院', '专科', 30);
-INSERT INTO `school` VALUES (2578, '宁夏财经职业技术学院', '专科', 30);
-INSERT INTO `school` VALUES (2579, '宁夏警官职业学院', '专科', 30);
-INSERT INTO `school` VALUES (2580, '宁夏建设职业技术学院', '专科', 30);
-INSERT INTO `school` VALUES (2581, '宁夏葡萄酒与防沙治沙职业技术学院', '专科', 30);
-INSERT INTO `school` VALUES (2582, '宁夏幼儿师范高等专科学校', '专科', 30);
-INSERT INTO `school` VALUES (2583, '宁夏艺术职业学院', '专科', 30);
-INSERT INTO `school` VALUES (2584, '宁夏体育职业学院', '专科', 30);
-INSERT INTO `school` VALUES (2585, '新疆大学', '本科', 31);
-INSERT INTO `school` VALUES (2586, '塔里木大学', '本科', 31);
-INSERT INTO `school` VALUES (2587, '新疆农业大学', '本科', 31);
-INSERT INTO `school` VALUES (2588, '石河子大学', '本科', 31);
-INSERT INTO `school` VALUES (2589, '新疆医科大学', '本科', 31);
-INSERT INTO `school` VALUES (2590, '新疆师范大学', '本科', 31);
-INSERT INTO `school` VALUES (2591, '喀什大学', '本科', 31);
-INSERT INTO `school` VALUES (2592, '伊犁师范学院', '本科', 31);
-INSERT INTO `school` VALUES (2593, '新疆财经大学', '本科', 31);
-INSERT INTO `school` VALUES (2594, '新疆艺术学院', '本科', 31);
-INSERT INTO `school` VALUES (2595, '新疆工程学院', '本科', 31);
-INSERT INTO `school` VALUES (2596, '昌吉学院', '本科', 31);
-INSERT INTO `school` VALUES (2597, '新疆警察学院', '本科', 31);
-INSERT INTO `school` VALUES (2598, '新疆大学科学技术学院', '本科', 31);
-INSERT INTO `school` VALUES (2599, '新疆农业大学科学技术学院', '本科', 31);
-INSERT INTO `school` VALUES (2600, '新疆医科大学厚博学院', '本科', 31);
-INSERT INTO `school` VALUES (2601, '新疆财经大学商务学院', '本科', 31);
-INSERT INTO `school` VALUES (2602, '石河子大学科技学院', '本科', 31);
-INSERT INTO `school` VALUES (2603, '和田师范专科学校', '专科', 31);
-INSERT INTO `school` VALUES (2604, '新疆农业职业技术学院', '专科', 31);
-INSERT INTO `school` VALUES (2605, '乌鲁木齐职业大学', '专科', 31);
-INSERT INTO `school` VALUES (2606, '新疆维吾尔医学专科学校', '专科', 31);
-INSERT INTO `school` VALUES (2607, '克拉玛依职业技术学院', '专科', 31);
-INSERT INTO `school` VALUES (2608, '新疆机电职业技术学院', '专科', 31);
-INSERT INTO `school` VALUES (2609, '新疆轻工职业技术学院', '专科', 31);
-INSERT INTO `school` VALUES (2610, '新疆能源职业技术学院', '专科', 31);
-INSERT INTO `school` VALUES (2611, '昌吉职业技术学院', '专科', 31);
-INSERT INTO `school` VALUES (2612, '伊犁职业技术学院', '专科', 31);
-INSERT INTO `school` VALUES (2613, '阿克苏职业技术学院', '专科', 31);
-INSERT INTO `school` VALUES (2614, '巴音郭楞职业技术学院', '专科', 31);
-INSERT INTO `school` VALUES (2615, '新疆建设职业技术学院', '专科', 31);
-INSERT INTO `school` VALUES (2616, '新疆兵团警官高等专科学校', '专科', 31);
-INSERT INTO `school` VALUES (2617, '新疆现代职业技术学院', '专科', 31);
-INSERT INTO `school` VALUES (2618, '新疆天山职业技术学院', '专科', 31);
-INSERT INTO `school` VALUES (2619, '新疆交通职业技术学院', '专科', 31);
-INSERT INTO `school` VALUES (2620, '新疆石河子职业技术学院', '专科', 31);
-INSERT INTO `school` VALUES (2621, '新疆职业大学', '专科', 31);
-INSERT INTO `school` VALUES (2622, '新疆体育职业技术学院', '专科', 31);
-INSERT INTO `school` VALUES (2623, '新疆应用职业技术学院', '专科', 31);
-INSERT INTO `school` VALUES (2624, '新疆师范高等专科学校', '专科', 31);
-INSERT INTO `school` VALUES (2625, '新疆铁道职业技术学院', '专科', 31);
-INSERT INTO `school` VALUES (2626, '新疆生产建设兵团兴新职业技术学院', '专科', 31);
-INSERT INTO `school` VALUES (2627, '哈密职业技术学院', '专科', 31);
-INSERT INTO `school` VALUES (2628, '新疆科技职业技术学院', '专科', 31);
-INSERT INTO `school` VALUES (2629, '吐鲁番职业技术学院', '专科', 31);
-INSERT INTO `school` VALUES (2630, '博尔塔拉职业技术学院', '专科', 31);
-INSERT INTO `school` VALUES (2631, '新疆工业职业技术学院', '专科', 31);
-COMMIT;
+--
+-- Dumping data for table `school`
+--
 
--- ----------------------------
--- Table structure for team
--- ----------------------------
+LOCK TABLES `school` WRITE;
+/*!40000 ALTER TABLE `school` DISABLE KEYS */;
+INSERT INTO `school` VALUES (1,'北京大学','本科',1),(2,'中国人民大学','本科',1),(3,'清华大学','本科',1),(4,'北京交通大学','本科',1),(5,'北京工业大学','本科',1),(6,'北京航空航天大学','本科',1),(7,'北京理工大学','本科',1),(8,'北京科技大学','本科',1),(9,'北方工业大学','本科',1),(10,'北京化工大学','本科',1),(11,'北京工商大学','本科',1),(12,'北京服装学院','本科',1),(13,'北京邮电大学','本科',1),(14,'北京印刷学院','本科',1),(15,'北京建筑大学','本科',1),(16,'北京石油化工学院','本科',1),(17,'北京电子科技学院','本科',1),(18,'中国农业大学','本科',1),(19,'北京农学院','本科',1),(20,'北京林业大学','本科',1),(21,'北京协和医学院','本科',1),(22,'首都医科大学','本科',1),(23,'北京中医药大学','本科',1),(24,'北京师范大学','本科',1),(25,'首都师范大学','本科',1),(26,'首都体育学院','本科',1),(27,'北京外国语大学','本科',1),(28,'北京第二外国语学院','本科',1),(29,'北京语言大学','本科',1),(30,'中国传媒大学','本科',1),(31,'中央财经大学','本科',1),(32,'对外经济贸易大学','本科',1),(33,'北京物资学院','本科',1),(34,'首都经济贸易大学','本科',1),(35,'外交学院','本科',1),(36,'中国人民公安大学','本科',1),(37,'国际关系学院','本科',1),(38,'北京体育大学','本科',1),(39,'中央音乐学院','本科',1),(40,'中国音乐学院','本科',1),(41,'中央美术学院','本科',1),(42,'中央戏剧学院','本科',1),(43,'中国戏曲学院','本科',1),(44,'北京电影学院','本科',1),(45,'北京舞蹈学院','本科',1),(46,'中央民族大学','本科',1),(47,'中国政法大学','本科',1),(48,'华北电力大学','本科',1),(49,'中华女子学院','本科',1),(50,'北京信息科技大学','本科',1),(51,'中国矿业大学（北京）','本科',1),(52,'中国石油大学（北京）','本科',1),(53,'中国地质大学（北京）','本科',1),(54,'北京联合大学','本科',1),(55,'北京城市学院','本科',1),(56,'中国青年政治学院','本科',1),(57,'首钢工学院','本科',1),(58,'中国劳动关系学院','本科',1),(59,'北京吉利学院','本科',1),(60,'首都师范大学科德学院','本科',1),(61,'北京工商大学嘉华学院','本科',1),(62,'北京邮电大学世纪学院','本科',1),(63,'北京工业大学耿丹学院','本科',1),(64,'北京警察学院','本科',1),(65,'北京第二外国语学院中瑞酒店管理学院','本科',1),(66,'中国科学院大学','本科',1),(67,'中国社会科学院大学','本科',1),(68,'北京工业职业技术学院','专科',1),(69,'北京信息职业技术学院','专科',1),(70,'北京电子科技职业学院','专科',1),(71,'北京京北职业技术学院','专科',1),(72,'北京交通职业技术学院','专科',1),(73,'北京青年政治学院','专科',1),(74,'北京农业职业学院','专科',1),(75,'北京政法职业学院','专科',1),(76,'北京财贸职业学院','专科',1),(77,'北京北大方正软件职业技术\n学院','专科',1),(78,'北京经贸职业学院','专科',1),(79,'北京经济技术职业学院','专科',1),(80,'北京戏曲艺术职业学院','专科',1),(81,'北京汇佳职业学院','专科',1),(82,'北京科技经营管理学院','专科',1),(83,'北京科技职业学院','专科',1),(84,'北京培黎职业学院','专科',1),(85,'北京经济管理职业学院','专科',1),(86,'北京劳动保障职业学院','专科',1),(87,'北京社会管理职业学院','专科',1),(88,'北京艺术传媒职业学院','专科',1),(89,'北京体育职业学院','专科',1),(90,'北京交通运输职业学院','专科',1),(91,'北京卫生职业学院','专科',1),(92,'北京网络职业学院','专科',1),(93,'南开大学','本科',2),(94,'天津大学','本科',2),(95,'天津科技大学','本科',2),(96,'天津工业大学','本科',2),(97,'中国民航大学','本科',2),(98,'天津理工大学','本科',2),(99,'天津农学院','本科',2),(100,'天津医科大学','本科',2),(101,'天津中医药大学','本科',2),(102,'天津师范大学','本科',2),(103,'天津职业技术师范大学','本科',2),(104,'天津外国语大学','本科',2),(105,'天津商业大学','本科',2),(106,'天津财经大学','本科',2),(107,'天津体育学院','本科',2),(108,'天津音乐学院','本科',2),(109,'天津美术学院','本科',2),(110,'天津城建大学','本科',2),(111,'天津天狮学院','本科',2),(112,'天津中德应用技术大学','本科',2),(113,'天津外国语大学滨海外事学院','本科',2),(114,'天津体育学院运动与文化艺术\n学院','本科',2),(115,'天津商业大学宝德学院','本科',2),(116,'天津医科大学临床医学院','本科',2),(117,'南开大学滨海学院','本科',2),(118,'天津师范大学津沽学院','本科',2),(119,'天津理工大学中环信息学院','本科',2),(120,'北京科技大学天津学院','本科',2),(121,'天津大学仁爱学院','本科',2),(122,'天津财经大学珠江学院','本科',2),(123,'天津市职业大学','专科',2),(124,'天津滨海职业学院','专科',2),(125,'天津工程职业技术学院','专科',2),(126,'天津青年职业学院','专科',2),(127,'天津渤海职业技术学院','专科',2),(128,'天津电子信息职业技术学院','专科',2),(129,'天津机电职业技术学院','专科',2),(130,'天津现代职业技术学院','专科',2),(131,'天津公安警官职业学院','专科',2),(132,'天津轻工职业技术学院','专科',2),(133,'天津商务职业学院','专科',2),(134,'天津国土资源和房屋职业学院','专科',2),(135,'天津医学高等专科学校','专科',2),(136,'天津开发区职业技术学院','专科',2),(137,'天津艺术职业学院','专科',2),(138,'天津交通职业学院','专科',2),(139,'天津冶金职业技术学院','专科',2),(140,'天津石油职业技术学院','专科',2),(141,'天津城市职业学院','专科',2),(142,'天津铁道职业技术学院','专科',2),(143,'天津工艺美术职业学院','专科',2),(144,'天津城市建设管理职业技术\n学院','专科',2),(145,'天津生物工程职业技术学院','专科',2),(146,'天津海运职业学院','专科',2),(147,'天津广播影视职业学院','专科',2),(148,'天津体育职业学院','专科',2),(149,'天津滨海汽车工程职业学院','专科',2),(150,'河北大学','本科',3),(151,'河北工程大学','本科',3),(152,'河北地质大学','本科',3),(153,'河北工业大学','本科',3),(154,'华北理工大学','本科',3),(155,'河北科技大学','本科',3),(156,'河北建筑工程学院','本科',3),(157,'河北水利电力学院','本科',3),(158,'河北农业大学','本科',3),(159,'河北医科大学','本科',3),(160,'河北北方学院','本科',3),(161,'承德医学院','本科',3),(162,'河北师范大学','本科',3),(163,'保定学院','本科',3),(164,'河北民族师范学院','本科',3),(165,'唐山师范学院','本科',3),(166,'廊坊师范学院','本科',3),(167,'衡水学院','本科',3),(168,'石家庄学院','本科',3),(169,'邯郸学院','本科',3),(170,'邢台学院','本科',3),(171,'沧州师范学院','本科',3),(172,'石家庄铁道大学','本科',3),(173,'燕山大学','本科',3),(174,'河北科技师范学院','本科',3),(175,'唐山学院','本科',3),(176,'华北科技学院','本科',3),(177,'中国人民武装警察部队学院','本科',3),(178,'河北体育学院','本科',3),(179,'河北金融学院','本科',3),(180,'北华航天工业学院','本科',3),(181,'防灾科技学院','本科',3),(182,'河北经贸大学','本科',3),(183,'中央司法警官学院','本科',3),(184,'河北传媒学院','本科',3),(185,'河北工程技术学院','本科',3),(186,'河北美术学院','本科',3),(187,'河北科技学院','本科',3),(188,'河北外国语学院','本科',3),(189,'河北大学工商学院','本科',3),(190,'华北理工大学轻工学院','本科',3),(191,'河北科技大学理工学院','本科',3),(192,'河北师范大学汇华学院','本科',3),(193,'河北经贸大学经济管理学院','本科',3),(194,'河北医科大学临床学院','本科',3),(195,'华北电力大学科技学院','本科',3),(196,'河北工程大学科信学院','本科',3),(197,'河北工业大学城市学院','本科',3),(198,'燕山大学里仁学院','本科',3),(199,'石家庄铁道大学四方学院','本科',3),(200,'河北地质大学华信学院','本科',3),(201,'河北农业大学现代科技学院','本科',3),(202,'华北理工大学冀唐学院','本科',3),(203,'中国地质大学长城学院','本科',3),(204,'燕京理工学院','本科',3),(205,'北京中医药大学东方学院','本科',3),(206,'北京交通大学海滨学院','本科',3),(207,'河北东方学院','本科',3),(208,'河北中医学院','本科',3),(209,'张家口学院','本科',3),(210,'河北环境工程学院','本科',3),(211,'河北工业职业技术学院','专科',3),(212,'邯郸职业技术学院','专科',3),(213,'石家庄职业技术学院','专科',3),(214,'张家口职业技术学院','专科',3),(215,'承德石油高等专科学校','专科',3),(216,'邢台职业技术学院','专科',3),(217,'河北软件职业技术学院','专科',3),(218,'河北石油职业技术学院','专科',3),(219,'河北建材职业技术学院','专科',3),(220,'河北政法职业学院','专科',3),(221,'沧州职业技术学院','专科',3),(222,'河北能源职业技术学院','专科',3),(223,'石家庄铁路职业技术学院','专科',3),(224,'保定职业技术学院','专科',3),(225,'秦皇岛职业技术学院','专科',3),(226,'石家庄工程职业学院','专科',3),(227,'石家庄城市经济职业学院','专科',3),(228,'唐山职业技术学院','专科',3),(229,'衡水职业技术学院','专科',3),(230,'唐山工业职业技术学院','专科',3),(231,'邢台医学高等专科学校','专科',3),(232,'河北省艺术职业学院','专科',3),(233,'河北旅游职业学院','专科',3),(234,'石家庄财经职业学院','专科',3),(235,'河北交通职业技术学院','专科',3),(236,'河北化工医药职业技术学院','专科',3),(237,'石家庄信息工程职业学院','专科',3),(238,'河北对外经贸职业学院','专科',3),(239,'保定电力职业技术学院','专科',3),(240,'河北机电职业技术学院','专科',3),(241,'渤海石油职业学院','专科',3),(242,'廊坊职业技术学院','专科',3),(243,'唐山科技职业技术学院','专科',3),(244,'石家庄邮电职业技术学院','专科',3),(245,'河北公安警察职业学院','专科',3),(246,'石家庄工商职业学院','专科',3),(247,'石家庄理工职业学院','专科',3),(248,'石家庄科技信息职业学院','专科',3),(249,'河北司法警官职业学院','专科',3),(250,'沧州医学高等专科学校','专科',3),(251,'河北女子职业技术学院','专科',3),(252,'石家庄医学高等专科学校','专科',3),(253,'石家庄经济职业学院','专科',3),(254,'冀中职业学院','专科',3),(255,'石家庄人民医学高等专科学校','专科',3),(256,'石家庄科技工程职业学院','专科',3),(257,'河北劳动关系职业学院','专科',3),(258,'石家庄科技职业学院','专科',3),(259,'泊头职业学院','专科',3),(260,'宣化科技职业学院','专科',3),(261,'廊坊燕京职业技术学院','专科',3),(262,'承德护理职业学院','专科',3),(263,'石家庄幼儿师范高等专科学校','专科',3),(264,'廊坊卫生职业学院','专科',3),(265,'河北轨道运输职业技术学院','专科',3),(266,'保定幼儿师范高等专科学校','专科',3),(267,'河北工艺美术职业学院','专科',3),(268,'渤海理工职业学院','专科',3),(269,'唐山幼儿师范高等专科学校','专科',3),(270,'曹妃甸职业技术学院','专科',3),(271,'山西大学','本科',4),(272,'太原科技大学','本科',4),(273,'中北大学','本科',4),(274,'太原理工大学','本科',4),(275,'山西农业大学','本科',4),(276,'山西医科大学','本科',4),(277,'长治医学院','本科',4),(278,'山西师范大学','本科',4),(279,'太原师范学院','本科',4),(280,'山西大同大学','本科',4),(281,'晋中学院','本科',4),(282,'长治学院','本科',4),(283,'运城学院','本科',4),(284,'忻州师范学院','本科',4),(285,'山西财经大学','本科',4),(286,'山西中医药大学','本科',4),(287,'吕梁学院','本科',4),(288,'太原学院','本科',4),(289,'山西警察学院','本科',4),(290,'山西应用科技学院','本科',4),(291,'山西大学商务学院','本科',4),(292,'太原理工大学现代科技学院','本科',4),(293,'山西农业大学信息学院','本科',4),(294,'山西师范大学现代文理学院','本科',4),(295,'中北大学信息商务学院','本科',4),(296,'太原科技大学华科学院','本科',4),(297,'山西医科大学晋祠学院','本科',4),(298,'山西财经大学华商学院','本科',4),(299,'山西工商学院','本科',4),(300,'太原工业学院','本科',4),(301,'山西传媒学院','本科',4),(302,'山西工程技术学院','本科',4),(303,'山西能源学院','本科',4),(304,'山西省财政税务专科学校','专科',4),(305,'长治职业技术学院','专科',4),(306,'山西艺术职业学院','专科',4),(307,'晋城职业技术学院','专科',4),(308,'山西建筑职业技术学院','专科',4),(309,'山西药科职业学院','专科',4),(310,'山西工程职业技术学院','专科',4),(311,'山西交通职业技术学院','专科',4),(312,'大同煤炭职业技术学院','专科',4),(313,'山西机电职业技术学院','专科',4),(314,'山西戏剧职业学院','专科',4),(315,'山西财贸职业技术学院','专科',4),(316,'山西林业职业技术学院','专科',4),(317,'山西水利职业技术学院','专科',4),(318,'阳泉职业技术学院','专科',4),(319,'临汾职业技术学院','专科',4),(320,'山西职业技术学院','专科',4),(321,'山西煤炭职业技术学院','专科',4),(322,'山西金融职业学院','专科',4),(323,'太原城市职业技术学院','专科',4),(324,'山西信息职业技术学院','专科',4),(325,'山西体育职业学院','专科',4),(326,'山西警官职业学院','专科',4),(327,'山西国际商务职业学院','专科',4),(328,'潞安职业技术学院','专科',4),(329,'太原旅游职业学院','专科',4),(330,'山西旅游职业学院','专科',4),(331,'山西管理职业学院','专科',4),(332,'山西电力职业技术学院','专科',4),(333,'忻州职业技术学院','专科',4),(334,'山西同文职业技术学院','专科',4),(335,'晋中职业技术学院','专科',4),(336,'山西华澳商贸职业学院','专科',4),(337,'山西运城农业职业技术学院','专科',4),(338,'运城幼儿师范高等专科学校','专科',4),(339,'山西老区职业技术学院','专科',4),(340,'山西经贸职业学院','专科',4),(341,'朔州职业技术学院','专科',4),(342,'运城职业技术学院','专科',4),(343,'山西轻工职业技术学院','专科',4),(344,'晋中师范高等专科学校','专科',4),(345,'阳泉师范高等专科学校','专科',4),(346,'山西青年职业学院','专科',4),(347,'运城护理职业学院','专科',4),(348,'运城师范高等专科学校','专科',4),(349,'朔州师范高等专科学校','专科',4),(350,'吕梁职业技术学院','专科',4),(351,'内蒙古大学','本科',5),(352,'内蒙古科技大学','本科',5),(353,'内蒙古工业大学','本科',5),(354,'内蒙古农业大学','本科',5),(355,'内蒙古医科大学','本科',5),(356,'内蒙古师范大学','本科',5),(357,'内蒙古民族大学','本科',5),(358,'赤峰学院','本科',5),(359,'内蒙古财经大学','本科',5),(360,'呼伦贝尔学院','本科',5),(361,'集宁师范学院','本科',5),(362,'河套学院','本科',5),(363,'呼和浩特民族学院','本科',5),(364,'内蒙古大学创业学院','本科',5),(365,'内蒙古师范大学鸿德学院','本科',5),(366,'内蒙古艺术学院','本科',5),(367,'鄂尔多斯应用技术学院','本科',5),(368,'内蒙古建筑职业技术学院','专科',5),(369,'内蒙古丰州职业学院','专科',5),(370,'包头职业技术学院','专科',5),(371,'兴安职业技术学院','专科',5),(372,'呼和浩特职业学院','专科',5),(373,'包头轻工职业技术学院','专科',5),(374,'内蒙古电子信息职业技术学院','专科',5),(375,'内蒙古机电职业技术学院','专科',5),(376,'内蒙古化工职业学院','专科',5),(377,'内蒙古商贸职业学院','专科',5),(378,'锡林郭勒职业学院','专科',5),(379,'内蒙古警察职业学院','专科',5),(380,'内蒙古体育职业学院','专科',5),(381,'乌兰察布职业学院','专科',5),(382,'通辽职业学院','专科',5),(383,'科尔沁艺术职业学院','专科',5),(384,'内蒙古交通职业技术学院','专科',5),(385,'包头钢铁职业技术学院','专科',5),(386,'乌海职业技术学院','专科',5),(387,'内蒙古科技职业学院','专科',5),(388,'内蒙古北方职业技术学院','专科',5),(389,'赤峰职业技术学院','专科',5),(390,'内蒙古经贸外语职业学院','专科',5),(391,'包头铁道职业技术学院','专科',5),(392,'乌兰察布医学高等专科学校','专科',5),(393,'鄂尔多斯职业学院','专科',5),(394,'内蒙古工业职业学院','专科',5),(395,'呼伦贝尔职业技术学院','专科',5),(396,'满洲里俄语职业学院','专科',5),(397,'内蒙古能源职业学院','专科',5),(398,'赤峰工业职业技术学院','专科',5),(399,'阿拉善职业技术学院','专科',5),(400,'内蒙古美术职业学院','专科',5),(401,'内蒙古民族幼儿师范\n高等专科学校','专科',5),(402,'鄂尔多斯生态环境职业学院','专科',5),(403,'扎兰屯职业学院','专科',5),(404,'辽宁大学','本科',6),(405,'大连理工大学','本科',6),(406,'沈阳工业大学','本科',6),(407,'沈阳航空航天大学','本科',6),(408,'沈阳理工大学','本科',6),(409,'东北大学','本科',6),(410,'辽宁科技大学','本科',6),(411,'辽宁工程技术大学','本科',6),(412,'辽宁石油化工大学','本科',6),(413,'沈阳化工大学','本科',6),(414,'大连交通大学','本科',6),(415,'大连海事大学','本科',6),(416,'大连工业大学','本科',6),(417,'沈阳建筑大学','本科',6),(418,'辽宁工业大学','本科',6),(419,'沈阳农业大学','本科',6),(420,'大连海洋大学','本科',6),(421,'中国医科大学','本科',6),(422,'锦州医科大学','本科',6),(423,'大连医科大学','本科',6),(424,'辽宁中医药大学','本科',6),(425,'沈阳药科大学','本科',6),(426,'沈阳医学院','本科',6),(427,'辽宁师范大学','本科',6),(428,'沈阳师范大学','本科',6),(429,'渤海大学','本科',6),(430,'鞍山师范学院','本科',6),(431,'大连外国语大学','本科',6),(432,'东北财经大学','本科',6),(433,'中国刑事警察学院','本科',6),(434,'沈阳体育学院','本科',6),(435,'沈阳音乐学院','本科',6),(436,'鲁迅美术学院','本科',6),(437,'辽宁对外经贸学院','本科',6),(438,'沈阳大学','本科',6),(439,'大连大学','本科',6),(440,'辽宁科技学院','本科',6),(441,'辽宁警察学院','本科',6),(442,'沈阳工程学院','本科',6),(443,'辽东学院','本科',6),(444,'大连民族大学','本科',6),(445,'大连理工大学城市学院','本科',6),(446,'沈阳工业大学工程学院','本科',6),(447,'沈阳航空航天大学北方科技\n学院','本科',6),(448,'沈阳工学院','本科',6),(449,'大连工业大学艺术与信息工程\n学院','本科',6),(450,'大连科技学院','本科',6),(451,'沈阳城市建设学院','本科',6),(452,'中国医科大学临床医药学院','本科',6),(453,'大连医科大学中山学院','本科',6),(454,'锦州医科大学医疗学院','本科',6),(455,'辽宁师范大学海华学院','本科',6),(456,'辽宁理工学院','本科',6),(457,'大连财经学院','本科',6),(458,'沈阳城市学院','本科',6),(459,'辽宁石油化工大学顺华能源\n学院','本科',6),(460,'大连艺术学院','本科',6),(461,'辽宁中医药大学杏林学院','本科',6),(462,'辽宁何氏医学院','本科',6),(463,'沈阳科技学院','本科',6),(464,'大连东软信息学院','本科',6),(465,'辽宁财贸学院','本科',6),(466,'辽宁传媒学院','本科',6),(467,'营口理工学院','本科',6),(468,'朝阳师范高等专科学校','专科',6),(469,'抚顺师范高等专科学校','专科',6),(470,'锦州师范高等专科学校','专科',6),(471,'营口职业技术学院','专科',6),(472,'铁岭师范高等专科学校','专科',6),(473,'大连职业技术学院','专科',6),(474,'辽宁农业职业技术学院','专科',6),(475,'抚顺职业技术学院','专科',6),(476,'辽阳职业技术学院','专科',6),(477,'阜新高等专科学校','专科',6),(478,'辽宁省交通高等专科学校','专科',6),(479,'辽宁税务高等专科学校','专科',6),(480,'盘锦职业技术学院','专科',6),(481,'沈阳航空职业技术学院','专科',6),(482,'辽宁体育运动职业技术学院','专科',6),(483,'辽宁职业学院','专科',6),(484,'辽宁林业职业技术学院','专科',6),(485,'沈阳职业技术学院','专科',6),(486,'辽宁理工职业学院','专科',6),(487,'大连商务职业学院','专科',6),(488,'辽宁金融职业学院','专科',6),(489,'辽宁轨道交通职业学院','专科',6),(490,'辽宁广告职业学院','专科',6),(491,'辽宁机电职业技术学院','专科',6),(492,'辽宁经济职业技术学院','专科',6),(493,'辽宁石化职业技术学院','专科',6),(494,'渤海船舶职业学院','专科',6),(495,'大连软件职业学院','专科',6),(496,'大连翻译职业学院','专科',6),(497,'辽宁商贸职业学院','专科',6),(498,'大连枫叶职业技术学院','专科',6),(499,'辽宁装备制造职业技术学院','专科',6),(500,'辽河石油职业技术学院','专科',6),(501,'辽宁地质工程职业学院','专科',6),(502,'辽宁铁道职业技术学院','专科',6),(503,'辽宁建筑职业学院','专科',6),(504,'大连航运职业技术学院','专科',6),(505,'大连装备制造职业技术学院','专科',6),(506,'大连汽车职业技术学院','专科',6),(507,'辽宁现代服务职业技术学院','专科',6),(508,'辽宁冶金职业技术学院','专科',6),(509,'辽宁工程职业学院','专科',6),(510,'辽宁城市建设职业技术学院','专科',6),(511,'辽宁医药职业学院','专科',6),(512,'铁岭卫生职业学院','专科',6),(513,'沈阳北软信息职业技术学院','专科',6),(514,'辽宁政法职业学院','专科',6),(515,'辽宁民族师范高等专科学校','专科',6),(516,'辽宁轻工职业学院','专科',6),(517,'辽宁水利职业学院','专科',6),(518,'辽宁特殊教育师范高等专科\n学校','专科',6),(519,'吉林大学','本科',7),(520,'延边大学','本科',7),(521,'长春理工大学','本科',7),(522,'东北电力大学','本科',7),(523,'长春工业大学','本科',7),(524,'吉林建筑大学','本科',7),(525,'吉林化工学院','本科',7),(526,'吉林农业大学','本科',7),(527,'长春中医药大学','本科',7),(528,'东北师范大学','本科',7),(529,'北华大学','本科',7),(530,'通化师范学院','本科',7),(531,'吉林师范大学','本科',7),(532,'吉林工程技术师范学院','本科',7),(533,'长春师范大学','本科',7),(534,'白城师范学院','本科',7),(535,'吉林财经大学','本科',7),(536,'吉林体育学院','本科',7),(537,'吉林艺术学院','本科',7),(538,'吉林华桥外国语学院','本科',7),(539,'吉林工商学院','本科',7),(540,'长春工程学院','本科',7),(541,'吉林农业科技学院','本科',7),(542,'吉林警察学院','本科',7),(543,'长春大学','本科',7),(544,'长春光华学院','本科',7),(545,'长春工业大学人文信息学院','本科',7),(546,'长春理工大学光电信息学院','本科',7),(547,'长春财经学院','本科',7),(548,'吉林建筑大学城建学院','本科',7),(549,'长春建筑学院','本科',7),(550,'长春科技学院','本科',7),(551,'吉林动画学院','本科',7),(552,'吉林师范大学博达学院','本科',7),(553,'长春大学旅游学院','本科',7),(554,'东北师范大学人文学院','本科',7),(555,'吉林医药学院','本科',7),(556,'长春师范高等专科学校','专科',7),(557,'辽源职业技术学院','专科',7),(558,'四平职业大学','专科',7),(559,'长春汽车工业高等专科学校','专科',7),(560,'长春金融高等专科学校','专科',7),(561,'长春医学高等专科学校','专科',7),(562,'吉林交通职业技术学院','专科',7),(563,'长春东方职业学院','专科',7),(564,'吉林司法警官职业学院','专科',7),(565,'吉林电子信息职业技术学院','专科',7),(566,'吉林工业职业技术学院','专科',7),(567,'吉林工程职业学院','专科',7),(568,'长春职业技术学院','专科',7),(569,'白城医学高等专科学校','专科',7),(570,'长春信息技术职业学院','专科',7),(571,'松原职业技术学院','专科',7),(572,'吉林铁道职业技术学院','专科',7),(573,'白城职业技术学院','专科',7),(574,'长白山职业技术学院','专科',7),(575,'吉林科技职业技术学院','专科',7),(576,'延边职业技术学院','专科',7),(577,'吉林城市职业技术学院','专科',7),(578,'吉林职业技术学院','专科',7),(579,'吉林水利电力职业学院','专科',7),(580,'长春健康职业学院','专科',7),(581,'黑龙江大学','本科',8),(582,'哈尔滨工业大学','本科',8),(583,'哈尔滨理工大学','本科',8),(584,'哈尔滨工程大学','本科',8),(585,'黑龙江科技大学','本科',8),(586,'东北石油大学','本科',8),(587,'佳木斯大学','本科',8),(588,'黑龙江八一农垦大学','本科',8),(589,'东北农业大学','本科',8),(590,'东北林业大学','本科',8),(591,'哈尔滨医科大学','本科',8),(592,'黑龙江中医药大学','本科',8),(593,'牡丹江医学院','本科',8),(594,'哈尔滨师范大学','本科',8),(595,'齐齐哈尔大学','本科',8),(596,'牡丹江师范学院','本科',8),(597,'哈尔滨学院','本科',8),(598,'大庆师范学院','本科',8),(599,'绥化学院','本科',8),(600,'哈尔滨商业大学','本科',8),(601,'哈尔滨体育学院','本科',8),(602,'哈尔滨金融学院','本科',8),(603,'齐齐哈尔医学院','本科',8),(604,'黑龙江工业学院','本科',8),(605,'黑龙江东方学院','本科',8),(606,'哈尔滨信息工程学院','本科',8),(607,'黑龙江工程学院','本科',8),(608,'齐齐哈尔工程学院','本科',8),(609,'黑龙江外国语学院','本科',8),(610,'黑龙江财经学院','本科',8),(611,'哈尔滨石油学院','本科',8),(612,'黑龙江工商学院','本科',8),(613,'哈尔滨远东理工学院','本科',8),(614,'哈尔滨剑桥学院','本科',8),(615,'黑龙江工程学院昆仑旅游学院','本科',8),(616,'哈尔滨广厦学院','本科',8),(617,'哈尔滨华德学院','本科',8),(618,'黑河学院','本科',8),(619,'哈尔滨音乐学院','本科',8),(620,'齐齐哈尔高等师范专科学校','专科',8),(621,'伊春职业学院','专科',8),(622,'牡丹江大学','专科',8),(623,'黑龙江职业学院','专科',8),(624,'黑龙江建筑职业技术学院','专科',8),(625,'黑龙江艺术职业学院','专科',8),(626,'大庆职业学院','专科',8),(627,'黑龙江林业职业技术学院','专科',8),(628,'黑龙江农业职业技术学院','专科',8),(629,'黑龙江农业工程职业学院','专科',8),(630,'黑龙江农垦职业学院','专科',8),(631,'黑龙江司法警官职业学院','专科',8),(632,'鹤岗师范高等专科学校','专科',8),(633,'哈尔滨电力职业技术学院','专科',8),(634,'哈尔滨铁道职业技术学院','专科',8),(635,'大兴安岭职业学院','专科',8),(636,'黑龙江农业经济职业学院','专科',8),(637,'哈尔滨职业技术学院','专科',8),(638,'哈尔滨传媒职业学院','专科',8),(639,'黑龙江生物科技职业学院','专科',8),(640,'黑龙江商业职业学院','专科',8),(641,'黑龙江公安警官职业学院','专科',8),(642,'黑龙江信息技术职业学院','专科',8),(643,'哈尔滨城市职业学院','专科',8),(644,'黑龙江农垦科技职业学院','专科',8),(645,'黑龙江旅游职业技术学院','专科',8),(646,'黑龙江三江美术职业学院','专科',8),(647,'黑龙江生态工程职业学院','专科',8),(648,'黑龙江能源职业学院','专科',8),(649,'七台河职业学院','专科',8),(650,'黑龙江民族职业学院','专科',8),(651,'大庆医学高等专科学校','专科',8),(652,'黑龙江交通职业技术学院','专科',8),(653,'哈尔滨应用职业技术学院','专科',8),(654,'黑龙江幼儿师范高等专科学校','专科',8),(655,'哈尔滨科学技术职业学院','专科',8),(656,'黑龙江粮食职业学院','专科',8),(657,'佳木斯职业学院','专科',8),(658,'黑龙江护理高等专科学校','专科',8),(659,'齐齐哈尔理工职业学院','专科',8),(660,'哈尔滨幼儿师范高等专科学校','专科',8),(661,'黑龙江冰雪体育职业学院','专科',8),(662,'复旦大学','本科',9),(663,'同济大学','本科',9),(664,'上海交通大学','本科',9),(665,'华东理工大学','本科',9),(666,'上海理工大学','本科',9),(667,'上海海事大学','本科',9),(668,'东华大学','本科',9),(669,'上海电力学院','本科',9),(670,'上海应用技术大学','本科',9),(671,'上海健康医学院','本科',9),(672,'上海海洋大学','本科',9),(673,'上海中医药大学','本科',9),(674,'华东师范大学','本科',9),(675,'上海师范大学','本科',9),(676,'上海外国语大学','本科',9),(677,'上海财经大学','本科',9),(678,'上海对外经贸大学','本科',9),(679,'上海海关学院','本科',9),(680,'华东政法大学','本科',9),(681,'上海体育学院','本科',9),(682,'上海音乐学院','本科',9),(683,'上海戏剧学院','本科',9),(684,'上海大学','本科',9),(685,'上海公安学院','本科',9),(686,'上海工程技术大学','本科',9),(687,'上海立信会计金融学院','本科',9),(688,'上海电机学院','本科',9),(689,'上海杉达学院','本科',9),(690,'上海政法学院','本科',9),(691,'上海第二工业大学','本科',9),(692,'上海商学院','本科',9),(693,'上海建桥学院','本科',9),(694,'上海兴伟学院','本科',9),(695,'上海视觉艺术学院','本科',9),(696,'上海外国语大学贤达经济人文\n学院','本科',9),(697,'上海师范大学天华学院','本科',9),(698,'上海科技大学','本科',9),(699,'上海纽约大学','本科',9),(700,'上海旅游高等专科学校','专科',9),(701,'上海东海职业技术学院','专科',9),(702,'上海工商职业技术学院','专科',9),(703,'上海出版印刷高等专科学校','专科',9),(704,'上海行健职业学院','专科',9),(705,'上海城建职业学院','专科',9),(706,'上海交通职业技术学院','专科',9),(707,'上海海事职业技术学院','专科',9),(708,'上海电子信息职业技术学院','专科',9),(709,'上海震旦职业学院','专科',9),(710,'上海民远职业技术学院','专科',9),(711,'上海欧华职业技术学院','专科',9),(712,'上海思博职业技术学院','专科',9),(713,'上海立达职业技术学院','专科',9),(714,'上海工艺美术职业学院','专科',9),(715,'上海济光职业技术学院','专科',9),(716,'上海工商外国语职业学院','专科',9),(717,'上海科学技术职业学院','专科',9),(718,'上海农林职业技术学院','专科',9),(719,'上海邦德职业技术学院','专科',9),(720,'上海中侨职业技术学院','专科',9),(721,'上海电影艺术职业学院','专科',9),(722,'上海中华职业技术学院','专科',9),(723,'上海工会管理职业学院','专科',9),(724,'上海体育职业学院','专科',9),(725,'上海民航职业技术学院','专科',9),(726,'南京大学','本科',10),(727,'苏州大学','本科',10),(728,'东南大学','本科',10),(729,'南京航空航天大学','本科',10),(730,'南京理工大学','本科',10),(731,'江苏科技大学','本科',10),(732,'中国矿业大学','本科',10),(733,'南京工业大学','本科',10),(734,'常州大学','本科',10),(735,'南京邮电大学','本科',10),(736,'河海大学','本科',10),(737,'江南大学','本科',10),(738,'南京林业大学','本科',10),(739,'江苏大学','本科',10),(740,'南京信息工程大学','本科',10),(741,'南通大学','本科',10),(742,'盐城工学院','本科',10),(743,'南京农业大学','本科',10),(744,'南京医科大学','本科',10),(745,'徐州医科大学','本科',10),(746,'南京中医药大学','本科',10),(747,'中国药科大学','本科',10),(748,'南京师范大学','本科',10),(749,'江苏师范大学','本科',10),(750,'淮阴师范学院','本科',10),(751,'盐城师范学院','本科',10),(752,'南京财经大学','本科',10),(753,'江苏警官学院','本科',10),(754,'南京体育学院','本科',10),(755,'南京艺术学院','本科',10),(756,'苏州科技大学','本科',10),(757,'常熟理工学院','本科',10),(758,'淮阴工学院','本科',10),(759,'常州工学院','本科',10),(760,'扬州大学','本科',10),(761,'三江学院','本科',10),(762,'南京工程学院','本科',10),(763,'南京审计大学','本科',10),(764,'南京晓庄学院','本科',10),(765,'江苏理工学院','本科',10),(766,'淮海工学院','本科',10),(767,'徐州工程学院','本科',10),(768,'南京特殊教育师范学院','本科',10),(769,'南通理工学院','本科',10),(770,'南京森林警察学院','本科',10),(771,'东南大学成贤学院','本科',10),(772,'泰州学院','本科',10),(773,'无锡太湖学院','本科',10),(774,'金陵科技学院','本科',10),(775,'中国矿业大学徐海学院','本科',10),(776,'南京大学金陵学院','本科',10),(777,'南京理工大学紫金学院','本科',10),(778,'南京航空航天大学金城学院','本科',10),(779,'中国传媒大学南广学院','本科',10),(780,'南京理工大学泰州科技学院','本科',10),(781,'南京师范大学泰州学院','本科',10),(782,'南京工业大学浦江学院','本科',10),(783,'南京师范大学中北学院','本科',10),(784,'南京医科大学康达学院','本科',10),(785,'南京中医药大学翰林学院','本科',10),(786,'南京信息工程大学滨江学院','本科',10),(787,'苏州大学文正学院','本科',10),(788,'苏州大学应用技术学院','本科',10),(789,'苏州科技大学天平学院','本科',10),(790,'江苏大学京江学院','本科',10),(791,'扬州大学广陵学院','本科',10),(792,'江苏师范大学科文学院','本科',10),(793,'南京邮电大学通达学院','本科',10),(794,'南京财经大学红山学院','本科',10),(795,'江苏科技大学苏州理工学院','本科',10),(796,'常州大学怀德学院','本科',10),(797,'南通大学杏林学院','本科',10),(798,'南京审计大学金审学院','本科',10),(799,'宿迁学院','本科',10),(800,'江苏第二师范学院','本科',10),(801,'西交利物浦大学','本科',10),(802,'昆山杜克大学','本科',10),(803,'盐城幼儿师范高等专科学校','专科',10),(804,'苏州幼儿师范高等专科学校','专科',10),(805,'明达职业技术学院','专科',10),(806,'无锡职业技术学院','专科',10),(807,'江苏建筑职业技术学院','专科',10),(808,'南京工业职业技术学院','专科',10),(809,'江苏工程职业技术学院','专科',10),(810,'苏州工艺美术职业技术学院','专科',10),(811,'连云港职业技术学院','专科',10),(812,'镇江市高等专科学校','专科',10),(813,'南通职业大学','专科',10),(814,'苏州职业大学','专科',10),(815,'沙洲职业工学院','专科',10),(816,'扬州市职业大学','专科',10),(817,'连云港师范高等专科学校','专科',10),(818,'江苏经贸职业技术学院','专科',10),(819,'九州职业技术学院','专科',10),(820,'硅湖职业技术学院','专科',10),(821,'泰州职业技术学院','专科',10),(822,'常州信息职业技术学院','专科',10),(823,'江苏联合职业技术学院','专科',10),(824,'江苏海事职业技术学院','专科',10),(825,'应天职业技术学院','专科',10),(826,'无锡科技职业学院','专科',10),(827,'江苏医药职业学院','专科',10),(828,'扬州环境资源职业技术学院','专科',10),(829,'南通科技职业学院','专科',10),(830,'苏州经贸职业技术学院','专科',10),(831,'苏州工业职业技术学院','专科',10),(832,'苏州托普信息职业技术学院','专科',10),(833,'苏州卫生职业技术学院','专科',10),(834,'无锡商业职业技术学院','专科',10),(835,'南通航运职业技术学院','专科',10),(836,'南京交通职业技术学院','专科',10),(837,'淮安信息职业技术学院','专科',10),(838,'江苏农牧科技职业学院','专科',10),(839,'常州纺织服装职业技术学院','专科',10),(840,'苏州农业职业技术学院','专科',10),(841,'苏州工业园区职业技术学院','专科',10),(842,'太湖创意职业技术学院','专科',10),(843,'炎黄职业技术学院','专科',10),(844,'南京科技职业学院','专科',10),(845,'正德职业技术学院','专科',10),(846,'钟山职业技术学院','专科',10),(847,'无锡南洋职业技术学院','专科',10),(848,'江南影视艺术职业学院','专科',10),(849,'金肯职业技术学院','专科',10),(850,'常州轻工职业技术学院','专科',10),(851,'常州工程职业技术学院','专科',10),(852,'江苏农林职业技术学院','专科',10),(853,'江苏食品药品职业技术学院','专科',10),(854,'建东职业技术学院','专科',10),(855,'南京铁道职业技术学院','专科',10),(856,'徐州工业职业技术学院','专科',10),(857,'江苏信息职业技术学院','专科',10),(858,'宿迁职业技术学院','专科',10),(859,'南京信息职业技术学院','专科',10),(860,'江海职业技术学院','专科',10),(861,'常州机电职业技术学院','专科',10),(862,'江阴职业技术学院','专科',10),(863,'无锡城市职业技术学院','专科',10),(864,'无锡工艺职业技术学院','专科',10),(865,'金山职业技术学院','专科',10),(866,'苏州健雄职业技术学院','专科',10),(867,'盐城工业职业技术学院','专科',10),(868,'江苏财经职业技术学院','专科',10),(869,'扬州工业职业技术学院','专科',10),(870,'苏州百年职业学院','专科',10),(871,'昆山登云科技职业学院','专科',10),(872,'南京视觉艺术职业学院','专科',10),(873,'江苏城市职业学院','专科',10),(874,'南京城市职业学院','专科',10),(875,'南京机电职业技术学院','专科',10),(876,'苏州高博软件技术职业学院','专科',10),(877,'南京旅游职业学院','专科',10),(878,'江苏卫生健康职业学院','专科',10),(879,'苏州信息职业技术学院','专科',10),(880,'宿迁泽达职业技术学院','专科',10),(881,'苏州工业园区服务外包\n职业学院','专科',10),(882,'徐州幼儿师范高等专科学校','专科',10),(883,'徐州生物工程职业技术学院','专科',10),(884,'江苏商贸职业学院','专科',10),(885,'南通师范高等专科学校','专科',10),(886,'扬州中瑞酒店职业学院','专科',10),(887,'江苏护理职业学院','专科',10),(888,'江苏财会职业学院','专科',10),(889,'江苏城乡建设职业学院','专科',10),(890,'江苏航空职业技术学院','专科',10),(891,'江苏安全技术职业学院','专科',10),(892,'江苏旅游职业学院','专科',10),(893,'浙江大学','本科',11),(894,'杭州电子科技大学','本科',11),(895,'浙江工业大学','本科',11),(896,'浙江理工大学','本科',11),(897,'浙江海洋大学','本科',11),(898,'浙江农林大学','本科',11),(899,'温州医科大学','本科',11),(900,'浙江中医药大学','本科',11),(901,'浙江师范大学','本科',11),(902,'杭州师范大学','本科',11),(903,'湖州师范学院','本科',11),(904,'绍兴文理学院','本科',11),(905,'台州学院','本科',11),(906,'温州大学','本科',11),(907,'丽水学院','本科',11),(908,'浙江工商大学','本科',11),(909,'嘉兴学院','本科',11),(910,'中国美术学院','本科',11),(911,'中国计量大学','本科',11),(912,'公安海警学院','本科',11),(913,'浙江万里学院','本科',11),(914,'浙江科技学院','本科',11),(915,'宁波工程学院','本科',11),(916,'浙江水利水电学院','本科',11),(917,'浙江财经大学','本科',11),(918,'浙江警察学院','本科',11),(919,'衢州学院','本科',11),(920,'宁波大学','本科',11),(921,'浙江传媒学院','本科',11),(922,'浙江树人学院','本科',11),(923,'浙江越秀外国语学院','本科',11),(924,'宁波大红鹰学院','本科',11),(925,'浙江大学城市学院','本科',11),(926,'浙江大学宁波理工学院','本科',11),(927,'杭州医学院','本科',11),(928,'浙江工业大学之江学院','本科',11),(929,'浙江师范大学行知学院','本科',11),(930,'宁波大学科学技术学院','本科',11),(931,'杭州电子科技大学信息工程\n学院','本科',11),(932,'浙江理工大学科技与艺术\n学院','本科',11),(933,'浙江海洋大学东海科学技术\n学院','本科',11),(934,'浙江农林大学暨阳学院','本科',11),(935,'温州医科大学仁济学院','本科',11),(936,'浙江中医药大学滨江学院','本科',11),(937,'杭州师范大学钱江学院','本科',11),(938,'湖州师范学院求真学院','本科',11),(939,'绍兴文理学院元培学院','本科',11),(940,'温州大学瓯江学院','本科',11),(941,'浙江工商大学杭州商学院','本科',11),(942,'嘉兴学院南湖学院','本科',11),(943,'中国计量大学现代科技学院','本科',11),(944,'浙江财经大学东方学院','本科',11),(945,'温州商学院','本科',11),(946,'同济大学浙江学院','本科',11),(947,'上海财经大学浙江学院','本科',11),(948,'浙江外国语学院','本科',11),(949,'浙江音乐学院','本科',11),(950,'宁波诺丁汉大学','本科',11),(951,'温州肯恩大学','本科',11),(952,'宁波职业技术学院','专科',11),(953,'温州职业技术学院','专科',11),(954,'浙江交通职业技术学院','专科',11),(955,'金华职业技术学院','专科',11),(956,'宁波城市职业技术学院','专科',11),(957,'浙江电力职业技术学院','专科',11),(958,'浙江同济科技职业学院','专科',11),(959,'浙江工商职业技术学院','专科',11),(960,'台州职业技术学院','专科',11),(961,'浙江工贸职业技术学院','专科',11),(962,'浙江医药高等专科学校','专科',11),(963,'浙江机电职业技术学院','专科',11),(964,'浙江建设职业技术学院','专科',11),(965,'浙江艺术职业学院','专科',11),(966,'浙江经贸职业技术学院','专科',11),(967,'浙江商业职业技术学院','专科',11),(968,'浙江经济职业技术学院','专科',11),(969,'浙江旅游职业学院','专科',11),(970,'浙江育英职业技术学院','专科',11),(971,'浙江警官职业学院','专科',11),(972,'浙江金融职业学院','专科',11),(973,'浙江工业职业技术学院','专科',11),(974,'杭州职业技术学院','专科',11),(975,'嘉兴职业技术学院','专科',11),(976,'湖州职业技术学院','专科',11),(977,'绍兴职业技术学院','专科',11),(978,'衢州职业技术学院','专科',11),(979,'丽水职业技术学院','专科',11),(980,'浙江东方职业技术学院','专科',11),(981,'义乌工商职业技术学院','专科',11),(982,'浙江纺织服装职业技术学院','专科',11),(983,'杭州科技职业技术学院','专科',11),(984,'浙江长征职业技术学院','专科',11),(985,'嘉兴南洋职业技术学院','专科',11),(986,'浙江广厦建设职业技术学院','专科',11),(987,'杭州万向职业技术学院','专科',11),(988,'浙江邮电职业技术学院','专科',11),(989,'宁波卫生职业技术学院','专科',11),(990,'台州科技职业学院','专科',11),(991,'浙江国际海运职业技术学院','专科',11),(992,'浙江体育职业技术学院','专科',11),(993,'温州科技职业学院','专科',11),(994,'浙江汽车职业技术学院','专科',11),(995,'浙江横店影视职业学院','专科',11),(996,'浙江农业商贸职业学院','专科',11),(997,'浙江特殊教育职业学院','专科',11),(998,'浙江安防职业技术学院','专科',11),(999,'浙江舟山群岛新区旅游与健康\n职业学院','专科',11),(1000,'安徽大学','本科',12),(1001,'中国科学技术大学','本科',12),(1002,'合肥工业大学','本科',12),(1003,'安徽工业大学','本科',12),(1004,'安徽理工大学','本科',12),(1005,'安徽工程大学','本科',12),(1006,'安徽农业大学','本科',12),(1007,'安徽医科大学','本科',12),(1008,'蚌埠医学院','本科',12),(1009,'皖南医学院','本科',12),(1010,'安徽中医药大学','本科',12),(1011,'安徽师范大学','本科',12),(1012,'阜阳师范学院','本科',12),(1013,'安庆师范大学','本科',12),(1014,'淮北师范大学','本科',12),(1015,'黄山学院','本科',12),(1016,'皖西学院','本科',12),(1017,'滁州学院','本科',12),(1018,'安徽财经大学','本科',12),(1019,'宿州学院','本科',12),(1020,'巢湖学院','本科',12),(1021,'淮南师范学院','本科',12),(1022,'铜陵学院','本科',12),(1023,'安徽建筑大学','本科',12),(1024,'安徽科技学院','本科',12),(1025,'安徽三联学院','本科',12),(1026,'合肥学院','本科',12),(1027,'蚌埠学院','本科',12),(1028,'池州学院','本科',12),(1029,'安徽新华学院','本科',12),(1030,'安徽文达信息工程学院','本科',12),(1031,'亳州学院','本科',12),(1032,'安徽外国语学院','本科',12),(1033,'安徽财经大学商学院','本科',12),(1034,'安徽大学江淮学院','本科',12),(1035,'安徽信息工程学院','本科',12),(1036,'安徽工业大学工商学院','本科',12),(1037,'安徽建筑大学城市建设学院','本科',12),(1038,'安徽农业大学经济技术学院','本科',12),(1039,'安徽师范大学皖江学院','本科',12),(1040,'安徽医科大学临床医学院','本科',12),(1041,'阜阳师范学院信息工程学院','本科',12),(1042,'淮北师范大学信息学院','本科',12),(1043,'合肥师范学院','本科',12),(1044,'河海大学文天学院','本科',12),(1045,'安徽职业技术学院','专科',12),(1046,'淮北职业技术学院','专科',12),(1047,'芜湖职业技术学院','专科',12),(1048,'淮南联合大学','专科',12),(1049,'安徽商贸职业技术学院','专科',12),(1050,'安徽水利水电职业技术学院','专科',12),(1051,'阜阳职业技术学院','专科',12),(1052,'铜陵职业技术学院','专科',12),(1053,'民办万博科技职业学院','专科',12),(1054,'安徽警官职业学院','专科',12),(1055,'淮南职业技术学院','专科',12),(1056,'安徽工业经济职业技术学院','专科',12),(1057,'合肥通用职业技术学院','专科',12),(1058,'安徽工贸职业技术学院','专科',12),(1059,'宿州职业技术学院','专科',12),(1060,'六安职业技术学院','专科',12),(1061,'安徽电子信息职业技术学院','专科',12),(1062,'民办合肥经济技术职业学院','专科',12),(1063,'安徽交通职业技术学院','专科',12),(1064,'安徽体育运动职业技术学院','专科',12),(1065,'安徽中医药高等专科学校','专科',12),(1066,'安徽医学高等专科学校','专科',12),(1067,'合肥职业技术学院','专科',12),(1068,'滁州职业技术学院','专科',12),(1069,'池州职业技术学院','专科',12),(1070,'宣城职业技术学院','专科',12),(1071,'安徽广播影视职业技术学院','专科',12),(1072,'民办合肥滨湖职业技术学院','专科',12),(1073,'安徽电气工程职业技术学院','专科',12),(1074,'安徽冶金科技职业学院','专科',12),(1075,'安徽城市管理职业学院','专科',12),(1076,'安徽机电职业技术学院','专科',12),(1077,'安徽工商职业学院','专科',12),(1078,'安徽中澳科技职业学院','专科',12),(1079,'阜阳科技职业学院','专科',12),(1080,'亳州职业技术学院','专科',12),(1081,'安徽国防科技职业学院','专科',12),(1082,'安庆职业技术学院','专科',12),(1083,'安徽艺术职业学院','专科',12),(1084,'马鞍山师范高等专科学校','专科',12),(1085,'安徽财贸职业学院','专科',12),(1086,'安徽国际商务职业学院','专科',12),(1087,'安徽公安职业学院','专科',12),(1088,'安徽林业职业技术学院','专科',12),(1089,'安徽审计职业学院','专科',12),(1090,'安徽新闻出版职业技术学院','专科',12),(1091,'安徽邮电职业技术学院','专科',12),(1092,'安徽工业职业技术学院','专科',12),(1093,'民办合肥财经职业学院','专科',12),(1094,'安庆医药高等专科学校','专科',12),(1095,'安徽涉外经济职业学院','专科',12),(1096,'安徽绿海商务职业学院','专科',12),(1097,'合肥共达职业技术学院','专科',12),(1098,'蚌埠经济技术职业学院','专科',12),(1099,'民办安徽旅游职业学院','专科',12),(1100,'徽商职业学院','专科',12),(1101,'马鞍山职业技术学院','专科',12),(1102,'安徽现代信息工程职业学院','专科',12),(1103,'安徽矿业职业技术学院','专科',12),(1104,'合肥信息技术职业学院','专科',12),(1105,'桐城师范高等专科学校','专科',12),(1106,'黄山职业技术学院','专科',12),(1107,'滁州城市职业学院','专科',12),(1108,'安徽汽车职业技术学院','专科',12),(1109,'皖西卫生职业学院','专科',12),(1110,'合肥幼儿师范高等专科学校','专科',12),(1111,'安徽长江职业学院','专科',12),(1112,'安徽扬子职业技术学院','专科',12),(1113,'安徽黄梅戏艺术职业学院','专科',12),(1114,'安徽粮食工程职业学院','专科',12),(1115,'安徽卫生健康职业学院','专科',12),(1116,'合肥科技职业学院','专科',12),(1117,'皖北卫生职业学院','专科',12),(1118,'阜阳幼儿师范高等专科学校','专科',12),(1119,'厦门大学','本科',13),(1120,'华侨大学','本科',13),(1121,'福州大学','本科',13),(1122,'福建工程学院','本科',13),(1123,'福建农林大学','本科',13),(1124,'集美大学','本科',13),(1125,'福建医科大学','本科',13),(1126,'福建中医药大学','本科',13),(1127,'福建师范大学','本科',13),(1128,'闽江学院','本科',13),(1129,'武夷学院','本科',13),(1130,'宁德师范学院','本科',13),(1131,'泉州师范学院','本科',13),(1132,'闽南师范大学','本科',13),(1133,'厦门理工学院','本科',13),(1134,'三明学院','本科',13),(1135,'龙岩学院','本科',13),(1136,'福建商学院','本科',13),(1137,'福建警察学院','本科',13),(1138,'莆田学院','本科',13),(1139,'仰恩大学','本科',13),(1140,'厦门医学院','本科',13),(1141,'厦门华厦学院','本科',13),(1142,'闽南理工学院','本科',13),(1143,'福建师范大学闽南科技学院','本科',13),(1144,'福建农林大学东方学院','本科',13),(1145,'厦门工学院','本科',13),(1146,'阳光学院','本科',13),(1147,'厦门大学嘉庚学院','本科',13),(1148,'福州大学至诚学院','本科',13),(1149,'集美大学诚毅学院','本科',13),(1150,'福建师范大学协和学院','本科',13),(1151,'福州外语外贸学院','本科',13),(1152,'福建江夏学院','本科',13),(1153,'泉州信息工程学院','本科',13),(1154,'福州理工学院','本科',13),(1155,'福建农林大学金山学院','本科',13),(1156,'福建船政交通职业学院','专科',13),(1157,'漳州职业技术学院','专科',13),(1158,'闽西职业技术学院','专科',13),(1159,'黎明职业大学','专科',13),(1160,'福建华南女子职业学院','专科',13),(1161,'福州职业技术学院','专科',13),(1162,'福建林业职业技术学院','专科',13),(1163,'福建信息职业技术学院','专科',13),(1164,'福建水利电力职业技术学院','专科',13),(1165,'福建电力职业技术学院','专科',13),(1166,'厦门海洋职业技术学院','专科',13),(1167,'福建农业职业技术学院','专科',13),(1168,'福建卫生职业技术学院','专科',13),(1169,'泉州医学高等专科学校','专科',13),(1170,'福州英华职业学院','专科',13),(1171,'泉州纺织服装职业学院','专科',13),(1172,'泉州华光职业学院','专科',13),(1173,'泉州理工职业学院','专科',13),(1174,'福建警官职业学院','专科',13),(1175,'闽北职业技术学院','专科',13),(1176,'福州黎明职业技术学院','专科',13),(1177,'厦门演艺职业学院','专科',13),(1178,'厦门华天涉外职业技术学院','专科',13),(1179,'福州科技职业技术学院','专科',13),(1180,'泉州经贸职业技术学院','专科',13),(1181,'福建对外经济贸易\n职业技术学院','专科',13),(1182,'湄洲湾职业技术学院','专科',13),(1183,'福建生物工程职业技术学院','专科',13),(1184,'福建艺术职业学院','专科',13),(1185,'福建幼儿师范高等专科学校','专科',13),(1186,'厦门城市职业学院','专科',13),(1187,'泉州工艺美术职业学院','专科',13),(1188,'三明医学科技职业学院','专科',13),(1189,'宁德职业技术学院','专科',13),(1190,'福州软件职业技术学院','专科',13),(1191,'厦门兴才职业技术学院','专科',13),(1192,'厦门软件职业技术学院','专科',13),(1193,'福建体育职业技术学院','专科',13),(1194,'漳州城市职业学院','专科',13),(1195,'厦门南洋职业学院','专科',13),(1196,'厦门东海职业技术学院','专科',13),(1197,'漳州科技职业学院','专科',13),(1198,'漳州理工职业学院','专科',13),(1199,'武夷山职业学院','专科',13),(1200,'漳州卫生职业学院','专科',13),(1201,'泉州海洋职业学院','专科',13),(1202,'泉州轻工职业学院','专科',13),(1203,'厦门安防科技职业学院','专科',13),(1204,'泉州幼儿师范高等专科学校','专科',13),(1205,'闽江师范高等专科学校','专科',13),(1206,'泉州工程职业技术学院','专科',13),(1207,'福州墨尔本理工职业学院','专科',13),(1208,'南昌大学','本科',14),(1209,'华东交通大学','本科',14),(1210,'东华理工大学','本科',14),(1211,'南昌航空大学','本科',14),(1212,'江西理工大学','本科',14),(1213,'景德镇陶瓷大学','本科',14),(1214,'江西农业大学','本科',14),(1215,'江西中医药大学','本科',14),(1216,'赣南医学院','本科',14),(1217,'江西师范大学','本科',14),(1218,'上饶师范学院','本科',14),(1219,'宜春学院','本科',14),(1220,'赣南师范大学','本科',14),(1221,'井冈山大学','本科',14),(1222,'江西财经大学','本科',14),(1223,'江西科技学院','本科',14),(1224,'景德镇学院','本科',14),(1225,'萍乡学院','本科',14),(1226,'江西科技师范大学','本科',14),(1227,'南昌工程学院','本科',14),(1228,'江西警察学院','本科',14),(1229,'新余学院','本科',14),(1230,'九江学院','本科',14),(1231,'江西工程学院','本科',14),(1232,'南昌理工学院','本科',14),(1233,'江西应用科技学院','本科',14),(1234,'江西服装学院','本科',14),(1235,'南昌工学院','本科',14),(1236,'南昌大学科学技术学院','本科',14),(1237,'南昌大学共青学院','本科',14),(1238,'华东交通大学理工学院','本科',14),(1239,'东华理工大学长江学院','本科',14),(1240,'南昌航空大学科技学院','本科',14),(1241,'江西理工大学应用科学学院','本科',14),(1242,'景德镇陶瓷大学科技艺术学院','本科',14),(1243,'江西农业大学南昌商学院','本科',14),(1244,'江西中医药大学科技学院','本科',14),(1245,'江西师范大学科学技术学院','本科',14),(1246,'赣南师范大学科技学院','本科',14),(1247,'江西科技师范大学理工学院','本科',14),(1248,'江西财经大学现代经济管理\n学院','本科',14),(1249,'豫章师范学院','本科',14),(1250,'南昌师范学院','本科',14),(1251,'上饶幼儿师范高等专科学校','专科',14),(1252,'抚州幼儿师范高等专科学校','专科',14),(1253,'江西工业职业技术学院','专科',14),(1254,'江西医学高等专科学校','专科',14),(1255,'九江职业大学','专科',14),(1256,'九江职业技术学院','专科',14),(1257,'江西司法警官职业学院','专科',14),(1258,'江西陶瓷工艺美术职业技术\n学院','专科',14),(1259,'江西旅游商贸职业学院','专科',14),(1260,'江西电力职业技术学院','专科',14),(1261,'江西环境工程职业学院','专科',14),(1262,'江西艺术职业学院','专科',14),(1263,'鹰潭职业技术学院','专科',14),(1264,'江西信息应用职业技术学院','专科',14),(1265,'江西交通职业技术学院','专科',14),(1266,'江西财经职业学院','专科',14),(1267,'江西应用技术职业学院','专科',14),(1268,'江西现代职业技术学院','专科',14),(1269,'江西工业工程职业技术学院','专科',14),(1270,'江西机电职业技术学院','专科',14),(1271,'江西科技职业学院','专科',14),(1272,'南昌职业学院','专科',14),(1273,'江西外语外贸职业学院','专科',14),(1274,'江西工业贸易职业技术学院','专科',14),(1275,'宜春职业技术学院','专科',14),(1276,'江西应用工程职业学院','专科',14),(1277,'江西生物科技职业学院','专科',14),(1278,'江西建设职业技术学院','专科',14),(1279,'抚州职业技术学院','专科',14),(1280,'江西中医药高等专科学校','专科',14),(1281,'江西先锋软件职业技术学院','专科',14),(1282,'江西经济管理职业学院','专科',14),(1283,'江西制造职业技术学院','专科',14),(1284,'江西工程职业学院','专科',14),(1285,'江西青年职业学院','专科',14),(1286,'上饶职业技术学院','专科',14),(1287,'江西航空职业技术学院','专科',14),(1288,'江西农业工程职业学院','专科',14),(1289,'赣西科技职业学院','专科',14),(1290,'江西卫生职业学院','专科',14),(1291,'江西新能源科技职业学院','专科',14),(1292,'江西枫林涉外经贸职业学院','专科',14),(1293,'江西泰豪动漫职业学院','专科',14),(1294,'江西冶金职业技术学院','专科',14),(1295,'江西管理职业学院','专科',14),(1296,'江西传媒职业学院','专科',14),(1297,'江西工商职业技术学院','专科',14),(1298,'景德镇陶瓷职业技术学院','专科',14),(1299,'共青科技职业学院','专科',14),(1300,'赣州师范高等专科学校','专科',14),(1301,'江西水利职业学院','专科',14),(1302,'宜春幼儿师范高等专科学校','专科',14),(1303,'吉安职业技术学院','专科',14),(1304,'江西洪州职业学院','专科',14),(1305,'江西师范高等专科学校','专科',14),(1306,'南昌影视传播职业学院','专科',14),(1307,'赣南卫生健康职业学院','专科',14),(1308,'山东大学','本科',15),(1309,'中国海洋大学','本科',15),(1310,'山东科技大学','本科',15),(1311,'中国石油大学（华东）','本科',15),(1312,'青岛科技大学','本科',15),(1313,'济南大学','本科',15),(1314,'青岛理工大学','本科',15),(1315,'山东建筑大学','本科',15),(1316,'齐鲁工业大学','本科',15),(1317,'山东理工大学','本科',15),(1318,'山东农业大学','本科',15),(1319,'青岛农业大学','本科',15),(1320,'潍坊医学院','本科',15),(1321,'泰山医学院','本科',15),(1322,'滨州医学院','本科',15),(1323,'山东中医药大学','本科',15),(1324,'济宁医学院','本科',15),(1325,'山东师范大学','本科',15),(1326,'曲阜师范大学','本科',15),(1327,'聊城大学','本科',15),(1328,'德州学院','本科',15),(1329,'滨州学院','本科',15),(1330,'鲁东大学','本科',15),(1331,'临沂大学','本科',15),(1332,'泰山学院','本科',15),(1333,'济宁学院','本科',15),(1334,'菏泽学院','本科',15),(1335,'山东财经大学','本科',15),(1336,'山东体育学院','本科',15),(1337,'山东艺术学院','本科',15),(1338,'齐鲁医药学院','本科',15),(1339,'青岛滨海学院','本科',15),(1340,'枣庄学院','本科',15),(1341,'山东工艺美术学院','本科',15),(1342,'青岛大学','本科',15),(1343,'烟台大学','本科',15),(1344,'潍坊学院','本科',15),(1345,'山东警察学院','本科',15),(1346,'山东交通学院','本科',15),(1347,'山东工商学院','本科',15),(1348,'山东女子学院','本科',15),(1349,'烟台南山学院','本科',15),(1350,'潍坊科技学院','本科',15),(1351,'山东英才学院','本科',15),(1352,'青岛恒星科技学院','本科',15),(1353,'青岛黄海学院','本科',15),(1354,'山东现代学院','本科',15),(1355,'山东协和学院','本科',15),(1356,'烟台大学文经学院','本科',15),(1357,'聊城大学东昌学院','本科',15),(1358,'青岛理工大学琴岛学院','本科',15),(1359,'山东师范大学历山学院','本科',15),(1360,'山东财经大学燕山学院','本科',15),(1361,'中国石油大学胜利学院','本科',15),(1362,'山东科技大学泰山科技学院','本科',15),(1363,'山东华宇工学院','本科',15),(1364,'青岛工学院','本科',15),(1365,'青岛农业大学海都学院','本科',15),(1366,'齐鲁理工学院','本科',15),(1367,'山东财经大学东方学院','本科',15),(1368,'济南大学泉城学院','本科',15),(1369,'山东政法学院','本科',15),(1370,'齐鲁师范学院','本科',15),(1371,'山东青年政治学院','本科',15),(1372,'北京电影学院现代创意媒体\n学院','本科',15),(1373,'山东管理学院','本科',15),(1374,'山东农业工程学院','本科',15),(1375,'山东医学高等专科学校','专科',15),(1376,'菏泽医学专科学校','专科',15),(1377,'山东商业职业技术学院','专科',15),(1378,'山东电力高等专科学校','专科',15),(1379,'日照职业技术学院','专科',15),(1380,'曲阜远东职业技术学院','专科',15),(1381,'青岛职业技术学院','专科',15),(1382,'威海职业学院','专科',15),(1383,'山东职业学院','专科',15),(1384,'山东劳动职业技术学院','专科',15),(1385,'莱芜职业技术学院','专科',15),(1386,'济宁职业技术学院','专科',15),(1387,'潍坊职业学院','专科',15),(1388,'烟台职业学院','专科',15),(1389,'东营职业学院','专科',15),(1390,'聊城职业技术学院','专科',15),(1391,'滨州职业学院','专科',15),(1392,'山东科技职业学院','专科',15),(1393,'山东服装职业学院','专科',15),(1394,'德州科技职业学院','专科',15),(1395,'山东力明科技职业学院','专科',15),(1396,'山东圣翰财贸职业学院','专科',15),(1397,'山东水利职业学院','专科',15),(1398,'山东畜牧兽医职业学院','专科',15),(1399,'青岛飞洋职业技术学院','专科',15),(1400,'东营科技职业学院','专科',15),(1401,'山东交通职业学院','专科',15),(1402,'淄博职业学院','专科',15),(1403,'山东外贸职业学院','专科',15),(1404,'青岛酒店管理职业技术学院','专科',15),(1405,'山东信息职业技术学院','专科',15),(1406,'青岛港湾职业技术学院','专科',15),(1407,'山东胜利职业学院','专科',15),(1408,'山东经贸职业学院','专科',15),(1409,'山东工业职业学院','专科',15),(1410,'山东化工职业学院','专科',15),(1411,'青岛求实职业技术学院','专科',15),(1412,'济南职业学院','专科',15),(1413,'烟台工程职业技术学院','专科',15),(1414,'山东凯文科技职业学院','专科',15),(1415,'山东外国语职业学院','专科',15),(1416,'潍坊工商职业学院','专科',15),(1417,'德州职业技术学院','专科',15),(1418,'枣庄科技职业学院','专科',15),(1419,'淄博师范高等专科学校','专科',15),(1420,'山东中医药高等专科学校','专科',15),(1421,'济南工程职业技术学院','专科',15),(1422,'山东电子职业技术学院','专科',15),(1423,'山东旅游职业学院','专科',15),(1424,'山东铝业职业学院','专科',15),(1425,'山东杏林科技职业学院','专科',15),(1426,'泰山职业技术学院','专科',15),(1427,'山东外事翻译职业学院','专科',15),(1428,'山东药品食品职业学院','专科',15),(1429,'山东商务职业学院','专科',15),(1430,'山东轻工职业学院','专科',15),(1431,'山东城市建设职业学院','专科',15),(1432,'烟台汽车工程职业学院','专科',15),(1433,'山东司法警官职业学院','专科',15),(1434,'菏泽家政职业学院','专科',15),(1435,'山东传媒职业学院','专科',15),(1436,'临沂职业学院','专科',15),(1437,'枣庄职业学院','专科',15),(1438,'山东理工职业学院','专科',15),(1439,'山东文化产业职业学院','专科',15),(1440,'青岛远洋船员职业学院','专科',15),(1441,'济南幼儿师范高等专科学校','专科',15),(1442,'济南护理职业学院','专科',15),(1443,'泰山护理职业学院','专科',15),(1444,'山东海事职业学院','专科',15),(1445,'潍坊护理职业学院','专科',15),(1446,'潍坊工程职业学院','专科',15),(1447,'菏泽职业学院','专科',15),(1448,'山东艺术设计职业学院','专科',15),(1449,'威海海洋职业学院','专科',15),(1450,'山东特殊教育职业学院','专科',15),(1451,'烟台黄金职业学院','专科',15),(1452,'日照航海工程职业学院','专科',15),(1453,'华北水利水电大学','本科',16),(1454,'郑州大学','本科',16),(1455,'河南理工大学','本科',16),(1456,'郑州轻工业学院','本科',16),(1457,'河南工业大学','本科',16),(1458,'河南科技大学','本科',16),(1459,'中原工学院','本科',16),(1460,'河南农业大学','本科',16),(1461,'河南科技学院','本科',16),(1462,'河南牧业经济学院','本科',16),(1463,'河南中医药大学','本科',16),(1464,'新乡医学院','本科',16),(1465,'河南大学','本科',16),(1466,'河南师范大学','本科',16),(1467,'信阳师范学院','本科',16),(1468,'周口师范学院','本科',16),(1469,'安阳师范学院','本科',16),(1470,'许昌学院','本科',16),(1471,'南阳师范学院','本科',16),(1472,'洛阳师范学院','本科',16),(1473,'商丘师范学院','本科',16),(1474,'河南财经政法大学','本科',16),(1475,'郑州航空工业管理学院','本科',16),(1476,'黄淮学院','本科',16),(1477,'平顶山学院','本科',16),(1478,'郑州工程技术学院','本科',16),(1479,'洛阳理工学院','本科',16),(1480,'新乡学院','本科',16),(1481,'信阳农林学院','本科',16),(1482,'河南工学院','本科',16),(1483,'安阳工学院','本科',16),(1484,'河南工程学院','本科',16),(1485,'河南财政金融学院','本科',16),(1486,'南阳理工学院','本科',16),(1487,'河南城建学院','本科',16),(1488,'河南警察学院','本科',16),(1489,'黄河科技学院','本科',16),(1490,'铁道警察学院','本科',16),(1491,'郑州科技学院','本科',16),(1492,'郑州工业应用技术学院','本科',16),(1493,'郑州师范学院','本科',16),(1494,'郑州财经学院','本科',16),(1495,'黄河交通学院','本科',16),(1496,'商丘工学院','本科',16),(1497,'河南大学民生学院','本科',16),(1498,'河南师范大学新联学院','本科',16),(1499,'信阳学院','本科',16),(1500,'安阳学院','本科',16),(1501,'新乡医学院三全学院','本科',16),(1502,'河南科技学院新科学院','本科',16),(1503,'郑州工商学院','本科',16),(1504,'中原工学院信息商务学院','本科',16),(1505,'商丘学院','本科',16),(1506,'郑州成功财经学院','本科',16),(1507,'郑州升达经贸管理学院','本科',16),(1508,'河南职业技术学院','专科',16),(1509,'漯河职业技术学院','专科',16),(1510,'三门峡职业技术学院','专科',16),(1511,'郑州铁路职业技术学院','专科',16),(1512,'开封大学','专科',16),(1513,'焦作大学','专科',16),(1514,'濮阳职业技术学院','专科',16),(1515,'郑州电力高等专科学校','专科',16),(1516,'黄河水利职业技术学院','专科',16),(1517,'许昌职业技术学院','专科',16),(1518,'河南工业和信息化职业学院','专科',16),(1519,'河南水利与环境职业学院','专科',16),(1520,'商丘职业技术学院','专科',16),(1521,'平顶山工业职业技术学院','专科',16),(1522,'周口职业技术学院','专科',16),(1523,'济源职业技术学院','专科',16),(1524,'河南司法警官职业学院','专科',16),(1525,'鹤壁职业技术学院','专科',16),(1526,'河南工业职业技术学院','专科',16),(1527,'郑州澍青医学高等专科学校','专科',16),(1528,'焦作师范高等专科学校','专科',16),(1529,'河南检察职业学院','专科',16),(1530,'河南质量工程职业学院','专科',16),(1531,'郑州信息科技职业学院','专科',16),(1532,'漯河医学高等专科学校','专科',16),(1533,'南阳医学高等专科学校','专科',16),(1534,'商丘医学高等专科学校','专科',16),(1535,'郑州电子信息职业技术学院','专科',16),(1536,'信阳职业技术学院','专科',16),(1537,'嵩山少林武术职业学院','专科',16),(1538,'郑州工业安全职业学院','专科',16),(1539,'永城职业学院','专科',16),(1540,'河南经贸职业学院','专科',16),(1541,'河南交通职业技术学院','专科',16),(1542,'河南农业职业学院','专科',16),(1543,'郑州旅游职业学院','专科',16),(1544,'郑州职业技术学院','专科',16),(1545,'河南信息统计职业学院','专科',16),(1546,'河南林业职业学院','专科',16),(1547,'河南工业贸易职业学院','专科',16),(1548,'郑州电力职业技术学院','专科',16),(1549,'周口科技职业学院','专科',16),(1550,'河南建筑职业技术学院','专科',16),(1551,'漯河食品职业学院','专科',16),(1552,'郑州城市职业学院','专科',16),(1553,'安阳职业技术学院','专科',16),(1554,'新乡职业技术学院','专科',16),(1555,'驻马店职业技术学院','专科',16),(1556,'焦作工贸职业学院','专科',16),(1557,'许昌陶瓷职业学院','专科',16),(1558,'郑州理工职业学院','专科',16),(1559,'郑州信息工程职业学院','专科',16),(1560,'长垣烹饪职业技术学院','专科',16),(1561,'开封文化艺术职业学院','专科',16),(1562,'河南应用技术职业学院','专科',16),(1563,'河南艺术职业学院','专科',16),(1564,'河南机电职业学院','专科',16),(1565,'河南护理职业学院','专科',16),(1566,'许昌电气职业学院','专科',16),(1567,'信阳涉外职业技术学院','专科',16),(1568,'鹤壁汽车工程职业学院','专科',16),(1569,'南阳职业学院','专科',16),(1570,'郑州商贸旅游职业学院','专科',16),(1571,'河南推拿职业学院','专科',16),(1572,'洛阳职业技术学院','专科',16),(1573,'郑州幼儿师范高等专科学校','专科',16),(1574,'安阳幼儿师范高等专科学校','专科',16),(1575,'郑州黄河护理职业学院','专科',16),(1576,'河南医学高等专科学校','专科',16),(1577,'郑州财税金融职业学院','专科',16),(1578,'南阳农业职业学院','专科',16),(1579,'洛阳科技职业学院','专科',16),(1580,'鹤壁能源化工职业学院','专科',16),(1581,'平顶山文化艺术职业学院','专科',16),(1582,'濮阳医学高等专科学校','专科',16),(1583,'驻马店幼儿师范高等专科学校','专科',16),(1584,'三门峡社会管理职业学院','专科',16),(1585,'河南轻工职业学院','专科',16),(1586,'河南测绘职业学院','专科',16),(1587,'武汉大学','本科',17),(1588,'华中科技大学','本科',17),(1589,'武汉科技大学','本科',17),(1590,'长江大学','本科',17),(1591,'武汉工程大学','本科',17),(1592,'中国地质大学（武汉）','本科',17),(1593,'武汉纺织大学','本科',17),(1594,'武汉轻工大学','本科',17),(1595,'武汉理工大学','本科',17),(1596,'湖北工业大学','本科',17),(1597,'华中农业大学','本科',17),(1598,'湖北中医药大学','本科',17),(1599,'华中师范大学','本科',17),(1600,'湖北大学','本科',17),(1601,'湖北师范大学','本科',17),(1602,'黄冈师范学院','本科',17),(1603,'湖北民族学院','本科',17),(1604,'汉江师范学院','本科',17),(1605,'湖北文理学院','本科',17),(1606,'中南财经政法大学','本科',17),(1607,'武汉体育学院','本科',17),(1608,'湖北美术学院','本科',17),(1609,'中南民族大学','本科',17),(1610,'湖北汽车工业学院','本科',17),(1611,'湖北工程学院','本科',17),(1612,'湖北理工学院','本科',17),(1613,'湖北科技学院','本科',17),(1614,'湖北医药学院','本科',17),(1615,'江汉大学','本科',17),(1616,'三峡大学','本科',17),(1617,'湖北警官学院','本科',17),(1618,'荆楚理工学院','本科',17),(1619,'武汉音乐学院','本科',17),(1620,'湖北经济学院','本科',17),(1621,'武汉商学院','本科',17),(1622,'武汉东湖学院','本科',17),(1623,'汉口学院','本科',17),(1624,'武昌首义学院','本科',17),(1625,'武昌理工学院','本科',17),(1626,'武汉生物工程学院','本科',17),(1627,'武汉晴川学院','本科',17),(1628,'湖北大学知行学院','本科',17),(1629,'武汉科技大学城市学院','本科',17),(1630,'三峡大学科技学院','本科',17),(1631,'江汉大学文理学院','本科',17),(1632,'湖北工业大学工程技术学院','本科',17),(1633,'武汉工程大学邮电与信息工程\n学院','本科',17),(1634,'武汉纺织大学外经贸学院','本科',17),(1635,'武昌工学院','本科',17),(1636,'武汉工商学院','本科',17),(1637,'长江大学工程技术学院','本科',17),(1638,'长江大学文理学院','本科',17),(1639,'湖北商贸学院','本科',17),(1640,'湖北汽车工业学院科技学院','本科',17),(1641,'湖北医药学院药护学院','本科',17),(1642,'湖北民族学院科技学院','本科',17),(1643,'湖北经济学院法商学院','本科',17),(1644,'武汉体育学院体育科技学院','本科',17),(1645,'湖北师范大学文理学院','本科',17),(1646,'湖北文理学院理工学院','本科',17),(1647,'湖北工程学院新技术学院','本科',17),(1648,'文华学院','本科',17),(1649,'武汉学院','本科',17),(1650,'武汉工程科技学院','本科',17),(1651,'武汉华夏理工学院','本科',17),(1652,'武汉传媒学院','本科',17),(1653,'武汉设计工程学院','本科',17),(1654,'湖北第二师范学院','本科',17),(1655,'武汉职业技术学院','专科',17),(1656,'黄冈职业技术学院','专科',17),(1657,'长江职业学院','专科',17),(1658,'荆州理工职业学院','专科',17),(1659,'湖北工业职业技术学院','专科',17),(1660,'鄂州职业大学','专科',17),(1661,'武汉城市职业学院','专科',17),(1662,'湖北职业技术学院','专科',17),(1663,'武汉船舶职业技术学院','专科',17),(1664,'恩施职业技术学院','专科',17),(1665,'襄阳职业技术学院','专科',17),(1666,'武汉工贸职业学院','专科',17),(1667,'荆州职业技术学院','专科',17),(1668,'武汉工程职业技术学院','专科',17),(1669,'仙桃职业学院','专科',17),(1670,'湖北轻工职业技术学院','专科',17),(1671,'湖北交通职业技术学院','专科',17),(1672,'湖北中医药高等专科学校','专科',17),(1673,'武汉航海职业技术学院','专科',17),(1674,'武汉铁路职业技术学院','专科',17),(1675,'武汉软件工程职业学院','专科',17),(1676,'湖北三峡职业技术学院','专科',17),(1677,'随州职业技术学院','专科',17),(1678,'武汉电力职业技术学院','专科',17),(1679,'湖北水利水电职业技术学院','专科',17),(1680,'湖北城市建设职业技术学院','专科',17),(1681,'武汉警官职业学院','专科',17),(1682,'湖北生物科技职业学院','专科',17),(1683,'湖北开放职业学院','专科',17),(1684,'武汉科技职业学院','专科',17),(1685,'武汉外语外事职业学院','专科',17),(1686,'武汉信息传播职业技术学院','专科',17),(1687,'武昌职业学院','专科',17),(1688,'武汉商贸职业学院','专科',17),(1689,'湖北艺术职业学院','专科',17),(1690,'武汉交通职业学院','专科',17),(1691,'咸宁职业技术学院','专科',17),(1692,'长江工程职业技术学院','专科',17),(1693,'江汉艺术职业学院','专科',17),(1694,'武汉工业职业技术学院','专科',17),(1695,'武汉民政职业学院','专科',17),(1696,'鄂东职业技术学院','专科',17),(1697,'湖北财税职业学院','专科',17),(1698,'黄冈科技职业学院','专科',17),(1699,'湖北国土资源职业学院','专科',17),(1700,'湖北生态工程职业技术学院','专科',17),(1701,'三峡电力职业学院','专科',17),(1702,'湖北科技职业学院','专科',17),(1703,'湖北青年职业学院','专科',17),(1704,'湖北工程职业学院','专科',17),(1705,'三峡旅游职业技术学院','专科',17),(1706,'天门职业学院','专科',17),(1707,'湖北体育职业学院','专科',17),(1708,'襄阳汽车职业技术学院','专科',17),(1709,'湖北幼儿师范高等专科学校','专科',17),(1710,'湖北铁道运输职业学院','专科',17),(1711,'武汉海事职业学院','专科',17),(1712,'长江艺术工程职业学院','专科',17),(1713,'荆门职业学院','专科',17),(1714,'武汉铁路桥梁职业学院','专科',17),(1715,'武汉光谷职业学院','专科',17),(1716,'湘潭大学','本科',18),(1717,'吉首大学','本科',18),(1718,'湖南大学','本科',18),(1719,'中南大学','本科',18),(1720,'湖南科技大学','本科',18),(1721,'长沙理工大学','本科',18),(1722,'湖南农业大学','本科',18),(1723,'中南林业科技大学','本科',18),(1724,'湖南中医药大学','本科',18),(1725,'湖南师范大学','本科',18),(1726,'湖南理工学院','本科',18),(1727,'湘南学院','本科',18),(1728,'衡阳师范学院','本科',18),(1729,'邵阳学院','本科',18),(1730,'怀化学院','本科',18),(1731,'湖南文理学院','本科',18),(1732,'湖南科技学院','本科',18),(1733,'湖南人文科技学院','本科',18),(1734,'湖南商学院','本科',18),(1735,'南华大学','本科',18),(1736,'长沙医学院','本科',18),(1737,'长沙学院','本科',18),(1738,'湖南工程学院','本科',18),(1739,'湖南城市学院','本科',18),(1740,'湖南工学院','本科',18),(1741,'湖南财政经济学院','本科',18),(1742,'湖南警察学院','本科',18),(1743,'湖南工业大学','本科',18),(1744,'湖南女子学院','本科',18),(1745,'湖南第一师范学院','本科',18),(1746,'湖南医药学院','本科',18),(1747,'湖南涉外经济学院','本科',18),(1748,'湘潭大学兴湘学院','本科',18),(1749,'湖南工业大学科技学院','本科',18),(1750,'湖南科技大学潇湘学院','本科',18),(1751,'南华大学船山学院','本科',18),(1752,'湖南商学院北津学院','本科',18),(1753,'湖南师范大学树达学院','本科',18),(1754,'湖南农业大学东方科技学院','本科',18),(1755,'中南林业科技大学涉外学院','本科',18),(1756,'湖南文理学院芙蓉学院','本科',18),(1757,'湖南理工学院南湖学院','本科',18),(1758,'衡阳师范学院南岳学院','本科',18),(1759,'湖南工程学院应用技术学院','本科',18),(1760,'湖南中医药大学湘杏学院','本科',18),(1761,'吉首大学张家界学院','本科',18),(1762,'长沙理工大学城南学院','本科',18),(1763,'长沙师范学院','本科',18),(1764,'湖南应用技术学院','本科',18),(1765,'湖南信息学院','本科',18),(1766,'湖南交通工程学院','本科',18),(1767,'湘中幼儿师范高等专科学校','专科',18),(1768,'长沙民政职业技术学院','专科',18),(1769,'湖南工业职业技术学院','专科',18),(1770,'株洲师范高等专科学校','专科',18),(1771,'湖南信息职业技术学院','专科',18),(1772,'湖南税务高等专科学校','专科',18),(1773,'湖南冶金职业技术学院','专科',18),(1774,'长沙航空职业技术学院','专科',18),(1775,'湖南大众传媒职业技术学院','专科',18),(1776,'永州职业技术学院','专科',18),(1777,'湖南铁道职业技术学院','专科',18),(1778,'湖南科技职业学院','专科',18),(1779,'湖南生物机电职业技术学院','专科',18),(1780,'湖南交通职业技术学院','专科',18),(1781,'湖南商务职业技术学院','专科',18),(1782,'湖南体育职业学院','专科',18),(1783,'湖南工程职业技术学院','专科',18),(1784,'保险职业学院','专科',18),(1785,'湖南外贸职业学院','专科',18),(1786,'湖南网络工程职业学院','专科',18),(1787,'邵阳职业技术学院','专科',18),(1788,'湖南司法警官职业学院','专科',18),(1789,'长沙商贸旅游职业技术学院','专科',18),(1790,'湖南环境生物职业技术学院','专科',18),(1791,'湖南邮电职业技术学院','专科',18),(1792,'湘潭医卫职业技术学院','专科',18),(1793,'郴州职业技术学院','专科',18),(1794,'娄底职业技术学院','专科',18),(1795,'张家界航空工业职业技术学院','专科',18),(1796,'长沙环境保护职业技术学院','专科',18),(1797,'湖南艺术职业学院','专科',18),(1798,'湖南机电职业技术学院','专科',18),(1799,'长沙职业技术学院','专科',18),(1800,'怀化职业技术学院','专科',18),(1801,'岳阳职业技术学院','专科',18),(1802,'常德职业技术学院','专科',18),(1803,'长沙南方职业学院','专科',18),(1804,'潇湘职业学院','专科',18),(1805,'湖南化工职业技术学院','专科',18),(1806,'湖南城建职业技术学院','专科',18),(1807,'湖南石油化工职业技术学院','专科',18),(1808,'湖南中医药高等专科学校','专科',18),(1809,'湖南民族职业学院','专科',18),(1810,'湘西民族职业技术学院','专科',18),(1811,'湖南财经工业职业技术学院','专科',18),(1812,'益阳职业技术学院','专科',18),(1813,'湖南工艺美术职业学院','专科',18),(1814,'湖南九嶷职业技术学院','专科',18),(1815,'湖南理工职业技术学院','专科',18),(1816,'湖南软件职业学院','专科',18),(1817,'湖南汽车工程职业学院','专科',18),(1818,'长沙电力职业技术学院','专科',18),(1819,'湖南水利水电职业技术学院','专科',18),(1820,'湖南现代物流职业技术学院','专科',18),(1821,'湖南高速铁路职业技术学院','专科',18),(1822,'湖南铁路科技职业技术学院','专科',18),(1823,'湖南安全技术职业学院','专科',18),(1824,'湖南电气职业技术学院','专科',18),(1825,'湖南外国语职业学院','专科',18),(1826,'益阳医学高等专科学校','专科',18),(1827,'湖南都市职业学院','专科',18),(1828,'湖南电子科技职业学院','专科',18),(1829,'湖南国防工业职业技术学院','专科',18),(1830,'湖南高尔夫旅游职业学院','专科',18),(1831,'湖南工商职业学院','专科',18),(1832,'湖南三一工业职业技术学院','专科',18),(1833,'长沙卫生职业学院','专科',18),(1834,'湖南食品药品职业学院','专科',18),(1835,'湖南有色金属职业技术学院','专科',18),(1836,'湖南吉利汽车职业技术学院','专科',18),(1837,'湖南幼儿师范高等专科学校','专科',18),(1838,'湘南幼儿师范高等专科学校','专科',18),(1839,'湖南劳动人事职业学院','专科',18),(1840,'中山大学','本科',19),(1841,'暨南大学','本科',19),(1842,'汕头大学','本科',19),(1843,'华南理工大学','本科',19),(1844,'华南农业大学','本科',19),(1845,'广东海洋大学','本科',19),(1846,'广州医科大学','本科',19),(1847,'广东医科大学','本科',19),(1848,'广州中医药大学','本科',19),(1849,'广东药科大学','本科',19),(1850,'华南师范大学','本科',19),(1851,'韶关学院','本科',19),(1852,'惠州学院','本科',19),(1853,'韩山师范学院','本科',19),(1854,'岭南师范学院','本科',19),(1855,'肇庆学院','本科',19),(1856,'嘉应学院','本科',19),(1857,'广州体育学院','本科',19),(1858,'广州美术学院','本科',19),(1859,'星海音乐学院','本科',19),(1860,'广东技术师范学院','本科',19),(1861,'深圳大学','本科',19),(1862,'广东财经大学','本科',19),(1863,'广东白云学院','本科',19),(1864,'广州大学','本科',19),(1865,'广州航海学院','本科',19),(1866,'广东警官学院','本科',19),(1867,'仲恺农业工程学院','本科',19),(1868,'五邑大学','本科',19),(1869,'广东金融学院','本科',19),(1870,'电子科技大学中山学院','本科',19),(1871,'广东石油化工学院','本科',19),(1872,'东莞理工学院','本科',19),(1873,'广东工业大学','本科',19),(1874,'广东外语外贸大学','本科',19),(1875,'佛山科学技术学院','本科',19),(1876,'广东培正学院','本科',19),(1877,'南方医科大学','本科',19),(1878,'广东东软学院','本科',19),(1879,'华南理工大学广州学院','本科',19),(1880,'广州大学华软软件学院','本科',19),(1881,'中山大学南方学院','本科',19),(1882,'广东外语外贸大学南国商学院','本科',19),(1883,'广东财经大学华商学院','本科',19),(1884,'广东海洋大学寸金学院','本科',19),(1885,'华南农业大学珠江学院','本科',19),(1886,'广东技术师范学院天河学院','本科',19),(1887,'北京师范大学珠海分校','本科',19),(1888,'广东工业大学华立学院','本科',19),(1889,'广州大学松田学院','本科',19),(1890,'广州商学院','本科',19),(1891,'北京理工大学珠海学院','本科',19),(1892,'吉林大学珠海学院','本科',19),(1893,'广州工商学院','本科',19),(1894,'广东科技学院','本科',19),(1895,'广东理工学院','本科',19),(1896,'东莞理工学院城市学院','本科',19),(1897,'中山大学新华学院','本科',19),(1898,'广东第二师范学院','本科',19),(1899,'南方科技大学','本科',19),(1900,'北京师范大学-香港浸会大学联合国际学院','本科',19),(1901,'香港中文大学（深圳）','本科',19),(1902,'深圳北理莫斯科大学','本科',19),(1903,'广东以色列理工学院','本科',19),(1904,'顺德职业技术学院','专科',19),(1905,'广东轻工职业技术学院','专科',19),(1906,'广东交通职业技术学院','专科',19),(1907,'广东水利电力职业技术学院','专科',19),(1908,'潮汕职业技术学院','专科',19),(1909,'深圳职业技术学院','专科',19),(1910,'广东南华工商职业学院','专科',19),(1911,'私立华联学院','专科',19),(1912,'广州民航职业技术学院','专科',19),(1913,'广州番禺职业技术学院','专科',19),(1914,'广东松山职业技术学院','专科',19),(1915,'广东农工商职业技术学院','专科',19),(1916,'广东新安职业技术学院','专科',19),(1917,'佛山职业技术学院','专科',19),(1918,'广东科学技术职业学院','专科',19),(1919,'广东食品药品职业学院','专科',19),(1920,'广州康大职业技术学院','专科',19),(1921,'珠海艺术职业学院','专科',19),(1922,'广东行政职业学院','专科',19),(1923,'广东体育职业技术学院','专科',19),(1924,'广东职业技术学院','专科',19),(1925,'广东建设职业技术学院','专科',19),(1926,'广东女子职业技术学院','专科',19),(1927,'广东机电职业技术学院','专科',19),(1928,'广东岭南职业技术学院','专科',19),(1929,'汕尾职业技术学院','专科',19),(1930,'罗定职业技术学院','专科',19),(1931,'阳江职业技术学院','专科',19),(1932,'河源职业技术学院','专科',19),(1933,'广东邮电职业技术学院','专科',19),(1934,'汕头职业技术学院','专科',19),(1935,'揭阳职业技术学院','专科',19),(1936,'深圳信息职业技术学院','专科',19),(1937,'清远职业技术学院','专科',19),(1938,'广东工贸职业技术学院','专科',19),(1939,'广东司法警官职业学院','专科',19),(1940,'广东亚视演艺职业学院','专科',19),(1941,'广东省外语艺术职业学院','专科',19),(1942,'广东文艺职业学院','专科',19),(1943,'广州体育职业技术学院','专科',19),(1944,'广州工程技术职业学院','专科',19),(1945,'中山火炬职业技术学院','专科',19),(1946,'江门职业技术学院','专科',19),(1947,'茂名职业技术学院','专科',19),(1948,'珠海城市职业技术学院','专科',19),(1949,'广州涉外经济职业技术学院','专科',19),(1950,'广州南洋理工职业学院','专科',19),(1951,'广州科技职业技术学院','专科',19),(1952,'惠州经济职业技术学院','专科',19),(1953,'广东工商职业学院','专科',19),(1954,'肇庆医学高等专科学校','专科',19),(1955,'广州现代信息工程职业技术\n学院','专科',19),(1956,'广东理工职业学院','专科',19),(1957,'广州华南商贸职业学院','专科',19),(1958,'广州华立科技职业学院','专科',19),(1959,'广州城市职业学院','专科',19),(1960,'广东工程职业技术学院','专科',19),(1961,'广州铁路职业技术学院','专科',19),(1962,'广东科贸职业学院','专科',19),(1963,'广州科技贸易职业学院','专科',19),(1964,'中山职业技术学院','专科',19),(1965,'广州珠江职业技术学院','专科',19),(1966,'广州松田职业学院','专科',19),(1967,'广东文理职业学院','专科',19),(1968,'广州城建职业学院','专科',19),(1969,'东莞职业技术学院','专科',19),(1970,'广东南方职业学院','专科',19),(1971,'广州华商职业学院','专科',19),(1972,'广州华夏职业学院','专科',19),(1973,'广东环境保护工程职业学院','专科',19),(1974,'广东青年职业学院','专科',19),(1975,'广州东华职业学院','专科',19),(1976,'广东创新科技职业学院','专科',19),(1977,'广东舞蹈戏剧职业学院','专科',19),(1978,'惠州卫生职业技术学院','专科',19),(1979,'广东信息工程职业学院','专科',19),(1980,'广东生态工程职业学院','专科',19),(1981,'惠州城市职业学院','专科',19),(1982,'广东碧桂园职业学院','专科',19),(1983,'公安边防部队高等专科学校','专科',19),(1984,'广东茂名健康职业学院','专科',19),(1985,'广东酒店管理职业技术学院','专科',19),(1986,'广东茂名幼儿师范专科学校','专科',19),(1987,'广州卫生职业技术学院','专科',19),(1988,'惠州工程职业学院','专科',19),(1989,'广东江门中医药职业学院','专科',19),(1990,'湛江幼儿师范专科学校','专科',19),(1991,'广西大学','本科',20),(1992,'广西科技大学','本科',20),(1993,'桂林电子科技大学','本科',20),(1994,'桂林理工大学','本科',20),(1995,'广西医科大学','本科',20),(1996,'右江民族医学院','本科',20),(1997,'广西中医药大学','本科',20),(1998,'桂林医学院','本科',20),(1999,'广西师范大学','本科',20),(2000,'广西师范学院','本科',20),(2001,'广西民族师范学院','本科',20),(2002,'河池学院','本科',20),(2003,'玉林师范学院','本科',20),(2004,'广西艺术学院','本科',20),(2005,'广西民族大学','本科',20),(2006,'百色学院','本科',20),(2007,'梧州学院','本科',20),(2008,'广西科技师范学院','本科',20),(2009,'广西财经学院','本科',20),(2010,'南宁学院','本科',20),(2011,'钦州学院','本科',20),(2012,'桂林航天工业学院','本科',20),(2013,'桂林旅游学院','本科',20),(2014,'贺州学院','本科',20),(2015,'广西警察学院','本科',20),(2016,'北海艺术设计学院','本科',20),(2017,'广西大学行健文理学院','本科',20),(2018,'广西科技大学鹿山学院','本科',20),(2019,'广西民族大学相思湖学院','本科',20),(2020,'广西师范大学漓江学院','本科',20),(2021,'广西师范学院师园学院','本科',20),(2022,'广西中医药大学赛恩斯新医药\n学院','本科',20),(2023,'桂林电子科技大学信息科技\n学院','本科',20),(2024,'桂林理工大学博文管理学院','本科',20),(2025,'广西外国语学院','本科',20),(2026,'北京航空航天大学北海学院','本科',20),(2027,'广西机电职业技术学院','专科',20),(2028,'广西体育高等专科学校','专科',20),(2029,'南宁职业技术学院','专科',20),(2030,'广西水利电力职业技术学院','专科',20),(2031,'桂林师范高等专科学校','专科',20),(2032,'广西职业技术学院','专科',20),(2033,'柳州职业技术学院','专科',20),(2034,'广西生态工程职业技术学院','专科',20),(2035,'广西交通职业技术学院','专科',20),(2036,'广西工业职业技术学院','专科',20),(2037,'广西国际商务职业技术学院','专科',20),(2038,'广西农业职业技术学院','专科',20),(2039,'柳州铁道职业技术学院','专科',20),(2040,'广西建设职业技术学院','专科',20),(2041,'广西现代职业技术学院','专科',20),(2042,'北海职业学院','专科',20),(2043,'桂林山水职业学院','专科',20),(2044,'广西经贸职业技术学院','专科',20),(2045,'广西工商职业技术学院','专科',20),(2046,'广西演艺职业学院','专科',20),(2047,'广西电力职业技术学院','专科',20),(2048,'广西城市职业学院','专科',20),(2049,'广西英华国际职业学院','专科',20),(2050,'柳州城市职业学院','专科',20),(2051,'百色职业学院','专科',20),(2052,'广西工程职业学院','专科',20),(2053,'广西理工职业技术学院','专科',20),(2054,'梧州职业学院','专科',20),(2055,'广西经济职业学院','专科',20),(2056,'广西幼儿师范高等专科学校','专科',20),(2057,'广西科技职业学院','专科',20),(2058,'广西卫生职业技术学院','专科',20),(2059,'广西培贤国际职业学院','专科',20),(2060,'广西金融职业技术学院','专科',20),(2061,'广西中远职业学院','专科',20),(2062,'玉柴职业技术学院','专科',20),(2063,'广西蓝天航空职业学院','专科',20),(2064,'广西安全工程职业技术学院','专科',20),(2065,'海南大学','本科',21),(2066,'海南热带海洋学院','本科',21),(2067,'海南师范大学','本科',21),(2068,'海南医学院','本科',21),(2069,'海口经济学院','本科',21),(2070,'琼台师范学院','本科',21),(2071,'三亚学院','本科',21),(2072,'海南职业技术学院','专科',21),(2073,'三亚城市职业学院','专科',21),(2074,'海南软件职业技术学院','专科',21),(2075,'海南政法职业学院','专科',21),(2076,'海南外国语职业学院','专科',21),(2077,'海南经贸职业技术学院','专科',21),(2078,'海南工商职业学院','专科',21),(2079,'三亚航空旅游职业学院','专科',21),(2080,'海南科技职业学院','专科',21),(2081,'三亚理工职业学院','专科',21),(2082,'海南体育职业技术学院','专科',21),(2083,'三亚中瑞酒店管理职业学院','专科',21),(2084,'重庆大学','本科',22),(2085,'重庆邮电大学','本科',22),(2086,'重庆交通大学','本科',22),(2087,'重庆医科大学','本科',22),(2088,'西南大学','本科',22),(2089,'重庆师范大学','本科',22),(2090,'重庆文理学院','本科',22),(2091,'重庆三峡学院','本科',22),(2092,'长江师范学院','本科',22),(2093,'四川外国语大学','本科',22),(2094,'西南政法大学','本科',22),(2095,'四川美术学院','本科',22),(2096,'重庆科技学院','本科',22),(2097,'重庆理工大学','本科',22),(2098,'重庆工商大学','本科',22),(2099,'重庆工程学院','本科',22),(2100,'重庆大学城市科技学院','本科',22),(2101,'重庆警察学院','本科',22),(2102,'重庆人文科技学院','本科',22),(2103,'四川外国语大学重庆南方翻译\n学院','本科',22),(2104,'重庆师范大学涉外商贸学院','本科',22),(2105,'重庆工商大学融智学院','本科',22),(2106,'重庆工商大学派斯学院','本科',22),(2107,'重庆邮电大学移通学院','本科',22),(2108,'重庆第二师范学院','本科',22),(2109,'重庆航天职业技术学院','专科',22),(2110,'重庆电力高等专科学校','专科',22),(2111,'重庆工业职业技术学院','专科',22),(2112,'重庆三峡职业学院','专科',22),(2113,'重庆工贸职业技术学院','专科',22),(2114,'重庆机电职业技术学院','专科',22),(2115,'重庆电子工程职业学院','专科',22),(2116,'重庆海联职业技术学院','专科',22),(2117,'重庆信息技术职业学院','专科',22),(2118,'重庆传媒职业学院','专科',22),(2119,'重庆城市管理职业学院','专科',22),(2120,'重庆工程职业技术学院','专科',22),(2121,'重庆房地产职业学院','专科',22),(2122,'重庆城市职业学院','专科',22),(2123,'重庆水利电力职业技术学院','专科',22),(2124,'重庆工商职业学院','专科',22),(2125,'重庆应用技术职业学院','专科',22),(2126,'重庆三峡医药高等专科学校','专科',22),(2127,'重庆医药高等专科学校','专科',22),(2128,'重庆青年职业技术学院','专科',22),(2129,'重庆财经职业学院','专科',22),(2130,'重庆科创职业学院','专科',22),(2131,'重庆建筑工程职业学院','专科',22),(2132,'重庆电讯职业学院','专科',22),(2133,'重庆能源职业学院','专科',22),(2134,'重庆商务职业学院','专科',22),(2135,'重庆交通职业学院','专科',22),(2136,'重庆化工职业学院','专科',22),(2137,'重庆旅游职业学院','专科',22),(2138,'重庆安全技术职业学院','专科',22),(2139,'重庆公共运输职业学院','专科',22),(2140,'重庆艺术工程职业学院','专科',22),(2141,'重庆轻工职业学院','专科',22),(2142,'重庆电信职业学院','专科',22),(2143,'重庆经贸职业学院','专科',22),(2144,'重庆幼儿师范高等专科学校','专科',22),(2145,'重庆文化艺术职业学院','专科',22),(2146,'重庆科技职业学院','专科',22),(2147,'重庆资源与环境保护职业学院','专科',22),(2148,'重庆护理职业学院','专科',22),(2149,'四川大学','本科',23),(2150,'西南交通大学','本科',23),(2151,'电子科技大学','本科',23),(2152,'西南石油大学','本科',23),(2153,'成都理工大学','本科',23),(2154,'西南科技大学','本科',23),(2155,'成都信息工程大学','本科',23),(2156,'四川理工学院','本科',23),(2157,'西华大学','本科',23),(2158,'中国民用航空飞行学院','本科',23),(2159,'四川农业大学','本科',23),(2160,'西昌学院','本科',23),(2161,'西南医科大学','本科',23),(2162,'成都中医药大学','本科',23),(2163,'川北医学院','本科',23),(2164,'四川师范大学','本科',23),(2165,'西华师范大学','本科',23),(2166,'绵阳师范学院','本科',23),(2167,'内江师范学院','本科',23),(2168,'宜宾学院','本科',23),(2169,'四川文理学院','本科',23),(2170,'阿坝师范学院','本科',23),(2171,'乐山师范学院','本科',23),(2172,'西南财经大学','本科',23),(2173,'成都体育学院','本科',23),(2174,'四川音乐学院','本科',23),(2175,'西南民族大学','本科',23),(2176,'成都学院','本科',23),(2177,'成都工业学院','本科',23),(2178,'攀枝花学院','本科',23),(2179,'四川旅游学院','本科',23),(2180,'四川民族学院','本科',23),(2181,'四川警察学院','本科',23),(2182,'成都东软学院','本科',23),(2183,'电子科技大学成都学院','本科',23),(2184,'成都理工大学工程技术学院','本科',23),(2185,'四川传媒学院','本科',23),(2186,'成都信息工程大学银杏酒店管理学院','本科',23),(2187,'成都文理学院','本科',23),(2188,'四川工商学院','本科',23),(2189,'四川外国语大学成都学院','本科',23),(2190,'成都医学院','本科',23),(2191,'四川工业科技学院','本科',23),(2192,'四川大学锦城学院','本科',23),(2193,'西南财经大学天府学院','本科',23),(2194,'四川大学锦江学院','本科',23),(2195,'四川文化艺术学院','本科',23),(2196,'西南科技大学城市学院','本科',23),(2197,'西南交通大学希望学院','本科',23),(2198,'成都师范学院','本科',23),(2199,'四川电影电视学院','本科',23),(2200,'成都纺织高等专科学校','专科',23),(2201,'民办四川天一学院','专科',23),(2202,'成都航空职业技术学院','专科',23),(2203,'四川电力职业技术学院','专科',23),(2204,'成都职业技术学院','专科',23),(2205,'四川化工职业技术学院','专科',23),(2206,'四川水利职业技术学院','专科',23),(2207,'南充职业技术学院','专科',23),(2208,'内江职业技术学院','专科',23),(2209,'四川航天职业技术学院','专科',23),(2210,'四川邮电职业技术学院','专科',23),(2211,'四川机电职业技术学院','专科',23),(2212,'绵阳职业技术学院','专科',23),(2213,'四川交通职业技术学院','专科',23),(2214,'四川工商职业技术学院','专科',23),(2215,'四川工程职业技术学院','专科',23),(2216,'四川建筑职业技术学院','专科',23),(2217,'达州职业技术学院','专科',23),(2218,'四川托普信息技术职业学院','专科',23),(2219,'四川国际标榜职业学院','专科',23),(2220,'成都农业科技职业学院','专科',23),(2221,'宜宾职业技术学院','专科',23),(2222,'泸州职业技术学院','专科',23),(2223,'眉山职业技术学院','专科',23),(2224,'成都艺术职业学院','专科',23),(2225,'四川职业技术学院','专科',23),(2226,'乐山职业技术学院','专科',23),(2227,'雅安职业技术学院','专科',23),(2228,'四川商务职业学院','专科',23),(2229,'四川司法警官职业学院','专科',23),(2230,'广安职业技术学院','专科',23),(2231,'四川信息职业技术学院','专科',23),(2232,'四川文化传媒职业学院','专科',23),(2233,'四川华新现代职业学院','专科',23),(2234,'四川管理职业学院','专科',23),(2235,'四川艺术职业学院','专科',23),(2236,'四川中医药高等专科学校','专科',23),(2237,'四川科技职业学院','专科',23),(2238,'四川文化产业职业学院','专科',23),(2239,'四川财经职业学院','专科',23),(2240,'四川城市职业学院','专科',23),(2241,'四川现代职业学院','专科',23),(2242,'四川幼儿师范高等专科学校','专科',23),(2243,'四川长江职业学院','专科',23),(2244,'四川三河职业学院','专科',23),(2245,'川北幼儿师范高等专科学校','专科',23),(2246,'四川卫生康复职业学院','专科',23),(2247,'四川汽车职业技术学院','专科',23),(2248,'巴中职业技术学院','专科',23),(2249,'四川希望汽车职业学院','专科',23),(2250,'四川电子机械职业技术学院','专科',23),(2251,'四川文轩职业学院','专科',23),(2252,'川南幼儿师范高等专科学校','专科',23),(2253,'四川护理职业学院','专科',23),(2254,'成都工业职业技术学院','专科',23),(2255,'四川西南航空职业学院','专科',23),(2256,'成都工贸职业技术学院','专科',23),(2257,'四川应用技术职业学院','专科',23),(2258,'贵州大学','本科',24),(2259,'贵州医科大学','本科',24),(2260,'遵义医学院','本科',24),(2261,'贵阳中医学院','本科',24),(2262,'贵州师范大学','本科',24),(2263,'遵义师范学院','本科',24),(2264,'铜仁学院','本科',24),(2265,'兴义民族师范学院','本科',24),(2266,'安顺学院','本科',24),(2267,'贵州工程应用技术学院','本科',24),(2268,'凯里学院','本科',24),(2269,'黔南民族师范学院','本科',24),(2270,'贵州财经大学','本科',24),(2271,'贵州民族大学','本科',24),(2272,'贵阳学院','本科',24),(2273,'六盘水师范学院','本科',24),(2274,'贵州商学院','本科',24),(2275,'贵州警察学院','本科',24),(2276,'贵阳中医学院时珍学院','本科',24),(2277,'贵州财经大学商务学院','本科',24),(2278,'贵州大学科技学院','本科',24),(2279,'贵州大学明德学院','本科',24),(2280,'贵州民族大学人文科技学院','本科',24),(2281,'贵州师范大学求是学院','本科',24),(2282,'遵义医学院医学与科技学院','本科',24),(2283,'贵州医科大学神奇民族医药\n学院','本科',24),(2284,'贵州师范学院','本科',24),(2285,'贵州理工学院','本科',24),(2286,'茅台学院','本科',24),(2287,'黔南民族医学高等专科学校','专科',24),(2288,'贵州交通职业技术学院','专科',24),(2289,'贵州航天职业技术学院','专科',24),(2290,'贵州电子信息职业技术学院','专科',24),(2291,'安顺职业技术学院','专科',24),(2292,'黔东南民族职业技术学院','专科',24),(2293,'黔南民族职业技术学院','专科',24),(2294,'遵义职业技术学院','专科',24),(2295,'贵州城市职业学院','专科',24),(2296,'贵州工业职业技术学院','专科',24),(2297,'贵州电力职业技术学院','专科',24),(2298,'六盘水职业技术学院','专科',24),(2299,'铜仁职业技术学院','专科',24),(2300,'黔西南民族职业技术学院','专科',24),(2301,'贵州轻工职业技术学院','专科',24),(2302,'遵义医药高等专科学校','专科',24),(2303,'贵阳护理职业学院','专科',24),(2304,'贵阳职业技术学院','专科',24),(2305,'毕节职业技术学院','专科',24),(2306,'贵州职业技术学院','专科',24),(2307,'贵州盛华职业学院','专科',24),(2308,'贵州工商职业学院','专科',24),(2309,'贵阳幼儿师范高等专科学校','专科',24),(2310,'铜仁幼儿师范高等专科学校','专科',24),(2311,'黔南民族幼儿师范高等专科\n学校','专科',24),(2312,'毕节医学高等专科学校','专科',24),(2313,'贵州建设职业技术学院','专科',24),(2314,'毕节幼儿师范高等专科学校','专科',24),(2315,'贵州农业职业学院','专科',24),(2316,'贵州工程职业学院','专科',24),(2317,'贵州工贸职业学院','专科',24),(2318,'贵州水利水电职业技术学院','专科',24),(2319,'贵州电子商务职业技术学院','专科',24),(2320,'贵州应用技术职业学院','专科',24),(2321,'贵州电子科技职业学院','专科',24),(2322,'贵州装备制造职业学院','专科',24),(2323,'贵州健康职业学院','专科',24),(2324,'贵州食品工程职业学院','专科',24),(2325,'贵州经贸职业技术学院','专科',24),(2326,'贵州护理职业技术学院','专科',24),(2327,'贵州航空职业技术学院','专科',24),(2328,'云南大学','本科',25),(2329,'昆明理工大学','本科',25),(2330,'云南农业大学','本科',25),(2331,'西南林业大学','本科',25),(2332,'昆明医科大学','本科',25),(2333,'大理大学','本科',25),(2334,'云南中医学院','本科',25),(2335,'云南师范大学','本科',25),(2336,'昭通学院','本科',25),(2337,'曲靖师范学院','本科',25),(2338,'普洱学院','本科',25),(2339,'保山学院','本科',25),(2340,'红河学院','本科',25),(2341,'云南财经大学','本科',25),(2342,'云南艺术学院','本科',25),(2343,'云南民族大学','本科',25),(2344,'玉溪师范学院','本科',25),(2345,'楚雄师范学院','本科',25),(2346,'云南警官学院','本科',25),(2347,'昆明学院','本科',25),(2348,'文山学院','本科',25),(2349,'云南经济管理学院','本科',25),(2350,'云南大学滇池学院','本科',25),(2351,'云南大学旅游文化学院','本科',25),(2352,'昆明理工大学津桥学院','本科',25),(2353,'云南师范大学商学院','本科',25),(2354,'云南师范大学文理学院','本科',25),(2355,'昆明医科大学海源学院','本科',25),(2356,'云南艺术学院文华学院','本科',25),(2357,'云南工商学院','本科',25),(2358,'滇西科技师范学院','本科',25),(2359,'滇西应用技术大学','本科',25),(2360,'昆明冶金高等专科学校','专科',25),(2361,'云南国土资源职业学院','专科',25),(2362,'云南交通职业技术学院','专科',25),(2363,'昆明工业职业技术学院','专科',25),(2364,'云南农业职业技术学院','专科',25),(2365,'云南司法警官职业学院','专科',25),(2366,'云南文化艺术职业学院','专科',25),(2367,'云南体育运动职业技术学院','专科',25),(2368,'云南科技信息职业学院','专科',25),(2369,'西双版纳职业技术学院','专科',25),(2370,'昆明艺术职业学院','专科',25),(2371,'玉溪农业职业技术学院','专科',25),(2372,'云南能源职业技术学院','专科',25),(2373,'云南国防工业职业技术学院','专科',25),(2374,'云南机电职业技术学院','专科',25),(2375,'云南林业职业技术学院','专科',25),(2376,'云南城市建设职业学院','专科',25),(2377,'云南工程职业学院','专科',25),(2378,'曲靖医学高等专科学校','专科',25),(2379,'楚雄医药高等专科学校','专科',25),(2380,'保山中医药高等专科学校','专科',25),(2381,'丽江师范高等专科学校','专科',25),(2382,'德宏师范高等专科学校','专科',25),(2383,'云南新兴职业学院','专科',25),(2384,'云南锡业职业技术学院','专科',25),(2385,'云南经贸外事职业学院','专科',25),(2386,'云南三鑫职业技术学院','专科',25),(2387,'德宏职业学院','专科',25),(2388,'云南商务职业学院','专科',25),(2389,'昆明卫生职业学院','专科',25),(2390,'云南现代职业技术学院','专科',25),(2391,'云南旅游职业学院','专科',25),(2392,'红河卫生职业学院','专科',25),(2393,'云南外事外语职业学院','专科',25),(2394,'大理农林职业技术学院','专科',25),(2395,'公安消防部队高等专科学校','专科',25),(2396,'云南财经职业学院','专科',25),(2397,'昆明铁道职业技术学院','专科',25),(2398,'昭通卫生职业学院','专科',25),(2399,'大理护理职业学院','专科',25),(2400,'云南水利水电职业学院','专科',25),(2401,'云南轻纺职业学院','专科',25),(2402,'云南特殊教育职业学院','专科',25),(2403,'云南工贸职业技术学院','专科',25),(2404,'云南交通运输职业学院','专科',25),(2405,'西藏大学','本科',26),(2406,'西藏民族大学','本科',26),(2407,'西藏藏医学院','本科',26),(2408,'西藏农牧学院','本科',26),(2409,'西藏警官高等专科学校','专科',26),(2410,'拉萨师范高等专科学校','专科',26),(2411,'西藏职业技术学院','专科',26),(2412,'西北大学','本科',27),(2413,'西安交通大学','本科',27),(2414,'西北工业大学','本科',27),(2415,'西安理工大学','本科',27),(2416,'西安电子科技大学','本科',27),(2417,'西安工业大学','本科',27),(2418,'西安建筑科技大学','本科',27),(2419,'西安科技大学','本科',27),(2420,'西安石油大学','本科',27),(2421,'陕西科技大学','本科',27),(2422,'西安工程大学','本科',27),(2423,'长安大学','本科',27),(2424,'西北农林科技大学','本科',27),(2425,'陕西中医药大学','本科',27),(2426,'陕西师范大学','本科',27),(2427,'延安大学','本科',27),(2428,'陕西理工大学','本科',27),(2429,'宝鸡文理学院','本科',27),(2430,'咸阳师范学院','本科',27),(2431,'渭南师范学院','本科',27),(2432,'西安外国语大学','本科',27),(2433,'西北政法大学','本科',27),(2434,'西安体育学院','本科',27),(2435,'西安音乐学院','本科',27),(2436,'西安美术学院','本科',27),(2437,'西安文理学院','本科',27),(2438,'榆林学院','本科',27),(2439,'商洛学院','本科',27),(2440,'安康学院','本科',27),(2441,'西安培华学院','本科',27),(2442,'西安财经学院','本科',27),(2443,'西安邮电大学','本科',27),(2444,'西安航空学院','本科',27),(2445,'西安医学院','本科',27),(2446,'西安欧亚学院','本科',27),(2447,'西安外事学院','本科',27),(2448,'西安翻译学院','本科',27),(2449,'西京学院','本科',27),(2450,'西安思源学院','本科',27),(2451,'陕西国际商贸学院','本科',27),(2452,'陕西服装工程学院','本科',27),(2453,'西安交通工程学院','本科',27),(2454,'西安交通大学城市学院','本科',27),(2455,'西北大学现代学院','本科',27),(2456,'西安建筑科技大学华清学院','本科',27),(2457,'西安财经学院行知学院','本科',27),(2458,'陕西科技大学镐京学院','本科',27),(2459,'西安工业大学北方信息工程\n学院','本科',27),(2460,'延安大学西安创新学院','本科',27),(2461,'西安电子科技大学长安学院','本科',27),(2462,'西北工业大学明德学院','本科',27),(2463,'长安大学兴华学院','本科',27),(2464,'西安理工大学高科学院','本科',27),(2465,'西安科技大学高新学院','本科',27),(2466,'陕西学前师范学院','本科',27),(2467,'陕西工业职业技术学院','专科',27),(2468,'杨凌职业技术学院','专科',27),(2469,'西安电力高等专科学校','专科',27),(2470,'陕西能源职业技术学院','专科',27),(2471,'陕西国防工业职业技术学院','专科',27),(2472,'西安航空职业技术学院','专科',27),(2473,'陕西财经职业技术学院','专科',27),(2474,'陕西交通职业技术学院','专科',27),(2475,'陕西职业技术学院','专科',27),(2476,'西安高新科技职业学院','专科',27),(2477,'西安城市建设职业学院','专科',27),(2478,'陕西铁路工程职业技术学院','专科',27),(2479,'宝鸡职业技术学院','专科',27),(2480,'陕西航空职业技术学院','专科',27),(2481,'陕西电子信息职业技术学院','专科',27),(2482,'陕西邮电职业技术学院','专科',27),(2483,'西安海棠职业学院','专科',27),(2484,'西安汽车科技职业学院','专科',27),(2485,'西安东方亚太职业技术学院','专科',27),(2486,'陕西警官职业学院','专科',27),(2487,'陕西经济管理职业技术学院','专科',27),(2488,'西安铁路职业技术学院','专科',27),(2489,'咸阳职业技术学院','专科',27),(2490,'西安职业技术学院','专科',27),(2491,'商洛职业技术学院','专科',27),(2492,'汉中职业技术学院','专科',27),(2493,'延安职业技术学院','专科',27),(2494,'渭南职业技术学院','专科',27),(2495,'安康职业技术学院','专科',27),(2496,'铜川职业技术学院','专科',27),(2497,'陕西青年职业学院','专科',27),(2498,'陕西工商职业学院','专科',27),(2499,'陕西电子科技职业学院','专科',27),(2500,'陕西旅游烹饪职业学院','专科',27),(2501,'西安医学高等专科学校','专科',27),(2502,'榆林职业技术学院','专科',27),(2503,'陕西艺术职业学院','专科',27),(2504,'陕西机电职业技术学院','专科',27),(2505,'兰州大学','本科',28),(2506,'兰州理工大学','本科',28),(2507,'兰州交通大学','本科',28),(2508,'甘肃农业大学','本科',28),(2509,'甘肃中医药大学','本科',28),(2510,'西北师范大学','本科',28),(2511,'兰州城市学院','本科',28),(2512,'陇东学院','本科',28),(2513,'天水师范学院','本科',28),(2514,'河西学院','本科',28),(2515,'兰州财经大学','本科',28),(2516,'西北民族大学','本科',28),(2517,'甘肃政法学院','本科',28),(2518,'甘肃民族师范学院','本科',28),(2519,'兰州文理学院','本科',28),(2520,'甘肃医学院','本科',28),(2521,'兰州工业学院','本科',28),(2522,'西北师范大学知行学院','本科',28),(2523,'兰州财经大学陇桥学院','本科',28),(2524,'兰州财经大学长青学院','本科',28),(2525,'兰州交通大学博文学院','本科',28),(2526,'兰州理工大学技术工程学院','本科',28),(2527,'兰州石化职业技术学院','专科',28),(2528,'陇南师范高等专科学校','专科',28),(2529,'定西师范高等专科学校','专科',28),(2530,'甘肃建筑职业技术学院','专科',28),(2531,'酒泉职业技术学院','专科',28),(2532,'兰州外语职业学院','专科',28),(2533,'兰州职业技术学院','专科',28),(2534,'甘肃警察职业学院','专科',28),(2535,'甘肃林业职业技术学院','专科',28),(2536,'甘肃工业职业技术学院','专科',28),(2537,'武威职业学院','专科',28),(2538,'甘肃交通职业技术学院','专科',28),(2539,'兰州资源环境职业技术学院','专科',28),(2540,'甘肃农业职业技术学院','专科',28),(2541,'甘肃畜牧工程职业技术学院','专科',28),(2542,'甘肃钢铁职业技术学院','专科',28),(2543,'甘肃机电职业技术学院','专科',28),(2544,'甘肃有色冶金职业技术学院','专科',28),(2545,'白银矿冶职业技术学院','专科',28),(2546,'甘肃卫生职业学院','专科',28),(2547,'兰州科技职业学院','专科',28),(2548,'庆阳职业技术学院','专科',28),(2549,'临夏现代职业学院','专科',28),(2550,'甘肃能源化工职业学院','专科',28),(2551,'兰州现代职业学院','专科',28),(2552,'平凉职业技术学院','专科',28),(2553,'甘肃财贸职业学院','专科',28),(2554,'青海大学','本科',29),(2555,'青海师范大学','本科',29),(2556,'青海民族大学','本科',29),(2557,'青海大学昆仑学院','本科',29),(2558,'青海卫生职业技术学院','专科',29),(2559,'青海警官职业学院','专科',29),(2560,'青海畜牧兽医职业技术学院','专科',29),(2561,'青海交通职业技术学院','专科',29),(2562,'青海建筑职业技术学院','专科',29),(2563,'西宁城市职业技术学院','专科',29),(2564,'青海高等职业技术学院','专科',29),(2565,'青海柴达木职业技术学院','专科',29),(2566,'宁夏大学','本科',30),(2567,'宁夏医科大学','本科',30),(2568,'宁夏师范学院','本科',30),(2569,'北方民族大学','本科',30),(2570,'宁夏理工学院','本科',30),(2571,'宁夏大学新华学院','本科',30),(2572,'银川能源学院','本科',30),(2573,'中国矿业大学银川学院','本科',30),(2574,'宁夏民族职业技术学院','专科',30),(2575,'宁夏工业职业学院','专科',30),(2576,'宁夏职业技术学院','专科',30),(2577,'宁夏工商职业技术学院','专科',30),(2578,'宁夏财经职业技术学院','专科',30),(2579,'宁夏警官职业学院','专科',30),(2580,'宁夏建设职业技术学院','专科',30),(2581,'宁夏葡萄酒与防沙治沙职业技术学院','专科',30),(2582,'宁夏幼儿师范高等专科学校','专科',30),(2583,'宁夏艺术职业学院','专科',30),(2584,'宁夏体育职业学院','专科',30),(2585,'新疆大学','本科',31),(2586,'塔里木大学','本科',31),(2587,'新疆农业大学','本科',31),(2588,'石河子大学','本科',31),(2589,'新疆医科大学','本科',31),(2590,'新疆师范大学','本科',31),(2591,'喀什大学','本科',31),(2592,'伊犁师范学院','本科',31),(2593,'新疆财经大学','本科',31),(2594,'新疆艺术学院','本科',31),(2595,'新疆工程学院','本科',31),(2596,'昌吉学院','本科',31),(2597,'新疆警察学院','本科',31),(2598,'新疆大学科学技术学院','本科',31),(2599,'新疆农业大学科学技术学院','本科',31),(2600,'新疆医科大学厚博学院','本科',31),(2601,'新疆财经大学商务学院','本科',31),(2602,'石河子大学科技学院','本科',31),(2603,'和田师范专科学校','专科',31),(2604,'新疆农业职业技术学院','专科',31),(2605,'乌鲁木齐职业大学','专科',31),(2606,'新疆维吾尔医学专科学校','专科',31),(2607,'克拉玛依职业技术学院','专科',31),(2608,'新疆机电职业技术学院','专科',31),(2609,'新疆轻工职业技术学院','专科',31),(2610,'新疆能源职业技术学院','专科',31),(2611,'昌吉职业技术学院','专科',31),(2612,'伊犁职业技术学院','专科',31),(2613,'阿克苏职业技术学院','专科',31),(2614,'巴音郭楞职业技术学院','专科',31),(2615,'新疆建设职业技术学院','专科',31),(2616,'新疆兵团警官高等专科学校','专科',31),(2617,'新疆现代职业技术学院','专科',31),(2618,'新疆天山职业技术学院','专科',31),(2619,'新疆交通职业技术学院','专科',31),(2620,'新疆石河子职业技术学院','专科',31),(2621,'新疆职业大学','专科',31),(2622,'新疆体育职业技术学院','专科',31),(2623,'新疆应用职业技术学院','专科',31),(2624,'新疆师范高等专科学校','专科',31),(2625,'新疆铁道职业技术学院','专科',31),(2626,'新疆生产建设兵团兴新职业技术学院','专科',31),(2627,'哈密职业技术学院','专科',31),(2628,'新疆科技职业技术学院','专科',31),(2629,'吐鲁番职业技术学院','专科',31),(2630,'博尔塔拉职业技术学院','专科',31),(2631,'新疆工业职业技术学院','专科',31);
+/*!40000 ALTER TABLE `school` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `team`
+--
+
 DROP TABLE IF EXISTS `team`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `team` (
   `team_id` varchar(32) NOT NULL,
   `team_name` varchar(32) NOT NULL,
@@ -2811,22 +195,29 @@ CREATE TABLE `team` (
   PRIMARY KEY (`team_id`),
   KEY `team_id` (`team_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='团队表 记录名称和人数';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of team
--- ----------------------------
-BEGIN;
-INSERT INTO `team` VALUES ('1274182003243225088', '示例演示队', NULL, 'this is why we play', '2020-06-20', 22, 2091);
-COMMIT;
+--
+-- Dumping data for table `team`
+--
 
--- ----------------------------
--- Table structure for team_avatar
--- ----------------------------
+LOCK TABLES `team` WRITE;
+/*!40000 ALTER TABLE `team` DISABLE KEYS */;
+INSERT INTO `team` VALUES ('1274182003243225088','示例演示队',NULL,'this is why we play','2020-06-20',22,2091);
+/*!40000 ALTER TABLE `team` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `team_avatar`
+--
+
 DROP TABLE IF EXISTS `team_avatar`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `team_avatar` (
   `avatar_id` int(10) NOT NULL AUTO_INCREMENT,
-  `team_id` varchar(32) DEFAULT NULL,
-  `file_name` varchar(40) DEFAULT NULL,
+  `team_id` varchar(32) COLLATE utf8_bin DEFAULT NULL,
+  `file_name` varchar(40) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`avatar_id`),
   KEY `team_id` (`team_id`),
   KEY `team_id_2` (`team_id`),
@@ -2834,11 +225,24 @@ CREATE TABLE `team_avatar` (
   KEY `team_id_4` (`team_id`),
   KEY `team_id_5` (`team_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Table structure for team_user
--- ----------------------------
+--
+-- Dumping data for table `team_avatar`
+--
+
+LOCK TABLES `team_avatar` WRITE;
+/*!40000 ALTER TABLE `team_avatar` DISABLE KEYS */;
+/*!40000 ALTER TABLE `team_avatar` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `team_user`
+--
+
 DROP TABLE IF EXISTS `team_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `team_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` varchar(11) NOT NULL,
@@ -2854,18 +258,25 @@ CREATE TABLE `team_user` (
   CONSTRAINT `fk_team` FOREIGN KEY (`team_id`) REFERENCES `team` (`team_id`),
   CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `user_info` (`telephone`)
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COMMENT='用户和队伍是多对多关系\n		一个用户可能属于多个队伍\n		一个队伍有多个队员';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of team_user
--- ----------------------------
-BEGIN;
-INSERT INTO `team_user` VALUES (23, '13333333333', '1274182003243225088', 1, 1, '2020-06-20', 0);
-COMMIT;
+--
+-- Dumping data for table `team_user`
+--
 
--- ----------------------------
--- Table structure for trick
--- ----------------------------
+LOCK TABLES `team_user` WRITE;
+/*!40000 ALTER TABLE `team_user` DISABLE KEYS */;
+INSERT INTO `team_user` VALUES (23,'13333333333','1274182003243225088',1,1,'2020-06-20',0);
+/*!40000 ALTER TABLE `team_user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `trick`
+--
+
 DROP TABLE IF EXISTS `trick`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `trick` (
   `log_id` varchar(32) NOT NULL,
   `trick` varchar(255) DEFAULT NULL COMMENT '招法',
@@ -2881,18 +292,25 @@ CREATE TABLE `trick` (
   KEY `fk_log_ccbiii` (`cb_code`) USING BTREE,
   CONSTRAINT `trick_ibfk_1` FOREIGN KEY (`cb_code`) REFERENCES `chess_info` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of trick
--- ----------------------------
-BEGIN;
-INSERT INTO `trick` VALUES ('34bd2bbb50d84463b3c18e5c4dd3fd44', 'M3', 'z', '2020-06-20 11:50:56', 0, 2, 1, NULL, '0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000zzzzZZZZ000', 'Demo');
-COMMIT;
+--
+-- Dumping data for table `trick`
+--
 
--- ----------------------------
--- Table structure for user_info
--- ----------------------------
+LOCK TABLES `trick` WRITE;
+/*!40000 ALTER TABLE `trick` DISABLE KEYS */;
+INSERT INTO `trick` VALUES ('0043d23b8dd046aba2d2358ebe10e5df','K2','Z','2020-06-21 07:40:29',0,2,1,NULL,'0zz0000000000000000000000000000000000000000000000000000000000000000000000Z0000000000000000Z000Z000000000000Z000000zz0z000Z0Z0000000Z0zZZ0Z000000zz0000Z0000000zz00ZZZ000000zzzzz00Z00000Z0000Z000000000zzzzZZZZ000','Demo'),('0e7afea06a1d4021959b222f8a764015','K10,M8','Z','2020-06-20 15:10:09',0,2,2,NULL,'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z000000000000000Z00000000000000000000000z0z00Z00000000000000000000z0z0000000000000000000000000zzzzZZZZ000','Demo'),('187d4b26180b4813b9e853a06aea09f2','J8','0','2020-06-21 07:38:27',1,2,1,'颜色错误','0zz0000000000000000000000000000000000000000000000000000000000000000000000Z0000000000000000000000000000000Z0Z000000zz0z000Z00000000z0ZZ0Z000000z0zz0z0ZZ0000000zz0ZZZ000000zzzz0zZ0Z00000000000000000000zzzzZZZZ000','Demo'),('1b918e2eefe94a50ab3365ec4edbd10b','L12','0','2020-06-21 13:34:53',1,2,1,'颜色错误','0zz0000000000000000000000000000000000000000000000000000000000000000000000Z0000000000000000Z000Z000000000000Z000000zz0z000Z0Z0000000Z0zZZ0Z0000Z0zz0000Z0000000zz00ZZZ000000zzzzz00Z00000Z0000Z000000000zzzzZZZZ000','Demo'),('1cd835bb229b49e2803e32b6dbbf0afb','L5,K6','z','2020-06-21 13:36:47',1,2,2,'行棋犯规,移动距离过大','0zz000000000000000000000000000000000000000Z0000z00000000000000000000000z0Z0000Z00000000000Z000Z0000z000000ZZ00000z0zzz000Z0Z0000000Z0zZZ0Z0000Zzz00Z00Z0000z00zzZ0ZZZ0z0000zzzzz00Z00000Z0000Z000000000zzzzZZZZ000','Demo'),('1e24a658eb8b48b7b1b1d9b8435df73e','J9','Z','2020-06-21 07:37:29',0,2,1,NULL,'0zz000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z000000000z00000Z00000000000Z00000000z0zz0z00Z000000zzz00ZZ000000zzzz0zZ0Z00000000000000000000zzzzZZZZ000','Demo'),('26670c12520f495b8e8361b3e5a76516','J6','Z','2020-06-21 07:37:47',0,2,1,NULL,'0zz000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z00000000zz0z000Z00000000z00Z0Z000000z0zz0z00Z000000z0z00ZZ000000zzzz0zZ0Z00000000000000000000zzzzZZZZ000','Demo'),('2f993e65134c432f843cca250514a1aa','J7','Z','2020-06-21 07:37:23',0,2,1,NULL,'0zz000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z000000000z00000Z0000000000000000000000zz0z00Z000000zzz00ZZ000000zzzz0zZ0Z00000000000000000000zzzzZZZZ000','Demo'),('32b01d2009a643b38a82ed2e168b6964','K7,M7 TC-L7','z','2020-06-21 07:40:07',0,2,2,NULL,'0zz0000000000000000000000000000000000000000000000000000000000000000000000Z0000000000000000Z000Z000000000000Z000000zz0z000Z0Z0000Z00Z00ZZ0Z0000z0zz0z00Z0000000zz0ZZZZ00000zzzzz000Z0000000000Z000000000zzzzZZZZ000','Demo'),('34bd2bbb50d84463b3c18e5c4dd3fd44','M3','z','2020-06-20 03:50:56',0,2,1,NULL,'0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000zzzzZZZZ000','Demo'),('38a7bb9498b04bde91b492a5f0b7ed70','L6','Z','2020-06-21 13:36:01',0,2,1,NULL,'0zz00000000000000000000000000000000000000000000000000000000000000000000z0Z0000Z00000000000Z000Z000000000000Z00000zzzzz000Z0Z0000000Z0zZZ0Z0000Zzz00Z00Z0000000zz00ZZZ0z0000zzzzz00Z00000Z0000Z000000000zzzzZZZZ000','Demo'),('39b0783344ba467e8d3af3c7e91d950c','M8','Z','2020-06-20 14:26:33',0,2,1,NULL,'0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000zzzzZZZZ000','QyFP'),('3a41724711c34ff8add1997ba6227330','M8,M10','Z','2020-06-20 15:10:13',0,2,2,NULL,'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z000000000000000Z00000000000000000000000z0z00000000000000000000000z0z00Z0000000000000000000000zzzzZZZZ000','Demo'),('3e677450f7404ebda3f7ec1862529f37','K3','z','2020-06-21 13:34:57',0,2,1,NULL,'0zz0000000000000000000000000000000000000000000000000000000000000000000000Z0000000000000000Z000Z000000000000Z000000zzzz000Z0Z0000000Z0zZZ0Z0000Z0z00000Z0000000zz00ZZZ0z0000zzzzz00Z00000Z0000Z000000000zzzzZZZZ000','Demo'),('3f99d68a53bc4c9bbd35eaa30f5b6fa3','L4,J4','z','2020-06-21 07:37:40',1,2,2,'行棋犯规:该坐标不是对方棋子:K4','0zz000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z00000000zz0z000Z00000000000Z0Z000000z0zz0z00Z000000zzz00ZZ000000zzzz0zZ0Z00000000000000000000zzzzZZZZ000','Demo'),('4124e76c49a24dfeaabed5170bb46933','M8,N7','Z','2020-06-21 07:38:44',1,2,2,'行棋犯规,移动距离过大','0zz0000000000000000000000000000000000000000000000000000000000000000000000Z0000000000000000000000000000000Z0Z000000zz0z000Z000000Z0000ZZZ000000z0zz0z0ZZ0000000zz0ZZZZ00000zzzzz0Z0Z00000000000000000000zzzzZZZZ000','Demo'),('42eab86f1f15496a98f05b152f47d8b1','M5','z','2020-06-20 14:18:54',0,2,1,NULL,'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000z000000000000000000000000000zzzzZZZZ000','Demo'),('446bb94ed35044768ca71299524ebe8c','A2','z','2020-06-21 05:11:22',0,1,1,NULL,'0z0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z000000000000000Z0000000000000000000000zz0z00Z000000zzz00ZZ000000zzzz0zZ0Z00000000000000000000zzzzZZZZ000','Demo'),('46e2cb9c03204a2e9e40a6552995b620','H8','Z','2020-06-21 13:36:19',0,2,1,NULL,'0zz00000000000000000000000000000000000000000000z00000000000000000000000z0Z0000Z00000000000Z000Z000000000000Z00000zzzzz000Z0Z0000000Z0zZZ0Z0000Zzz00Z00Z0000z00zzZ0ZZZ0z0000zzzzz00Z00000Z0000Z000000000zzzzZZZZ000','Demo'),('4c9c1e7f04bb4d8b9e689d36eba129c6','I2,H1','z','2020-06-21 13:36:35',1,2,2,'行棋犯规,移动距离过大','0zz000000000000000000000000000000000000000Z0000z00000000000000000000000z0Z0000Z00000000000Z000Z00000000000ZZ00000zzzzz000Z0Z0000000Z0zZZ0Z0000Zzz00Z00Z0000z00zzZ0ZZZ0z0000zzzzz00Z00000Z0000Z000000000zzzzZZZZ000','Demo'),('4dd4d15e23c64ff38eee83b7beb0deed','M7','z','2020-06-20 15:10:25',0,2,1,NULL,'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z000000000000000Z00000000000000000000000z0z00Z000000000000Z0000000z0z00Z0Z00000000000000000000zzzzZZZZ000','Demo'),('5624d3afb2144531888572e256789691','M7,M6','z','2020-06-21 07:38:40',0,2,2,NULL,'0zz0000000000000000000000000000000000000000000000000000000000000000000000Z0000000000000000000000000000000Z0Z000000zz0z000Z000000Z0000ZZZ000000z0zz0z0ZZ0000000zz0ZZZZ00000zzzz0zZ0Z00000000000000000000zzzzZZZZ000','Demo'),('56ff79b3376640e49867436fa545f53c','D5','z','2020-06-21 13:36:05',0,2,1,NULL,'0zz00000000000000000000000000000000000000000000000000000000000000000000z0Z0000Z00000000000Z000Z000000000000Z00000zzzzz000Z0Z0000000Z0zZZ0Z0000Zzz00Z00Z0000000zzZ0ZZZ0z0000zzzzz00Z00000Z0000Z000000000zzzzZZZZ000','Demo'),('5723882376c44424914860b8ce94c1de','L9','Z','2020-06-20 15:10:18',0,2,1,NULL,'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z000000000000000Z00000000000000000000000z0z00Z00000000000000000000z0z0000Z00000000000000000000zzzzZZZZ000','Demo'),('5820fbb2c0084ff49db16dc5e7d39020','K10','Z','2020-06-20 15:09:54',0,2,1,NULL,'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000z00000000000000000000000z0z00ZZ000000000000000000000zzzzZZZZ000','Demo'),('595eb598751f4a5eb3b0514bd962f654','K5','z','2020-06-20 15:09:58',0,2,1,NULL,'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000z00Z00000000000000000000z0z00ZZ000000000000000000000zzzzZZZZ000','Demo'),('5986d1702c3544238f8057f929025012','K7','z','2020-06-20 15:09:51',0,2,1,NULL,'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000z0z00ZZ000000000000000000000zzzzZZZZ000','Demo'),('6d77a3d4c889419e899b9ad3c0709ad0','H7,J11','Z','2020-06-21 07:39:56',1,2,2,'行棋犯规,移动距离过大','0zz0000000000000000000000000000000000000000000000000000000000000000000000Z0000000000000000Z000Z0000000000Z0Z000000zz0z000Z0Z0000Z00Z00ZZ000000z0zz0z00Z0000000zz0ZZZZ00000zzzzz000Z0000000000Z000000000zzzzZZZZ000','Demo'),('6de51c3582a24de79da66d0a20168066','M8','Z','2020-06-20 15:10:22',0,2,1,NULL,'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z000000000000000Z00000000000000000000000z0z00Z000000000000Z0000000z0z0000Z00000000000000000000zzzzZZZZ000','Demo'),('70f60435b7f441a289f3418dfc335206','M9,I9','Z','2020-06-20 15:10:02',0,2,2,NULL,'0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000z0z00Z00000000000000000000z0z00ZZ000000000000000000000zzzzZZZZ000','Demo'),('7a87cc6591ad47998d2d2219a5d50b88','K9,I11','Z','2020-06-21 07:39:09',1,2,2,'行棋犯规,移动距离过大','0zz0000000000000000000000000000000000000000000000000000000000000000000000Z00000000000000000000Z0000000000Z0Z000000zz0z000Z000000Z0000ZZZ000000z0zz0z0ZZ0000000zz0ZZZZ00000zzzzz000Z0000000000Z000000000zzzzZZZZ000','Demo'),('7b44622498844868b2a78a3cdc596a73','I1','z','2020-06-21 13:35:52',0,2,1,NULL,'0zz00000000000000000000000000000000000000000000000000000000000000000000z0Z0000000000000000Z000Z000000000000Z000000zzzz000Z0Z0000000Z0zZZ0Z0000Zzz00Z00Z0000000zz00ZZZ0z0000zzzzz00Z00000Z0000Z000000000zzzzZZZZ000','Demo'),('7ccf1df9c9a0456a9f8e5ddd2955cdfb','D13','Z','2020-06-21 13:37:34',0,2,1,NULL,'0zz000000000000000000000000000000000000000Z0000z0000000000000000z000000z0Z0000000000000000Z000Z0000z0000000Z00000z0zzzZ00Z0Z0000z00Z0z0Z0Z0000Zzz00000Z0000000z0Z0ZZZ0z0000zzzzZ00Z00000Z00000000000000zzzzZZZZ000','Demo'),('806988794a524bd9a7a929902c79ab2d','L10','Z','2020-06-21 07:38:35',0,2,1,NULL,'0zz0000000000000000000000000000000000000000000000000000000000000000000000Z0000000000000000000000000000000Z0Z000000zz0z000Z000000Z0000ZZZ000000z0zz0z0ZZ0000000zz0ZZZ000000zzzz0zZ0Z00000000000000000000zzzzZZZZ000','Demo'),('83c8fe85f0e74363bf678c941e9be44d','F8','Z','2020-06-21 13:35:56',0,2,1,NULL,'0zz00000000000000000000000000000000000000000000000000000000000000000000z0Z0000000000000000Z000Z000000000000Z00000zzzzz000Z0Z0000000Z0zZZ0Z0000Zzz00Z00Z0000000zz00ZZZ0z0000zzzzz00Z00000Z0000Z000000000zzzzZZZZ000','Demo'),('9ecc2e8e3cd04db0bac8c0768cc4747f','L1,J2','z','2020-06-21 13:37:09',1,2,2,'行棋犯规,移动距离过大','0zz000000000000000000000000000000000000000Z0000z0000000000000000z000000z0Z0000000000000000Z000Z0000z0000000Z00000z0zzz000Z0Z0000000Z0z0Z0Z0000Zzz00000Z0000z00z0Z0ZZZ0z0000zzzzz00Z00000Z0000Z000000000zzzzZZZZ000','Demo'),('a9a6b297360342cfb14df722386fac9d','K2','z','2020-06-21 07:37:26',0,2,1,NULL,'0zz000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z000000000z00000Z00000000000Z0000000000zz0z00Z000000zzz00ZZ000000zzzz0zZ0Z00000000000000000000zzzzZZZZ000','Demo'),('af0650ca22f74f66a1cb5c0f8989513f','M9','Z','2020-06-20 14:19:04',0,2,1,NULL,'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000z0z0000000000000000000000000zzzzZZZZ000','Demo'),('b3244a26cae34741bf96f29bdb7ec7c4','K7','Z','2020-06-21 13:35:03',0,2,1,NULL,'0zz0000000000000000000000000000000000000000000000000000000000000000000000Z0000000000000000Z000Z000000000000Z000000zzzz000Z0Z0000000Z0zZZ0Z0000Zzz00000Z0000000zz00ZZZ0z0000zzzzz00Z00000Z0000Z000000000zzzzZZZZ000','Demo'),('b6793e2e79c04169a8f57e8827fc0d99','M8,H7','Z','2020-06-20 15:10:05',0,2,2,NULL,'0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z00000000000000000000000z0z00Z00000000000000000000z0z00Z0000000000000000000000zzzzZZZZ000','Demo'),('b8ce47ee8165400381fcdb3b54f23f59','I2','z','2020-06-21 07:37:32',0,2,1,NULL,'0zz000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z000000000z00000Z00000000000Z0Z000000z0zz0z00Z000000zzz00ZZ000000zzzz0zZ0Z00000000000000000000zzzzZZZZ000','Demo'),('bcbfd40ee5e34f9680fc44e3dcb8989e','J7,J5','Z','2020-06-21 07:39:49',1,2,2,'行棋犯规:该坐标不是对方棋子:J6','0zz0000000000000000000000000000000000000000000000000000000000000000000000Z0000000000000000Z000Z0000000000Z0Z000000zz0z000Z0Z0000Z0000ZZZ000000z0zz0z00Z0000000zz0ZZZZ00000zzzzz000Z0000000000Z000000000zzzzZZZZ000','Demo'),('be49533a3644456c960ea7d5818e38e2','I5','z','2020-06-21 07:37:36',0,2,1,NULL,'0zz000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z00000000zz00000Z00000000000Z0Z000000z0zz0z00Z000000zzz00ZZ000000zzzz0zZ0Z00000000000000000000zzzzZZZZ000','Demo'),('bec233aae6e1451da09542e09c864d03','G10','Z','2020-06-21 07:39:00',0,2,1,NULL,'0zz0000000000000000000000000000000000000000000000000000000000000000000000Z0000000000000000000000000000000Z0Z000000zz0z000Z000000Z0000ZZZ000000z0zz0z0ZZ0000000zz0ZZZZ00000zzzzz000Z0000000000Z000000000zzzzZZZZ000','Demo'),('bf1dfa492bbc47aeba57ee1704c2a0be','H9','Z','2020-06-21 07:38:08',0,2,1,NULL,'0zz000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z00000000zz0z000Z00000000z0ZZ0Z000000z0zz0z0ZZ0000000zz0ZZZ000000zzzz0zZ0Z00000000000000000000zzzzZZZZ000','Demo'),('c18fae30127c4000b2873e1a5f0bf798','K6,K8,I8,G8,E8 TC-K7,J8,H8,F8','z','2020-06-21 13:37:00',0,2,2,NULL,'0zz000000000000000000000000000000000000000Z0000z00000000000000000000000z0Z0000Z00000000000Z000Z0000z000000ZZ00000z0zzz000Z0Z0000000Z0zZZ0Z0000Zzz0zZ00Z0000z00z0Z0ZZZ0z0000zzzzz00Z00000Z0000Z000000000zzzzZZZZ000','Demo'),('c5c554222bb84a9683b3b3363b69bc13','L1','z','2020-06-21 13:36:15',0,2,1,NULL,'0zz00000000000000000000000000000000000000000000z00000000000000000000000z0Z0000Z00000000000Z000Z000000000000Z00000zzzzz000Z0Z0000000Z0zZZ0Z0000Zzz00Z00Z0000000zzZ0ZZZ0z0000zzzzz00Z00000Z0000Z000000000zzzzZZZZ000','Demo'),('d8313db66ebb4af8b7598988d6aca1c4','I3','z','2020-06-21 07:37:18',0,2,1,NULL,'0zz000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z000000000000000Z0000000000000000000000zz0z00Z000000zzz00ZZ000000zzzz0zZ0Z00000000000000000000zzzzZZZZ000','Demo'),('d9302b901598436abbc96c63a2edc5e2','N7,L7 TC-M7','Z','2020-06-21 13:37:14',0,2,2,NULL,'0zz000000000000000000000000000000000000000Z0000z0000000000000000z000000z0Z0000000000000000Z000Z0000z0000000Z00000z0zzz000Z0Z0000z00Z0z0Z0Z0000Zzz00000Z0000000z0Z0ZZZ0z0000zzzzz00Z00000Z0000Z000000000zzzzZZZZ000','Demo'),('d9a8d823311b4ef59010969c4642d3e0','Z1','z','2020-06-21 05:10:52',1,1,1,'解析错误，请核对','000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z000000000000000Z0000000000000000000000zz0z00Z000000zzz00ZZ000000zzzz0zZ0Z00000000000000000000zzzzZZZZ000','Demo'),('dda4a5c4a0aa477581f62dc744632b48','J7','z','2020-06-21 07:40:25',0,2,1,NULL,'0zz0000000000000000000000000000000000000000000000000000000000000000000000Z0000000000000000Z000Z000000000000Z000000zz0z000Z0Z0000000Z00ZZ0Z000000zz0000Z0000000zz00ZZZ000000zzzzz00Z00000Z0000Z000000000zzzzZZZZ000','Demo'),('df549020dfc145f99b50ff2aa07b2b5c','L7,M7','Z','2020-06-21 13:37:23',0,2,2,NULL,'0zz000000000000000000000000000000000000000Z0000z0000000000000000z000000z0Z0000000000000000Z000Z0000z0000000Z00000z0zzz000Z0Z0000z00Z0z0Z0Z0000Zzz00000Z0000000z0ZZZZZ0z0000zzzz000Z00000Z00000000000000zzzzZZZZ000','Demo'),('e44ce06cae064fb1b1a42310b10196f2','D0','Z','2020-06-21 13:36:31',0,2,1,NULL,'0zz00000000000000000000000000000000000000000000z00000000000000000000000z0Z0000Z00000000000Z000Z00000000000ZZ00000zzzzz000Z0Z0000000Z0zZZ0Z0000Zzz00Z00Z0000z00zzZ0ZZZ0z0000zzzzz00Z00000Z0000Z000000000zzzzZZZZ000','Demo'),('e89608bebb7e4845bf4bebb5e03b392a','I6','Z','2020-06-21 13:37:27',0,2,1,NULL,'0zz000000000000000000000000000000000000000Z0000z0000000000000000z000000z0Z0000000000000000Z000Z0000z0000000Z00000z0zzz000Z0Z0000z00Z0z0Z0Z0000Zzz00000Z0000000z0Z0ZZZ0z0000zzzzZ00Z00000Z00000000000000zzzzZZZZ000','Demo'),('ea7b99dc52254b9eae6227e8c0d254e4','A1','z','2020-06-21 05:11:03',0,1,1,NULL,'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z000000000000000Z0000000000000000000000zz0z00Z000000zzz00ZZ000000zzzz0zZ0Z00000000000000000000zzzzZZZZ000','Demo'),('eb857bd16cad44cfb4e030df46b62f2d','F1','z','2020-06-21 13:35:07',0,2,1,NULL,'0zz0000000000000000000000000000000000000000000000000000000000000000000000Z0000000000000000Z000Z000000000000Z000000zzzz000Z0Z0000000Z0zZZ0Z0000Zzz00Z00Z0000000zz00ZZZ0z0000zzzzz00Z00000Z0000Z000000000zzzzZZZZ000','Demo'),('ef9038df0e014f809f86993ef619c5d1','L3,L4','z','2020-06-21 07:37:57',1,2,2,'行棋犯规:该招法无TC或FC','0zz000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z00000000zz0z000Z00000000z0ZZ0Z000000z0zz0z00Z000000z0z0ZZZ000000zzzz0zZ0Z00000000000000000000zzzzZZZZ000','Demo'),('f1d7c182509449d299ac0a72892a0e88','G6','Z','2020-06-21 07:39:40',0,2,1,NULL,'0zz0000000000000000000000000000000000000000000000000000000000000000000000Z00000000000000000000Z0000000000Z0Z000000zz0z000Z0Z0000Z0000ZZZ000000z0zz0z00Z0000000zz0ZZZZ00000zzzzz000Z0000000000Z000000000zzzzZZZZ000','Demo'),('f1f6006f3a2a482a8973a1eb8bc81740','J2,L2,N2 TC-K2,M2','Z','2020-06-21 07:40:18',0,2,2,NULL,'0zz0000000000000000000000000000000000000000000000000000000000000000000000Z0000000000000000Z000Z000000000000Z000000zz0z000Z0Z0000Z00Z00ZZ0Z0000z0zz0000Z0000000zz00ZZZ00000zzzzzz00Z0000000000Z000000000zzzzZZZZ000','Demo'),('f32f44af499f4138b28a073a71a7ab86','K10','Z','2020-06-20 15:10:15',0,2,1,NULL,'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z000000000000000Z00000000000000000000000z0z00000000000000000000000z0z0000Z00000000000000000000zzzzZZZZ000','Demo'),('f5f90b5935784fc1ae40d083e3f40327','K9','Z','2020-06-21 07:38:05',0,2,1,NULL,'0zz000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z00000000zz0z000Z00000000z0ZZ0Z000000z0zz0z00Z0000000zz0ZZZ000000zzzz0zZ0Z00000000000000000000zzzzZZZZ000','Demo'),('f969321cf8fc4176ace1d73f085c42a2','M8','Z','2020-06-20 15:09:43',0,2,1,NULL,'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000z0z000Z000000000000000000000zzzzZZZZ000','Demo'),('fbc9a69a64fa4296b6f09d38907c81ee','L7','Z','2020-06-21 07:37:52',0,2,1,NULL,'0zz000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z00000000zz0z000Z00000000z0ZZ0Z000000z0zz0z00Z000000z0z00ZZ000000zzzz0zZ0Z00000000000000000000zzzzZZZZ000','Demo'),('fdf61662c293409caeb0e83c8a893f21','F3','Z','2020-06-21 07:38:11',0,2,1,NULL,'0zz000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z0Z000000zz0z000Z00000000z0ZZ0Z000000z0zz0z0ZZ0000000zz0ZZZ000000zzzz0zZ0Z00000000000000000000zzzzZZZZ000','Demo');
+/*!40000 ALTER TABLE `trick` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_info`
+--
+
 DROP TABLE IF EXISTS `user_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_info` (
   `telephone` varchar(11) NOT NULL,
   `real_name` varchar(20) NOT NULL,
@@ -2905,18 +323,25 @@ CREATE TABLE `user_info` (
   KEY `telephone` (`telephone`),
   CONSTRAINT `user_info_ibfk_1` FOREIGN KEY (`telephone`) REFERENCES `user_login` (`telephone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of user_info
--- ----------------------------
-BEGIN;
-INSERT INTO `user_info` VALUES ('13333333333', '示例号', 3, '2020-06-20 11:26:36', 0, 1, 'cdf3d7671db94a3a82cfbbbe3f56b486');
-COMMIT;
+--
+-- Dumping data for table `user_info`
+--
 
--- ----------------------------
--- Table structure for user_log
--- ----------------------------
+LOCK TABLES `user_info` WRITE;
+/*!40000 ALTER TABLE `user_info` DISABLE KEYS */;
+INSERT INTO `user_info` VALUES ('13333333333','示例号',3,'2020-06-20 03:26:36',0,1,'cdf3d7671db94a3a82cfbbbe3f56b486');
+/*!40000 ALTER TABLE `user_info` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_log`
+--
+
 DROP TABLE IF EXISTS `user_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ip` varchar(20) DEFAULT NULL,
@@ -2924,27 +349,26 @@ CREATE TABLE `user_log` (
   `execute_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` varchar(11) DEFAULT 'anno' COMMENT '默认为匿名用户',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=204 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=419 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of user_log
--- ----------------------------
-BEGIN;
-INSERT INTO `user_log` VALUES (195, '0:0:0:0:0:0:0:1', '密码登录', '2020-06-20 11:27:23', '13333333333');
-INSERT INTO `user_log` VALUES (196, '0:0:0:0:0:0:0:1', '获取队伍主页', '2020-06-20 11:28:39', '13333333333');
-INSERT INTO `user_log` VALUES (197, '0:0:0:0:0:0:0:1', '获取队伍主页', '2020-06-20 11:37:25', '13333333333');
-INSERT INTO `user_log` VALUES (198, '0:0:0:0:0:0:0:1', '密码登录', '2020-06-20 11:50:27', '13333333333');
-INSERT INTO `user_log` VALUES (199, '0:0:0:0:0:0:0:1', '添加成功!棋盘码:Demo编码:20201102', '2020-06-20 11:50:33', '13333333333');
-INSERT INTO `user_log` VALUES (200, '0:0:0:0:0:0:0:1', '管理员获取棋盘信息', '2020-06-20 11:50:42', '13333333333');
-INSERT INTO `user_log` VALUES (201, '0:0:0:0:0:0:0:1', '下棋页获取棋盘历史招数', '2020-06-20 11:50:51', '13333333333');
-INSERT INTO `user_log` VALUES (202, '0:0:0:0:0:0:0:1', '设置棋钟', '2020-06-20 11:50:54', '13333333333');
-INSERT INTO `user_log` VALUES (203, '0:0:0:0:0:0:0:1', '设置棋钟', '2020-06-20 11:50:56', '13333333333');
-COMMIT;
+--
+-- Dumping data for table `user_log`
+--
 
--- ----------------------------
--- Table structure for user_login
--- ----------------------------
+LOCK TABLES `user_log` WRITE;
+/*!40000 ALTER TABLE `user_log` DISABLE KEYS */;
+INSERT INTO `user_log` VALUES (195,'0:0:0:0:0:0:0:1','密码登录','2020-06-20 03:27:23','13333333333'),(196,'0:0:0:0:0:0:0:1','获取队伍主页','2020-06-20 03:28:39','13333333333'),(197,'0:0:0:0:0:0:0:1','获取队伍主页','2020-06-20 03:37:25','13333333333'),(198,'0:0:0:0:0:0:0:1','密码登录','2020-06-20 03:50:27','13333333333'),(199,'0:0:0:0:0:0:0:1','添加成功!棋盘码:Demo编码:20201102','2020-06-20 03:50:33','13333333333'),(200,'0:0:0:0:0:0:0:1','管理员获取棋盘信息','2020-06-20 03:50:42','13333333333'),(201,'0:0:0:0:0:0:0:1','下棋页获取棋盘历史招数','2020-06-20 03:50:51','13333333333'),(202,'0:0:0:0:0:0:0:1','设置棋钟','2020-06-20 03:50:54','13333333333'),(203,'0:0:0:0:0:0:0:1','设置棋钟','2020-06-20 03:50:56','13333333333'),(204,'35.220.171.235','密码登录','2020-06-20 14:23:58','13333333333'),(205,'35.220.171.235','获取棋盘日志信息','2020-06-20 14:24:32','13333333333'),(206,'35.220.171.235','更新用户头像','2020-06-20 14:24:48','13333333333'),(207,'35.220.171.235','获取棋盘日志信息','2020-06-20 14:24:49','13333333333'),(208,'35.220.171.235','密码登录','2020-06-20 14:26:05','13333333333'),(209,'35.220.171.235','获取用户页','2020-06-20 14:26:18','13333333333'),(210,'35.220.171.235','更新棋盘状态','2020-06-20 14:26:22','13333333333'),(211,'35.220.171.235','获取用户页','2020-06-20 14:26:24','13333333333'),(212,'35.220.171.235','下棋页获取棋盘历史招数','2020-06-20 14:26:29','13333333333'),(213,'35.220.171.235','设置棋钟','2020-06-20 14:26:32','13333333333'),(214,'35.220.171.235','设置棋钟','2020-06-20 14:26:33','13333333333'),(215,'35.220.171.235','密码登录','2020-06-21 04:47:28','13333333333'),(216,'35.220.171.235','管理员获取棋盘信息','2020-06-21 04:47:38','13333333333'),(217,'35.220.171.235','管理员获取棋盘信息','2020-06-21 04:47:43','13333333333'),(218,'35.220.171.235','管理员获取棋普日志','2020-06-21 04:47:47','13333333333'),(219,'35.220.171.235','密码登录','2020-06-21 04:57:38','13333333333'),(220,'35.220.171.235','下棋页获取棋盘历史招数','2020-06-21 04:58:54','13333333333'),(221,'35.220.171.235','密码登录','2020-06-21 06:10:18','13333333333'),(222,'35.220.171.235','获取队伍主页','2020-06-21 06:10:34','13333333333'),(223,'35.220.171.235','获取用户页','2020-06-21 06:10:37','13333333333'),(224,'35.220.171.235','获取用户页','2020-06-21 06:10:41','13333333333'),(225,'35.220.171.235','下棋页获取棋盘历史招数','2020-06-21 06:10:54','13333333333'),(226,'35.220.171.235','密码登录','2020-06-21 08:12:19','13333333333'),(227,'35.220.171.235','管理员获取棋普日志','2020-06-21 08:12:28','13333333333'),(228,'35.220.171.235','管理员获取棋盘信息','2020-06-21 08:12:31','13333333333'),(229,'35.220.171.235','管理员查看用户日志','2020-06-21 08:12:37','13333333333'),(230,'35.220.171.235','管理员查看用户日志','2020-06-21 08:12:46','13333333333'),(231,'35.220.171.235','获取棋盘日志信息','2020-06-21 08:12:56','13333333333'),(232,'35.220.171.235','管理员获取棋普日志','2020-06-21 08:13:31','13333333333'),(233,'0:0:0:0:0:0:0:1','密码登录','2020-06-21 08:20:49','13333333333'),(234,'0:0:0:0:0:0:0:1','管理员获取棋盘信息','2020-06-21 08:20:55','13333333333'),(235,'0:0:0:0:0:0:0:1','管理员获取棋盘信息','2020-06-21 08:22:26','13333333333'),(236,'0:0:0:0:0:0:0:1','管理员获取棋盘信息','2020-06-21 08:26:58','13333333333'),(237,'0:0:0:0:0:0:0:1','密码登录','2020-06-21 08:34:15','13333333333'),(238,'0:0:0:0:0:0:0:1','管理员获取用户信息','2020-06-21 08:35:52','13333333333'),(239,'0:0:0:0:0:0:0:1','管理员查看用户日志','2020-06-21 08:35:58','13333333333'),(240,'0:0:0:0:0:0:0:1','管理员获取棋盘信息','2020-06-21 08:36:03','13333333333'),(241,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 08:36:07','13333333333'),(242,'0:0:0:0:0:0:0:1','获取棋盘日志信息','2020-06-21 08:36:14','13333333333'),(243,'0:0:0:0:0:0:0:1','获取棋盘日志信息','2020-06-21 08:36:50','13333333333'),(244,'0:0:0:0:0:0:0:1','获取棋盘日志信息','2020-06-21 08:36:53','13333333333'),(245,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 08:37:09','13333333333'),(246,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 08:37:15','13333333333'),(247,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 08:37:30','13333333333'),(248,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 08:46:36','13333333333'),(249,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 08:46:53','13333333333'),(250,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 08:46:58','13333333333'),(251,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 08:47:02','13333333333'),(252,'0:0:0:0:0:0:0:1','密码登录','2020-06-21 08:49:44','13333333333'),(253,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 08:49:48','13333333333'),(254,'0:0:0:0:0:0:0:1','密码登录','2020-06-21 08:58:00','13333333333'),(255,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 08:58:03','13333333333'),(256,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 08:58:08','13333333333'),(257,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 08:58:08','13333333333'),(258,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 08:58:09','13333333333'),(259,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 08:58:16','13333333333'),(260,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 08:58:18','13333333333'),(261,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 08:58:19','13333333333'),(262,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 08:58:22','13333333333'),(263,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 08:58:30','13333333333'),(264,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 08:58:32','13333333333'),(265,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 08:58:33','13333333333'),(266,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 08:58:37','13333333333'),(267,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 08:59:23','13333333333'),(268,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 09:15:20','13333333333'),(269,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 09:18:00','13333333333'),(270,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 09:18:04','13333333333'),(271,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 09:18:08','13333333333'),(272,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 09:18:10','13333333333'),(273,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 09:18:11','13333333333'),(274,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 09:18:12','13333333333'),(275,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 09:18:16','13333333333'),(276,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 09:18:17','13333333333'),(277,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 09:18:18','13333333333'),(278,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 09:18:19','13333333333'),(279,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 09:19:20','13333333333'),(280,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 09:21:08','13333333333'),(281,'0:0:0:0:0:0:0:1','设置公共棋谱','2020-06-21 09:21:30','13333333333'),(282,'0:0:0:0:0:0:0:1','下载棋谱','2020-06-21 09:29:24','13333333333'),(283,'0:0:0:0:0:0:0:1','回放对局','2020-06-21 10:43:20','13333333333'),(284,'0:0:0:0:0:0:0:1','回放对局','2020-06-21 10:45:09','13333333333'),(285,'0:0:0:0:0:0:0:1','回放对局','2020-06-21 10:46:29','13333333333'),(286,'0:0:0:0:0:0:0:1','回放对局','2020-06-21 10:47:04','13333333333'),(287,'0:0:0:0:0:0:0:1','密码登录','2020-06-21 10:50:08','13333333333'),(288,'0:0:0:0:0:0:0:1','管理员获取棋盘信息','2020-06-21 10:50:17','13333333333'),(289,'0:0:0:0:0:0:0:1','管理员获取棋盘信息','2020-06-21 10:51:22','13333333333'),(290,'0:0:0:0:0:0:0:1','密码登录','2020-06-21 10:54:19','13333333333'),(291,'0:0:0:0:0:0:0:1','管理员获取棋盘信息','2020-06-21 10:54:35','13333333333'),(292,'0:0:0:0:0:0:0:1','管理员获取棋盘信息','2020-06-21 10:54:49','13333333333'),(293,'0:0:0:0:0:0:0:1','管理员获取棋盘信息','2020-06-21 10:56:33','13333333333'),(294,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 10:57:49','13333333333'),(295,'0:0:0:0:0:0:0:1','管理员获取棋盘信息','2020-06-21 10:57:53','13333333333'),(296,'0:0:0:0:0:0:0:1','管理员获取用户信息','2020-06-21 10:57:55','13333333333'),(297,'0:0:0:0:0:0:0:1','管理员查看用户日志','2020-06-21 10:57:57','13333333333'),(298,'0:0:0:0:0:0:0:1','管理员查看用户日志','2020-06-21 10:57:59','13333333333'),(299,'0:0:0:0:0:0:0:1','管理员查看用户日志','2020-06-21 10:58:04','13333333333'),(300,'0:0:0:0:0:0:0:1','管理员获取棋盘信息','2020-06-21 10:58:19','13333333333'),(301,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 10:58:26','13333333333'),(302,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 10:58:28','13333333333'),(303,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 10:58:31','13333333333'),(304,'0:0:0:0:0:0:0:1','管理员获取用户信息','2020-06-21 10:58:38','13333333333'),(305,'0:0:0:0:0:0:0:1','管理员获取棋盘信息','2020-06-21 10:58:46','13333333333'),(306,'0:0:0:0:0:0:0:1','管理员查看用户日志','2020-06-21 10:58:50','13333333333'),(307,'0:0:0:0:0:0:0:1','管理员查看用户日志','2020-06-21 10:58:52','13333333333'),(308,'0:0:0:0:0:0:0:1','管理员查看用户日志','2020-06-21 10:58:54','13333333333'),(309,'0:0:0:0:0:0:0:1','管理员查看用户日志','2020-06-21 10:58:57','13333333333'),(310,'0:0:0:0:0:0:0:1','管理员查看用户日志','2020-06-21 10:59:00','13333333333'),(311,'0:0:0:0:0:0:0:1','管理员查看用户日志','2020-06-21 10:59:02','13333333333'),(312,'0:0:0:0:0:0:0:1','管理员查看用户日志','2020-06-21 10:59:05','13333333333'),(313,'0:0:0:0:0:0:0:1','管理员查看用户日志','2020-06-21 10:59:52','13333333333'),(314,'0:0:0:0:0:0:0:1','管理员查看用户日志','2020-06-21 11:00:13','13333333333'),(315,'0:0:0:0:0:0:0:1','管理员查看用户日志','2020-06-21 11:00:28','13333333333'),(316,'0:0:0:0:0:0:0:1','管理员查看用户日志','2020-06-21 11:00:36','13333333333'),(317,'0:0:0:0:0:0:0:1','管理员查看用户日志','2020-06-21 11:00:49','13333333333'),(318,'0:0:0:0:0:0:0:1','管理员查看用户日志','2020-06-21 11:01:02','13333333333'),(319,'0:0:0:0:0:0:0:1','获取棋盘日志信息','2020-06-21 11:01:40','13333333333'),(320,'0:0:0:0:0:0:0:1','导出棋谱','2020-06-21 11:05:03','13333333333'),(321,'0:0:0:0:0:0:0:1','导出棋谱','2020-06-21 11:05:43','13333333333'),(322,'0:0:0:0:0:0:0:1','管理员获取棋普日志','2020-06-21 11:06:21','13333333333'),(323,'0:0:0:0:0:0:0:1','导出棋谱','2020-06-21 11:08:04','13333333333'),(324,'35.220.171.235','密码登录','2020-06-21 11:20:49','13333333333'),(325,'35.220.171.235','管理员获取棋普日志','2020-06-21 11:20:59','13333333333'),(326,'35.220.171.235','密码登录','2020-06-21 12:36:07','13333333333'),(327,'35.220.171.235','更新用户头像','2020-06-21 12:36:20','13333333333'),(328,'35.220.171.235','管理员获取棋盘信息','2020-06-21 12:36:37','13333333333'),(329,'35.220.171.235','管理员获取棋普日志','2020-06-21 12:36:41','13333333333'),(330,'35.220.171.235','管理员获取棋普日志','2020-06-21 12:37:48','13333333333'),(331,'35.220.171.235','管理员获取棋普日志','2020-06-21 12:40:28','13333333333'),(332,'35.220.171.235','设置公共棋谱','2020-06-21 12:40:47','13333333333'),(333,'35.220.171.235','回放对局','2020-06-21 12:40:56','13333333333'),(334,'35.220.171.235','回放对局','2020-06-21 12:41:01','13333333333'),(335,'35.220.171.235','回放对局','2020-06-21 12:41:02','13333333333'),(336,'35.220.171.235','回放对局','2020-06-21 12:41:03','13333333333'),(337,'35.220.171.235','回放对局','2020-06-21 12:41:04','13333333333'),(338,'35.220.171.235','回放对局','2020-06-21 12:41:18','13333333333'),(339,'35.220.171.235','回放对局','2020-06-21 12:41:34','13333333333'),(340,'35.220.171.235','回放对局','2020-06-21 12:41:34','13333333333'),(341,'35.220.171.235','回放对局','2020-06-21 12:41:35','13333333333'),(342,'35.220.171.235','回放对局','2020-06-21 12:41:35','13333333333'),(343,'35.220.171.235','回放对局','2020-06-21 12:41:36','13333333333'),(344,'35.220.171.235','回放对局','2020-06-21 12:41:36','13333333333'),(345,'35.220.171.235','回放对局','2020-06-21 12:41:36','13333333333'),(346,'35.220.171.235','回放对局','2020-06-21 12:41:37','13333333333'),(347,'35.220.171.235','回放对局','2020-06-21 12:41:37','13333333333'),(348,'35.220.171.235','回放对局','2020-06-21 12:41:38','13333333333'),(349,'35.220.171.235','回放对局','2020-06-21 12:41:38','13333333333'),(350,'35.220.171.235','回放对局','2020-06-21 12:41:38','13333333333'),(351,'35.220.171.235','回放对局','2020-06-21 12:41:44','13333333333'),(352,'35.220.171.235','回放对局','2020-06-21 12:41:48','13333333333'),(353,'35.220.171.235','回放对局','2020-06-21 12:41:49','13333333333'),(354,'35.220.171.235','回放对局','2020-06-21 12:41:50','13333333333'),(355,'35.220.171.235','密码登录','2020-06-21 13:27:25','13333333333'),(356,'35.220.171.235','管理员查看用户日志','2020-06-21 13:28:08','13333333333'),(357,'35.220.171.235','管理员获取棋盘信息','2020-06-21 13:28:16','13333333333'),(358,'35.220.171.235','管理员获取棋普日志','2020-06-21 13:28:19','13333333333'),(359,'35.220.171.235','回放对局','2020-06-21 13:29:27','13333333333'),(360,'35.220.171.235','回放对局','2020-06-21 13:29:30','13333333333'),(361,'35.220.171.235','回放对局','2020-06-21 13:29:32','13333333333'),(362,'35.220.171.235','回放对局','2020-06-21 13:29:33','13333333333'),(363,'35.220.171.235','回放对局','2020-06-21 13:29:34','13333333333'),(364,'35.220.171.235','回放对局','2020-06-21 13:29:35','13333333333'),(365,'35.220.171.235','回放对局','2020-06-21 13:29:36','13333333333'),(366,'35.220.171.235','回放对局','2020-06-21 13:29:38','13333333333'),(367,'35.220.171.235','回放对局','2020-06-21 13:29:39','13333333333'),(368,'35.220.171.235','回放对局','2020-06-21 13:29:39','13333333333'),(369,'35.220.171.235','回放对局','2020-06-21 13:29:40','13333333333'),(370,'35.220.171.235','回放对局','2020-06-21 13:29:41','13333333333'),(371,'35.220.171.235','下棋页获取棋盘历史招数','2020-06-21 13:32:40','13333333333'),(372,'35.220.171.235','下棋或者观战','2020-06-21 13:32:50','13333333333'),(373,'35.220.171.235','下棋页获取棋盘历史招数','2020-06-21 13:32:50','13333333333'),(374,'35.220.171.235','下棋页获取棋盘历史招数','2020-06-21 13:33:41','13333333333'),(375,'35.220.171.235','下棋页获取棋盘历史招数','2020-06-21 13:33:53','13333333333'),(376,'35.220.171.235','设置棋钟','2020-06-21 13:34:41','13333333333'),(377,'35.220.171.235','设置棋钟','2020-06-21 13:34:51','13333333333'),(378,'35.220.171.235','设置棋钟','2020-06-21 13:34:53','13333333333'),(379,'35.220.171.235','设置棋钟','2020-06-21 13:34:56','13333333333'),(380,'35.220.171.235','设置棋钟','2020-06-21 13:34:57','13333333333'),(381,'35.220.171.235','设置棋钟','2020-06-21 13:34:59','13333333333'),(382,'35.220.171.235','设置棋钟','2020-06-21 13:35:03','13333333333'),(383,'35.220.171.235','设置棋钟','2020-06-21 13:35:05','13333333333'),(384,'35.220.171.235','设置棋钟','2020-06-21 13:35:07','13333333333'),(385,'35.220.171.235','下棋页获取棋盘历史招数','2020-06-21 13:35:46','13333333333'),(386,'35.220.171.235','设置棋钟','2020-06-21 13:35:50','13333333333'),(387,'35.220.171.235','设置棋钟','2020-06-21 13:35:53','13333333333'),(388,'35.220.171.235','设置棋钟','2020-06-21 13:35:54','13333333333'),(389,'35.220.171.235','设置棋钟','2020-06-21 13:35:56','13333333333'),(390,'35.220.171.235','设置棋钟','2020-06-21 13:35:59','13333333333'),(391,'35.220.171.235','设置棋钟','2020-06-21 13:36:01','13333333333'),(392,'35.220.171.235','设置棋钟','2020-06-21 13:36:03','13333333333'),(393,'35.220.171.235','设置棋钟','2020-06-21 13:36:05','13333333333'),(394,'35.220.171.235','设置棋钟','2020-06-21 13:36:13','13333333333'),(395,'35.220.171.235','设置棋钟','2020-06-21 13:36:15','13333333333'),(396,'35.220.171.235','设置棋钟','2020-06-21 13:36:29','13333333333'),(397,'35.220.171.235','设置棋钟','2020-06-21 13:36:31','13333333333'),(398,'35.220.171.235','设置棋钟','2020-06-21 13:36:33','13333333333'),(399,'35.220.171.235','设置棋钟','2020-06-21 13:36:35','13333333333'),(400,'35.220.171.235','设置棋钟','2020-06-21 13:36:45','13333333333'),(401,'35.220.171.235','设置棋钟','2020-06-21 13:36:47','13333333333'),(402,'35.220.171.235','设置棋钟','2020-06-21 13:36:51','13333333333'),(403,'35.220.171.235','设置棋钟','2020-06-21 13:36:53','13333333333'),(404,'35.220.171.235','设置棋钟','2020-06-21 13:36:54','13333333333'),(405,'35.220.171.235','设置棋钟','2020-06-21 13:36:56','13333333333'),(406,'35.220.171.235','设置棋钟','2020-06-21 13:36:59','13333333333'),(407,'35.220.171.235','设置棋钟','2020-06-21 13:37:00','13333333333'),(408,'35.220.171.235','设置棋钟','2020-06-21 13:37:08','13333333333'),(409,'35.220.171.235','设置棋钟','2020-06-21 13:37:09','13333333333'),(410,'35.220.171.235','设置棋钟','2020-06-21 13:37:12','13333333333'),(411,'35.220.171.235','设置棋钟','2020-06-21 13:37:13','13333333333'),(412,'35.220.171.235','设置棋钟','2020-06-21 13:37:14','13333333333'),(413,'35.220.171.235','设置棋钟','2020-06-21 13:37:21','13333333333'),(414,'35.220.171.235','设置棋钟','2020-06-21 13:37:23','13333333333'),(415,'35.220.171.235','设置棋钟','2020-06-21 13:37:25','13333333333'),(416,'35.220.171.235','设置棋钟','2020-06-21 13:37:27','13333333333'),(417,'35.220.171.235','设置棋钟','2020-06-21 13:37:32','13333333333'),(418,'35.220.171.235','设置棋钟','2020-06-21 13:37:34','13333333333');
+/*!40000 ALTER TABLE `user_log` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_login`
+--
+
 DROP TABLE IF EXISTS `user_login`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_login` (
   `telephone` varchar(11) NOT NULL,
   `username` varchar(10) DEFAULT NULL,
@@ -2953,12 +377,25 @@ CREATE TABLE `user_login` (
   `is_delete` tinyint(1) DEFAULT '0' COMMENT '是否删除 0为 1删除',
   PRIMARY KEY (`telephone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of user_login
--- ----------------------------
-BEGIN;
-INSERT INTO `user_login` VALUES ('13333333333', '20201100', '6cbcb85adbb9274b5dbe6b68b5b8ded9', 0, 0);
-COMMIT;
+--
+-- Dumping data for table `user_login`
+--
 
-SET FOREIGN_KEY_CHECKS = 1;
+LOCK TABLES `user_login` WRITE;
+/*!40000 ALTER TABLE `user_login` DISABLE KEYS */;
+INSERT INTO `user_login` VALUES ('13333333333','20201100','6cbcb85adbb9274b5dbe6b68b5b8ded9',0,0);
+/*!40000 ALTER TABLE `user_login` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2020-06-22  9:32:20
