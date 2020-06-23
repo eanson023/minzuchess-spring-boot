@@ -11,10 +11,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 上一个版本有多不合理的地方
  * 1. 异常处理，部分异常应该进行统一的处理，抛出到同一个页面
  * 2.自定义的异常不应该catch 直接抛 要catch就catch自带的异常
- * 3. 参数校验 应该面向组件化 采用Hibernate Validator
- * 4. 邮件发送应该面向组件化 采用JDK原生mail
- * 5. 棋盘规则检测应该面向接口编程，所以需要抽象出一个接口出来
- * 6. 日志改为logback
+ * 3. 邮件发送应该面向组件化 采用JDK原生mail
+ * 4. 棋盘规则检测应该面向接口编程，所以需要抽象出一个接口出来
+ * 5. 日志改为logback
  * <p>
  * <p>
  * 这次改变
