@@ -32,9 +32,9 @@ public class ChessController extends AbstractController {
     @GetMapping
     @ApiOperation("打开棋盘页")
     public String gotoChess(String code) throws Exception {
-        //是去棋类页
+        //回到主页
         if (code == null) {
-            return "forward:/chess/go_chess_page";
+            return "redirect:/index";
         }
         Context context = new Context("get_page");
         context.put("code", code);
