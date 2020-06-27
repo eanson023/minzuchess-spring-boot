@@ -27,7 +27,6 @@ import java.util.List;
  * @author eanson
  * 登录验证
  */
-@Repository("databaseRealm")
 public class LoginRealm extends AuthorizingRealm {
     @Autowired
     private UserLoginDao userLoginDao;

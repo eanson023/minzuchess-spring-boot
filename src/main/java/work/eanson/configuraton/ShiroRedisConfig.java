@@ -1,34 +1,69 @@
 package work.eanson.configuraton;
 
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.crazycake.shiro.RedisCacheManager;
+import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import work.eanson.service.realm.LoginRealm;
 
+
 /**
  * Long live freedom and fraternity, No 996
  * <pre>
- *
+ *     整合shiro+shiro-redis
+ *  用手机号作为sessionID
+ *  文档:http://alexxiyang.github.io/shiro-redis/
  * </pre>
  *
  * @author eanson
  * @date 2020/6/14
  */
 @Configuration
-public class ShiroConfig {
+public class ShiroRedisConfig {
+
+    /**
+     * 注入RedisSessionDAO
+     */
+    @Autowired
+    RedisSessionDAO redisSessionDAO;
 
     @Autowired
-    private LoginRealm loginRealm;
+    RedisCacheManager redisCacheManager;
 
     @Bean
-    DefaultWebSecurityManager securityManager() {
+    LoginRealm loginRealm() {
+        return new LoginRealm();
+    }
+
+    @Bean
+    public SessionManager sessionManager() {
+        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+
+        // inject redisSessionDAO
+        sessionManager.setSessionDAO(redisSessionDAO);
+        return sessionManager;
+    }
+
+    @Bean
+    DefaultWebSecurityManager securityManager(SessionManager sessionManager) {
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
-        defaultWebSecurityManager.setRealm(loginRealm);
+        defaultWebSecurityManager.setRealm(loginRealm());
+
+        //inject sessionManager
+        defaultWebSecurityManager.setSessionManager(sessionManager);
+
+//        用手机号作为session ID
+        redisCacheManager.setPrincipalIdFieldName("telephone");
+
+        // inject redisCacheManager
+        defaultWebSecurityManager.setCacheManager(redisCacheManager);
         return defaultWebSecurityManager;
     }
 
