@@ -80,6 +80,10 @@ public class SetClockServiceImpl extends BaseService implements GlobalService {
                     if (analyze.getIsFalse()) {
                         clock = "-" + analyze.getColor() + ":" + System.currentTimeMillis();
                     }
+//                    提子 重置棋钟
+                    if (analyze.getStatus() == (byte) 4) {
+                        clock = "tZ:" + System.currentTimeMillis();
+                    }
                 }
                 //设置回来
                 analyze.setBefore(before);

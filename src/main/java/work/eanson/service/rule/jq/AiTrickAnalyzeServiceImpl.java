@@ -101,7 +101,7 @@ public class AiTrickAnalyzeServiceImpl extends BaseService implements GlobalServ
             } else {
                 //提子 重置棋钟
                 if (trick.getStatus() == (byte) 4) {
-                    chessInfo.setClock("0z:" + System.currentTimeMillis());
+                    chessInfo.setClock("tZ:" + System.currentTimeMillis());
                 }
                 //普通
                 else {

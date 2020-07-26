@@ -151,7 +151,7 @@ public class HumanAnalyzer implements ChessHumanAnalyzer {
             color = poses[1][pop.row][pop.col];
             logger.info("布子");
             trick.setColor(color + "");
-            trick.setTrick(generateQipu(mv));
+            trick.setTrick(generateCheep(mv));
             trick.setStatus((byte) 1);
             return trick;
 //            }
@@ -204,7 +204,7 @@ public class HumanAnalyzer implements ChessHumanAnalyzer {
             boolean can = (absX == 1 && absY == 0) || (absX == 0 && absY == 1);
             if (can) {
                 logger.info("仅移动但有提子");
-                String qip = generateQipu(mvList.toArray(new Point[0]), null, otherList.toArray(new Point[0]));
+                String qip = generateCheep(mvList.toArray(new Point[0]), null, otherList.toArray(new Point[0]));
                 trick.setTrick(qip);
                 return trick;
             }
@@ -220,7 +220,7 @@ public class HumanAnalyzer implements ChessHumanAnalyzer {
         //没有匹配到路径 可能是错误信息了
         if (size == 0) {
             //可能是飞子，让规则检测函数去判断
-            String s = generateQipu(mvList.toArray(new Point[0]), null, otherList.toArray(new Point[0]));
+            String s = generateCheep(mvList.toArray(new Point[0]), null, otherList.toArray(new Point[0]));
             trick.setTrick(s);
             return trick;
         }
@@ -280,7 +280,7 @@ public class HumanAnalyzer implements ChessHumanAnalyzer {
             //删除了tc跳跃的 剩下的吗，默认是fc
             otherList.removeAll(tcList);
             fcList = otherList;
-            trick.setTrick(generateQipu(mvList.toArray(new Point[0]), tcList.toArray(new Point[0]), fcList.toArray(new Point[0])));
+            trick.setTrick(generateCheep(mvList.toArray(new Point[0]), tcList.toArray(new Point[0]), fcList.toArray(new Point[0])));
         }
         return trick;
     }
@@ -315,16 +315,16 @@ public class HumanAnalyzer implements ChessHumanAnalyzer {
     }
 
 
-    private String generateQipu(Point[] mv) {
-        return generateQipu(mv, null, null);
+    private String generateCheep(Point[] mv) {
+        return generateCheep(mv, null, null);
     }
 
-    private String generateQipu(String[] mv) {
-        return generateQipu(mv, null, null);
+    private String generateCheep(String[] mv) {
+        return generateCheep(mv, null, null);
     }
 
 
-    private String generateQipu(Point[] mv, Point[] tc, Point[] fc) {
+    private String generateCheep(Point[] mv, Point[] tc, Point[] fc) {
         String[] mvs = new String[mv.length];
         for (int i = 0; i < mv.length; i++) {
             mvs[i] = toXy(mv[i]);
@@ -343,10 +343,10 @@ public class HumanAnalyzer implements ChessHumanAnalyzer {
                 fcs[i] = toXy(fc[i]);
             }
         }
-        return generateQipu(mvs, tcs, fcs);
+        return generateCheep(mvs, tcs, fcs);
     }
 
-    private String generateQipu(String[] mv, String[] tc, String[] fc) {
+    private String generateCheep(String[] mv, String[] tc, String[] fc) {
         StringBuilder sb = new StringBuilder();
         sb.append(mv[0]);
         if (mv.length == 1) {

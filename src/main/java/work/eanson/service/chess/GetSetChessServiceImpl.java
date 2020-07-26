@@ -1,21 +1,18 @@
 package work.eanson.service.chess;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import work.eanson.dao.ChessInfoDao;
 import work.eanson.pojo.ChessInfo;
 import work.eanson.service.base.BaseService;
 import work.eanson.service.base.GlobalService;
 import work.eanson.service.base.Input;
 import work.eanson.util.Context;
-import work.eanson.util.MsgCenter;
 import work.eanson.util.Result;
 
 /**
  * @author eanson
- *
+ * <p>
  * 获取或设置棋盘位置
  */
 @Service("get_set_chess")

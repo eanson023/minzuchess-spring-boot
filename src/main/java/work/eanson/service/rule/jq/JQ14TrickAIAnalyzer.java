@@ -33,7 +33,7 @@ public class JQ14TrickAIAnalyzer implements ChessAIAnalyzer {
         action = action.trim();
         String before = trick.getBefore();
         String color = trick.getColor();
-        int width = (int) Math.sqrt(before.length());
+        int width = getPosWidth(before);
 
         //临时变量
         StringBuilder sb = new StringBuilder(before);
@@ -70,9 +70,9 @@ public class JQ14TrickAIAnalyzer implements ChessAIAnalyzer {
                 //最后做更新棋子坐标操作
                 sb.replace(res, res + 1, color);
                 //检测棋盘是否满了
-                if (isCbFull(sb.toString(), width)) {
+                if (isCbFull(sb.toString())) {
                     //提子
-                    sb = new StringBuilder(getAfterFcCenterChess(sb.toString(), width));
+                    sb = new StringBuilder(getAfterFcCenterChess(sb.toString()));
                     //重置平台让黑子行棋
                     trick.setStatus((byte) 4);
                 }
@@ -461,7 +461,8 @@ public class JQ14TrickAIAnalyzer implements ChessAIAnalyzer {
      * @param pos
      * @return
      */
-    private boolean isCbFull(String pos, int width) {
+    public boolean isCbFull(String pos) {
+        int width = getPosWidth(pos);
         for (int i = 0; i < pos.length() - width; i++) {
             if (pos.charAt(i) == '0') {
                 return false;
@@ -476,7 +477,8 @@ public class JQ14TrickAIAnalyzer implements ChessAIAnalyzer {
      * @param pos
      * @return
      */
-    private String getAfterFcCenterChess(String pos, int width) {
+    public String getAfterFcCenterChess(String pos) {
+        int width = getPosWidth(pos);
         StringBuilder sb = new StringBuilder(pos);
         int pos1, pos2;
         pos1 = (width - 1) / 2 * width + (width - 1) / 2;
@@ -485,6 +487,16 @@ public class JQ14TrickAIAnalyzer implements ChessAIAnalyzer {
         sb.replace(pos1, pos1 + 1, "0");
         sb.replace(pos2, pos2 + 1, "0");
         return sb.toString();
+    }
+
+    /**
+     * 获取棋盘宽度
+     *
+     * @param pos
+     * @return
+     */
+    private int getPosWidth(String pos) {
+        return (int) Math.sqrt(pos.length());
     }
 
 }
