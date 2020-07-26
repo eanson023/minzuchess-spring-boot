@@ -22,6 +22,7 @@ public class JQ14TrickAIAnalyzer implements ChessAIAnalyzer {
      *
      * @param trick
      */
+    @Override
     public void analyze(Trick trick) {
         trick.setIsFalse(true);
         String action = trick.getTrick();

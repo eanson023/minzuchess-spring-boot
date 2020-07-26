@@ -21,6 +21,7 @@ import work.eanson.service.rule.ChessAIAnalyzer;
 import work.eanson.service.rule.ChessHumanAnalyzer;
 import work.eanson.service.rule.jq.JQ14TrickAIAnalyzer;
 import work.eanson.util.Context;
+import work.eanson.util.MsgCenter;
 import work.eanson.util.ThreadLocalHolder;
 
 import java.util.List;
@@ -71,12 +72,13 @@ public class SetClockServiceImpl extends BaseService implements GlobalService {
                 String key = UUID.randomUUID().toString().replace("-", "");
                 analyze.setLogId(key);
                 if (analyze.getIsFalse()) {
-                    clock = "-" + analyze.getColor() + System.currentTimeMillis();
+                    clock = "-" + analyze.getColor() + ":" + System.currentTimeMillis();
                 } else {
+//                    调用裁判程序
                     ChessAIAnalyzer trickAnalyzer = new JQ14TrickAIAnalyzer();
                     trickAnalyzer.analyze(analyze);
                     if (analyze.getIsFalse()) {
-                        clock = "-" + analyze.getColor() + System.currentTimeMillis();
+                        clock = "-" + analyze.getColor() + ":" + System.currentTimeMillis();
                     }
                 }
                 //设置回来
@@ -90,7 +92,7 @@ public class SetClockServiceImpl extends BaseService implements GlobalService {
                 sendChessMessageHandler.broadcast(ChessLogEndPoint.clients.values(), logMsg);
             } catch (Exception e) {
                 e.printStackTrace();
-                clock = "--" + System.currentTimeMillis();
+                clock = "--:" + System.currentTimeMillis();
             }
         }
         ChessInfo chessInfo = new ChessInfo();
