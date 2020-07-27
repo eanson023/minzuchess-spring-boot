@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import work.eanson.controller.websocket.ChessBoardInfoEndPoint;
 import work.eanson.controller.websocket.ChessLogEndPoint;
 import work.eanson.dao.ChessInfoDao;
 import work.eanson.dao.TrickDao;
@@ -62,6 +63,7 @@ public class SetClockServiceImpl extends BaseService implements GlobalService {
             return;
         }
         codeHolder.set(code);
+        ChessInfo chessInfo = new ChessInfo();
         //提交棋钟
         if (clock.charAt(0) == '0') {
             //得到分析结果
@@ -83,10 +85,16 @@ public class SetClockServiceImpl extends BaseService implements GlobalService {
 //                    提子 重置棋钟
                     if (analyze.getStatus() == (byte) 4) {
                         clock = "tZ:" + System.currentTimeMillis();
+//                        改变pos信息
+                        chessInfo.setPos(analyze.getBefore());
+//                        再推送新位置信息
+                        sendChessMessageHandler.broadcast(ChessBoardInfoEndPoint.usingClients.values(), analyze.getBefore());
+                        sendChessMessageHandler.broadcast(ChessBoardInfoEndPoint.watchingClients.values(), analyze.getBefore());
                     }
                 }
                 //设置回来
                 analyze.setBefore(before);
+//                插入之前招法
                 trickDao.insertSelective(analyze);
                 logger.info(analyze.toString());
                 int i1 = trickDao.selectCountByForeignKey(code);
@@ -99,7 +107,6 @@ public class SetClockServiceImpl extends BaseService implements GlobalService {
                 clock = "--:" + System.currentTimeMillis();
             }
         }
-        ChessInfo chessInfo = new ChessInfo();
         chessInfo.setClock(clock);
         chessInfo.setCode(code);
         chessInfoDao.updateByPrimaryKeySelective(chessInfo);
