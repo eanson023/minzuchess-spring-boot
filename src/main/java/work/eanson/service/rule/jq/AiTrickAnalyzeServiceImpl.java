@@ -109,7 +109,14 @@ public class AiTrickAnalyzeServiceImpl extends BaseService implements GlobalServ
                 }
                 String newPos = trick.getBefore();
                 chessInfo.setPos(newPos);
-
+//            更新redis中的缓存信息
+                try (Jedis jedis = jedisPool.getResource()) {
+//                redis键
+                    String key = "qipu_zset_" + cbCode;
+                    jedis.del(key);
+//                重置缓存 成更新后的棋盘信息
+                    jedis.zadd(key, 0, chessInfo.getPos());
+                }
                 sendChessMessageHandler.broadcast(ChessBoardInfoEndPoint.usingClients.values(), newPos);
                 sendChessMessageHandler.broadcast(ChessBoardInfoEndPoint.watchingClients.values(), newPos);
                 context.setResult(Result.success());
@@ -123,14 +130,6 @@ public class AiTrickAnalyzeServiceImpl extends BaseService implements GlobalServ
             trickDao.insertSelective(trick);
             //更新棋盘
             chessInfoDao.updateByPrimaryKeySelective(chessInfo);
-//            更新redis中的缓存信息
-            try (Jedis jedis = jedisPool.getResource()) {
-//                redis键
-                key = "qipu_zset_" + cbCode;
-                jedis.del(key);
-//                重置缓存 成更新后的棋盘信息
-                jedis.zadd(key, 0, chessInfo.getPos());
-            }
             //发送日志到日志页
             int i2 = trickDao.selectCountByForeignKey(cbCode);
             List<TrickExtend> trickExtends = trickDao.selectInfoLimit(cbCode, i2 - 1, i2);
