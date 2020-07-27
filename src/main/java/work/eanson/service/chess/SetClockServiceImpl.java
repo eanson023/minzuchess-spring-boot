@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 import work.eanson.controller.websocket.ChessBoardInfoEndPoint;
 import work.eanson.controller.websocket.ChessLogEndPoint;
 import work.eanson.dao.ChessInfoDao;
@@ -35,6 +37,9 @@ import java.util.UUID;
  */
 @Service("set_clock")
 public class SetClockServiceImpl extends BaseService implements GlobalService {
+    @Autowired
+    private JedisPool jedisPool;
+
     @Autowired
     private ChessInfoDao chessInfoDao;
 
@@ -87,6 +92,12 @@ public class SetClockServiceImpl extends BaseService implements GlobalService {
                         clock = "tZ:" + System.currentTimeMillis();
 //                        改变pos信息
                         chessInfo.setPos(analyze.getBefore());
+//                        更新缓存
+                        try (Jedis jedis = jedisPool.getResource()) {
+                            key = "qipu_zset_" + code;
+                            jedis.del(key);
+                            jedis.zadd(key, 0, analyze.getBefore());
+                        }
 //                        再推送新位置信息
                         sendChessMessageHandler.broadcast(ChessBoardInfoEndPoint.usingClients.values(), analyze.getBefore());
                         sendChessMessageHandler.broadcast(ChessBoardInfoEndPoint.watchingClients.values(), analyze.getBefore());
