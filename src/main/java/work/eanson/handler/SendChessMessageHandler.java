@@ -31,7 +31,7 @@ public class SendChessMessageHandler {
     @Autowired
     private ExecutorService min5Max10ThreadPool;
 
-    private static final Logger logger = LoggerFactory.getLogger(WebSocketInterceptor.class);
+    private static final Logger logger = LoggerFactory.getLogger(SendChessMessageHandler.class);
 
     /**
      * 发送消息
