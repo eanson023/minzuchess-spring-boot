@@ -1,7 +1,12 @@
 package work.eanson.service.chess;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import work.eanson.dao.ChessInfoDao;
@@ -9,6 +14,7 @@ import work.eanson.pojo.ChessInfo;
 import work.eanson.service.base.BaseService;
 import work.eanson.service.base.GlobalService;
 import work.eanson.service.base.Input;
+import work.eanson.service.rule.jq.JQ14TrickAIAnalyzer;
 import work.eanson.util.Context;
 
 import java.util.Set;
@@ -28,6 +34,14 @@ public class UpdateCacheServiceImpl extends BaseService implements GlobalService
     @Autowired
     private JedisPool jedisPool;
 
+    private static final Logger logger = LoggerFactory.getLogger(UpdateCacheServiceImpl.class);
+
+    /**
+     * 此方法先于{@link SetClockServiceImpl}执行 当检测到提子时需要更新棋盘数据
+     *
+     * @param context 装载数据的工具
+     * @throws Exception
+     */
     @Input(required = {"code", "pos"})
     @Override
     public void service(Context context) throws Exception {
@@ -36,6 +50,17 @@ public class UpdateCacheServiceImpl extends BaseService implements GlobalService
         ChessInfo chessInfo = chessInfoDao.selectByPrimaryKey(code);
         try (Jedis jedis = jedisPool.getResource()) {
             String key = "qipu_zset_" + code;
+            JQ14TrickAIAnalyzer jq14TrickAiAnalyzer = new JQ14TrickAIAnalyzer();
+//            如果满了 就提子 更新缓存
+            if (jq14TrickAiAnalyzer.isCbFull(chessInfo.getPos())) {
+                chessInfo.setPos(jq14TrickAiAnalyzer.getAfterFcCenterChess(chessInfo.getPos()));
+                ChessInfo chessInfo2 = new ChessInfo();
+                chessInfo2.setPos(chessInfo.getPos());
+                chessInfo2.setCode(code);
+                logger.error("提子后新信息:" + chessInfo.getPos());
+//                保存新信息
+                chessInfoDao.updateByPrimaryKeySelective(chessInfo2);
+            }
             Long zcount = jedis.zcount(key, 0, 300);
             //计算棋盘宽度
             String before = chessInfo.getPos();

@@ -24,7 +24,6 @@ import work.eanson.service.rule.ChessAIAnalyzer;
 import work.eanson.service.rule.ChessHumanAnalyzer;
 import work.eanson.service.rule.jq.JQ14TrickAIAnalyzer;
 import work.eanson.util.Context;
-import work.eanson.util.MsgCenter;
 import work.eanson.util.ThreadLocalHolder;
 
 import java.util.List;
@@ -58,7 +57,7 @@ public class SetClockServiceImpl extends BaseService implements GlobalService {
     private final static Logger logger = LoggerFactory.getLogger(SetClockServiceImpl.class);
 
     @Input(required = {"clock", "code"})
-    @Transactional(propagation = Propagation.SUPPORTS, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override
     public void service(Context context) throws Exception {
         String code = context.get("code") + "";
@@ -98,9 +97,11 @@ public class SetClockServiceImpl extends BaseService implements GlobalService {
                             jedis.del(key);
                             jedis.zadd(key, 0, analyze.getBefore());
                         }
+                        logger.error("提子后坐标:" + analyze.getBefore());
 //                        再推送新位置信息
                         sendChessMessageHandler.broadcast(ChessBoardInfoEndPoint.usingClients.values(), analyze.getBefore());
                         sendChessMessageHandler.broadcast(ChessBoardInfoEndPoint.watchingClients.values(), analyze.getBefore());
+                        chessInfo.setPos(analyze.getBefore());
                     }
                 }
                 //设置回来
