@@ -846,85 +846,85 @@ function updatePos(resp) {
                     }
                 }
 
-            if (difarray[i].i != -1) {
-                // sum -1 num >= 5 to continue..
-                var sum_1 = 0;
-                for (var k = 0; k < j; k++) {
-                    if (difarray[k].i != -1) sum_1++;
-                }
-                // if ( sum_1 >= 5 ) continue;
-                if (sum_1 - 3 * Math.floor(sum_1 / 3) != 0) continue;
-
-                var sstart = i;
-                sstart = 0; // if less 5, search from 0.
-                // not found the match.
-                var emptyidx = -1;
-                // 1st search empty one.
-                for (var k = sstart; k < j; k++) {
-                    if (difarray[k].i != -1 &&
-                        '0' == difarray[k].m) {
-                        emptyidx = k;
-                        break;
-                    }
-                }
-
-                var emptydb = -1;
-                if (emptyidx != -1)
-                // 2nd search empty db.
-                    for (var k = sstart; k < j; k++) {
-                        if (difarray[k].i != -1 &&
-                            difarray[emptyidx].db == difarray[k].m) {
-                            emptydb = k;
-                            break;
-                        }
-                    }
-
-                var thirdidx = -1;
-                if (emptyidx != -1 &&
-                    emptydb != -1)
-                // search other idx;
-                    for (var k = sstart; k < j; k++) {
-                        if (difarray[k].i != -1 &&
-                            '0' != difarray[k].m &&
-                            difarray[emptyidx].db != difarray[k].m) {
-                            thirdidx = k;
-                            break;
-                        }
-                    }
-
-                if (emptyidx != -1 &&
-                    emptydb != -1 &&
-                    thirdidx != -1) {
-                    if ('0' == difarray[thirdidx].db) {
-                        // move from empty.
-                        var r = Math.floor(difarray[emptyidx].i / g_col)
-                        var c = difarray[emptyidx].i - r * g_col;
-                        var pos = {r: r, c: c};
-                        r = Math.floor(difarray[emptydb].i / g_col)
-                        c = difarray[emptydb].i - r * g_col;
-                        var prepos = {r: r, c: c};
-                        moveChessTo(prepos, pos);
-                        // mark moved.
-                        r = Math.floor(difarray[thirdidx].i / g_col)
-                        c = difarray[thirdidx].i - r * g_col;
-                        prepos = {r: r, c: c};
-                        r = Math.floor(difarray[emptydb].i / g_col)
-                        c = difarray[emptydb].i - r * g_col;
-                        pos = {r: r, c: c};
-                        moveChessTo(prepos, pos);
-                        // mark moved.
-                        difarray[emptyidx].i = -1;
-                        difarray[emptydb].i = -1;
-                        difarray[thirdidx].i = -1;
-                    } else
-                        msgalert("( '0' != difarray[thirdidx].db )", -1);
-                } else {
-                    msgalert("emptyidx:" + emptyidx +
-                        "; emptydb:" + emptydb +
-                        "; thirdidx:" + thirdidx +
-                        ",not found match blocks.", -1);
-                }
-            }
+            // if (difarray[i].i != -1) {
+            //     // sum -1 num >= 5 to continue..
+            //     var sum_1 = 0;
+            //     for (var k = 0; k < j; k++) {
+            //         if (difarray[k].i != -1) sum_1++;
+            //     }
+            //     // if ( sum_1 >= 5 ) continue;
+            //     if (sum_1 - 3 * Math.floor(sum_1 / 3) != 0) continue;
+            //
+            //     var sstart = i;
+            //     sstart = 0; // if less 5, search from 0.
+            //     // not found the match.
+            //     var emptyidx = -1;
+            //     // 1st search empty one.
+            //     for (var k = sstart; k < j; k++) {
+            //         if (difarray[k].i != -1 &&
+            //             '0' == difarray[k].m) {
+            //             emptyidx = k;
+            //             break;
+            //         }
+            //     }
+            //
+            //     var emptydb = -1;
+            //     if (emptyidx != -1)
+            //     // 2nd search empty db.
+            //         for (var k = sstart; k < j; k++) {
+            //             if (difarray[k].i != -1 &&
+            //                 difarray[emptyidx].db == difarray[k].m) {
+            //                 emptydb = k;
+            //                 break;
+            //             }
+            //         }
+            //
+            //     var thirdidx = -1;
+            //     if (emptyidx != -1 &&
+            //         emptydb != -1)
+            //     // search other idx;
+            //         for (var k = sstart; k < j; k++) {
+            //             if (difarray[k].i != -1 &&
+            //                 '0' != difarray[k].m &&
+            //                 difarray[emptyidx].db != difarray[k].m) {
+            //                 thirdidx = k;
+            //                 break;
+            //             }
+            //         }
+            //
+            //     if (emptyidx != -1 &&
+            //         emptydb != -1 &&
+            //         thirdidx != -1) {
+            //         if ('0' == difarray[thirdidx].db) {
+            //             // move from empty.
+            //             var r = Math.floor(difarray[emptyidx].i / g_col)
+            //             var c = difarray[emptyidx].i - r * g_col;
+            //             var pos = {r: r, c: c};
+            //             r = Math.floor(difarray[emptydb].i / g_col)
+            //             c = difarray[emptydb].i - r * g_col;
+            //             var prepos = {r: r, c: c};
+            //             moveChessTo(prepos, pos);
+            //             // mark moved.
+            //             r = Math.floor(difarray[thirdidx].i / g_col)
+            //             c = difarray[thirdidx].i - r * g_col;
+            //             prepos = {r: r, c: c};
+            //             r = Math.floor(difarray[emptydb].i / g_col)
+            //             c = difarray[emptydb].i - r * g_col;
+            //             pos = {r: r, c: c};
+            //             moveChessTo(prepos, pos);
+            //             // mark moved.
+            //             difarray[emptyidx].i = -1;
+            //             difarray[emptydb].i = -1;
+            //             difarray[thirdidx].i = -1;
+            //         } else
+            //             msgalert("( '0' != difarray[thirdidx].db )", -1);
+            //     } else {
+            //         msgalert("emptyidx:" + emptyidx +
+            //             "; emptydb:" + emptydb +
+            //             "; thirdidx:" + thirdidx +
+            //             ",not found match blocks.", -1);
+            //     }
+            // }
         }
 
         //改708-739行
