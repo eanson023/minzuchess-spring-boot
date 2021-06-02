@@ -23,23 +23,3 @@
 5. 项目重构后部分小bug未更改
 6. 如需部署到云端,`nginx`配置文件在`resources`文件夹下
 7. 项目需要`redis`支持
-
-## 项目改动
-1. Spring👿 ==> Spring Boot😈
-2. jsp ==> thymeleaf🧐
-2. 新整合了Swagger2做文档处理
-3. 逐渐面向组件化开发⚙:
-   * spring-boot-starter-mail
-   * spring-boot-starter-websocket
-   * shiro-redis-spring-boot-starter
-   * druid-spring-boot-starter
-   * ...
-   
-4. 修改了一些不合理的地方,如将部分异常处理改为统一异常处理等
-## 具体技术
-
-前端:经典三大件(ps:js代码我越写越觉得自己是sb)
-
-后端:SpringBoot+Mybatis+Shiro+Mysql+Redis,其它:[shiro-redis](https://github.com/alexxiyang/shiro-redis),[Mybatis通用分页插件](https://github.com/pagehelper/Mybatis-PageHelper),[druid](https://github.com/alibaba/druid)
-
-> 写在最后:这是本萌新的第一个较完整的项目,但是还是有很多不足的地方,如果你看到了,请向我指出(前端就算了)
